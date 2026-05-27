@@ -3,6 +3,13 @@ export function getNumericVariantId(variantId) {
   return String(variantId).split("/").pop()
 }
 
+export function normalizeImageUrl(src) {
+  if (!src) return null
+  const imageUrl = typeof src === "string" ? src : src.src || src.url || null
+  if (!imageUrl) return null
+  return imageUrl.startsWith("//") ? `https:${imageUrl}` : imageUrl
+}
+
 export function buildCartUrl(shopDomain, variantId, quantity = 1) {
   const numericVariantId = getNumericVariantId(variantId)
   if (!shopDomain || !numericVariantId) return null
@@ -30,8 +37,10 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
   if (!product) return null
 
   const images = Array.isArray(product.images)
-    ? product.images.map((image) => image.src || image).filter(Boolean)
+    ? product.images.map((image) => normalizeImageUrl(image)).filter(Boolean)
     : []
+
+  const featuredImage = normalizeImageUrl(product.featured_image || product.featuredImage)
 
   const variants = Array.isArray(product.variants)
     ? product.variants.map((variant) => ({
@@ -39,6 +48,8 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
         title: variant.title,
         price: variant.price,
         available: variant.available ?? true,
+        image: normalizeImageUrl(variant.featured_image || variant.featuredImage || variant.image),
+        options: variant.options || [variant.option1, variant.option2, variant.option3].filter(Boolean),
       }))
     : []
 
@@ -46,11 +57,14 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
     shopName: meta.shopName || payload?.shop?.name || "LUXENSE",
     shopDomain: meta.shopDomain || payload?.shop?.domain || null,
     currency: meta.currency || payload?.currency || "USD",
+    preferredVariantId: meta.preferredVariantId || payload?.preferredVariantId || null,
     product: {
       id: product.admin_graphql_api_id || product.id,
+      handle: product.handle,
       title: product.title,
       description: stripHtml(product.body_html || product.description || ""),
-      images,
+      featuredImage,
+      images: featuredImage && !images.includes(featuredImage) ? [featuredImage, ...images] : images,
       variants,
     },
   }

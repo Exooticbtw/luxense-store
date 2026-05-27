@@ -1,25 +1,45 @@
+{% liquid
+  assign luxense_product = section.settings.product
+  if luxense_product == blank and product
+    assign luxense_product = product
+  endif
+%}
+
 <script>
   window.__LUXENSE_SHOPIFY_DATA__ = {
     shopName: {{ shop.name | json }},
     shopDomain: {{ shop.permanent_domain | json }},
     currency: {{ cart.currency.iso_code | default: shop.currency | json }},
-    product: {% if product %}
+    preferredVariantId: {{ section.settings.default_variant_id | default: blank | json }},
+    product: {% if luxense_product != blank %}
       {
-        id: {{ product.id | json }},
-        title: {{ product.title | json }},
-        description: {{ product.description | strip_html | json }},
+        id: {{ luxense_product.id | json }},
+        handle: {{ luxense_product.handle | json }},
+        title: {{ luxense_product.title | json }},
+        description: {{ luxense_product.description | strip_html | json }},
+        featuredImage: {% if luxense_product.featured_image %}
+          {{ luxense_product.featured_image | image_url: width: 1600 | json }}
+        {% else %}
+          null
+        {% endif %},
         images: [
-          {% for image in product.images %}
+          {% for image in luxense_product.images %}
             {{ image | image_url: width: 1600 | json }}{% unless forloop.last %},{% endunless %}
           {% endfor %}
         ],
         variants: [
-          {% for variant in product.variants %}
+          {% for variant in luxense_product.variants %}
             {
               id: {{ variant.id | json }},
               title: {{ variant.title | json }},
               price: {{ variant.price | divided_by: 100.0 | json }},
-              available: {{ variant.available | json }}
+              available: {{ variant.available | json }},
+              image: {% if variant.featured_image %}
+                {{ variant.featured_image | image_url: width: 1600 | json }}
+              {% else %}
+                null
+              {% endif %},
+              options: {{ variant.options | json }}
             }{% unless forloop.last %},{% endunless %}
           {% endfor %}
         ]
@@ -41,6 +61,18 @@
     {
       "type": "paragraph",
       "content": "React-powered Luxense product landing page."
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "default_variant_id",
+      "label": "Default variant ID",
+      "default": "8290980200492",
+      "info": "Use the numeric Shopify variant ID that should be selected by default."
     }
   ],
   "presets": [

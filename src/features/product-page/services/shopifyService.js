@@ -8,7 +8,7 @@ const INJECTED_DATA_KEYS = [
 
 export async function fetchShopifyData() {
   const injectedData = readInjectedShopifyData()
-  if (injectedData) return injectedData
+  if (injectedData) return normalizeShopifyProductResponse(injectedData, injectedData)
 
   return fetchProductsJson()
 }

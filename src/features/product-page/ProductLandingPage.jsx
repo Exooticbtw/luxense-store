@@ -21,10 +21,12 @@ export default function ProductLandingPage() {
   const { scrolled, showSticky } = useScrollFlags()
 
   const variants = shopData?.product?.variants || []
-  const firstVariant = variants[0]
-  const numericVariantId = getNumericVariantId(firstVariant?.id)
-  const checkoutUrl = buildCartUrl(shopData?.shopDomain, firstVariant?.id, 1) || "#buy"
-  const price = parsePrice(firstVariant?.price, 49)
+  const preferredVariantId = getNumericVariantId(shopData?.preferredVariantId)
+  const selectedVariant =
+    variants.find((variant) => getNumericVariantId(variant.id) === preferredVariantId) || variants[0]
+  const numericVariantId = getNumericVariantId(selectedVariant?.id || shopData?.preferredVariantId)
+  const checkoutUrl = buildCartUrl(shopData?.shopDomain, numericVariantId, 1) || "#buy"
+  const price = parsePrice(selectedVariant?.price, 49)
 
   return (
     <div style={{ minHeight:"100vh",fontFamily:"'Manrope',sans-serif",background:"var(--bg)" }}>
