@@ -3,6 +3,10 @@
   if luxense_product == blank and product
     assign luxense_product = product
   endif
+  assign luxense_default_variant_id = section.settings.default_variant_id
+  if luxense_default_variant_id == blank and luxense_product != blank
+    assign luxense_default_variant_id = luxense_product.selected_or_first_available_variant.id
+  endif
 %}
 
 <script>
@@ -10,7 +14,8 @@
     shopName: {{ shop.name | json }},
     shopDomain: {{ shop.permanent_domain | json }},
     currency: {{ cart.currency.iso_code | default: shop.currency | json }},
-    preferredVariantId: {{ section.settings.default_variant_id | default: blank | json }},
+    targetProductId: {{ section.settings.target_product_id | default: blank | json }},
+    preferredVariantId: {{ luxense_default_variant_id | default: blank | json }},
     product: {% if luxense_product != blank %}
       {
         id: {{ luxense_product.id | json }},
@@ -65,14 +70,21 @@
     {
       "type": "product",
       "id": "product",
-      "label": "Product"
+      "label": "Product",
+      "info": "Select the Shopify product to show. Use the product from your screenshot: 8290980200492."
+    },
+    {
+      "type": "text",
+      "id": "target_product_id",
+      "label": "Target product ID",
+      "default": "8290980200492",
+      "info": "This is the Shopify Admin product ID used to confirm the intended product."
     },
     {
       "type": "text",
       "id": "default_variant_id",
       "label": "Default variant ID",
-      "default": "8290980200492",
-      "info": "Use the numeric Shopify variant ID that should be selected by default."
+      "info": "Optional. Leave blank to use the product's first available variant."
     }
   ],
   "presets": [

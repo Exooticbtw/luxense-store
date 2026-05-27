@@ -57,6 +57,7 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
     shopName: meta.shopName || payload?.shop?.name || "LUXENSE",
     shopDomain: meta.shopDomain || payload?.shop?.domain || null,
     currency: meta.currency || payload?.currency || "USD",
+    targetProductId: meta.targetProductId || payload?.targetProductId || null,
     preferredVariantId: meta.preferredVariantId || payload?.preferredVariantId || null,
     product: {
       id: product.admin_graphql_api_id || product.id,
