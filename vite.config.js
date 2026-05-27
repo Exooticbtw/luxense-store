@@ -8,4 +8,20 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  build: {
+    copyPublicDir: false,
+    emptyOutDir: false,
+    outDir: 'assets',
+    rollupOptions: {
+      input: 'src/main.jsx',
+      output: {
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name?.endsWith('.css')) return 'luxense-store.css'
+          return 'luxense-[name][extname]'
+        },
+        chunkFileNames: 'luxense-[name].js',
+        entryFileNames: 'luxense-store.js',
+      },
+    },
+  },
 })

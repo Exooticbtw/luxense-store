@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "theme:dev": "shopify theme dev",
+    "theme:push": "shopify theme push"
   },
   "dependencies": {
     "lucide-react": "^1.16.0",

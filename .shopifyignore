@@ -1,0 +1,14 @@
+node_modules/
+dist/
+src/
+public/
+.git/
+.vscode/
+.idea/
+*.log
+index.html
+eslint.config.js
+vite.config.js
+package.json
+package-lock.json
+README.md
