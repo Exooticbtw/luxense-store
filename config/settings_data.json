@@ -9,9 +9,15 @@
  */
 {
   "current": {
+    "content_for_index": [],
     "blocks": {
       "pagefly-page-builder": {
         "type": "shopify://apps/pagefly-page-builder/blocks/app-embed/83e179f7-59a0-4589-8c66-c0dddf959200",
+        "disabled": false,
+        "settings": {}
+      },
+      "8928743193377478676": {
+        "type": "shopify://apps/tailorkit-personalizer/blocks/app-embed/3415e904-2e3f-4499-9cbc-2e7890aa1f41",
         "disabled": false,
         "settings": {}
       }
