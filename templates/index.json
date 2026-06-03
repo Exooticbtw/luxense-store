@@ -9,50 +9,18 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "luxense-product-page",
-      "settings": {
-        "product": "motion-sensor-light-led-sensor-lamp-wireless-ultra-thin-usb-led-for-kitchen-cabinet-bedroom-wardrobe-indoor-lighting-night-light",
-        "target_product_id": "8290980200492",
-        "default_variant_id": "",
-        "hero_image": "shopify://shop_images/087dfdaa56d2b9930b4d7f25a369f04b.jpg",
-        "product_image": "shopify://shop_images/armario.png",
-        "bedroom_image": "shopify://shop_images/A67f4d773d54a4b45bbf646640964be6bA.webp",
-        "final_cta_image": "shopify://shop_images/cargador.png"
-      }
-    },
-    "luxense_product_page_7X4BJp": {
-      "type": "luxense-product-page",
-      "name": "Luxense product page",
-      "settings": {
-        "product": "motion-sensor-light-led-sensor-lamp-wireless-ultra-thin-usb-led-for-kitchen-cabinet-bedroom-wardrobe-indoor-lighting-night-light",
-        "target_product_id": "8290980200492",
-        "default_variant_id": ""
-      }
-    },
-    "luxense_product_page_DWGcfj": {
-      "type": "luxense-product-page",
-      "name": "Luxense product page",
-      "settings": {
-        "product": "motion-sensor-light-led-sensor-lamp-wireless-ultra-thin-usb-led-for-kitchen-cabinet-bedroom-wardrobe-indoor-lighting-night-light",
-        "target_product_id": "8290980200492",
-        "default_variant_id": ""
-      }
-    },
     "luxense_product_page_CeTgqM": {
       "type": "luxense-product-page",
       "name": "Luxense product page",
       "settings": {
-        "product": "",
+        "product": "motion-sensor-light-led-sensor-lamp-wireless-ultra-thin-usb-led-for-kitchen-cabinet-bedroom-wardrobe-indoor-lighting-night-light",
         "target_product_id": "8290980200492",
-        "default_variant_id": ""
+        "default_variant_id": "",
+        "gallery_image_1": "{{ section.settings.product.featured_image }}"
       }
     }
   },
   "order": [
-    "main",
-    "luxense_product_page_7X4BJp",
-    "luxense_product_page_DWGcfj",
     "luxense_product_page_CeTgqM"
   ]
 }
