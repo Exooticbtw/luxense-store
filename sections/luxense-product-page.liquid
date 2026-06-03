@@ -14,6 +14,20 @@
     shopName: {{ shop.name | json }},
     shopDomain: {{ shop.permanent_domain | json }},
     currency: {{ cart.currency.iso_code | default: shop.currency | json }},
+    media: {
+      heroImage: {% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 2400 | json }}{% else %}null{% endif %},
+      productImage: {% if section.settings.product_image != blank %}{{ section.settings.product_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
+      bedroomImage: {% if section.settings.bedroom_image != blank %}{{ section.settings.bedroom_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
+      finalCtaImage: {% if section.settings.final_cta_image != blank %}{{ section.settings.final_cta_image | image_url: width: 2400 | json }}{% else %}null{% endif %},
+      galleryImages: [
+        {% if section.settings.gallery_image_1 != blank %}{{ section.settings.gallery_image_1 | image_url: width: 1600 | json }}{% else %}null{% endif %},
+        {% if section.settings.gallery_image_2 != blank %}{{ section.settings.gallery_image_2 | image_url: width: 1600 | json }}{% else %}null{% endif %},
+        {% if section.settings.gallery_image_3 != blank %}{{ section.settings.gallery_image_3 | image_url: width: 1600 | json }}{% else %}null{% endif %},
+        {% if section.settings.gallery_image_4 != blank %}{{ section.settings.gallery_image_4 | image_url: width: 1600 | json }}{% else %}null{% endif %},
+        {% if section.settings.gallery_image_5 != blank %}{{ section.settings.gallery_image_5 | image_url: width: 1600 | json }}{% else %}null{% endif %},
+        {% if section.settings.gallery_image_6 != blank %}{{ section.settings.gallery_image_6 | image_url: width: 1600 | json }}{% else %}null{% endif %}
+      ]
+    },
     targetProductId: {{ section.settings.target_product_id | default: blank | json }},
     preferredVariantId: {{ luxense_default_variant_id | default: blank | json }},
     product: {% if luxense_product != blank %}
@@ -85,6 +99,64 @@
       "id": "default_variant_id",
       "label": "Default variant ID",
       "info": "Optional. Leave blank to use the product's first available variant."
+    },
+    {
+      "type": "header",
+      "content": "Editable images"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product showcase image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bedroom_image",
+      "label": "Spaces bedroom image"
+    },
+    {
+      "type": "image_picker",
+      "id": "final_cta_image",
+      "label": "Final CTA background image"
+    },
+    {
+      "type": "header",
+      "content": "Product gallery images"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_1",
+      "label": "Gallery image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_2",
+      "label": "Gallery image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_3",
+      "label": "Gallery image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_4",
+      "label": "Gallery image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_5",
+      "label": "Gallery image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_6",
+      "label": "Gallery image 6"
     }
   ],
   "presets": [

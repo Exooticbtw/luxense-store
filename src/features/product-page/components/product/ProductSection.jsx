@@ -10,9 +10,21 @@ import principalAsset from "../../../../assets/product/principal.png"
 
 export default function ProductSection({ shopData, view = "home", onOpenProductDetail }) {
   const { buildCheckoutUrl, v } = useProductPurchaseState(shopData)
+  const media = shopData?.media || {}
+  const productImages = shopData?.product?.images || []
+  const heroImage = media.heroImage || productImages[0] || heroDetailAsset
+  const productImage = media.productImage || productImages[0] || principalAsset
 
   if (view === "product") {
-    return <ProductDetailView buildCheckoutUrl={buildCheckoutUrl} selectedVariant={v} shopDomain={shopData?.shopDomain} />
+    return (
+      <ProductDetailView
+        buildCheckoutUrl={buildCheckoutUrl}
+        media={media}
+        productImages={productImages}
+        selectedVariant={v}
+        shopDomain={shopData?.shopDomain}
+      />
+    )
   }
 
   return (
@@ -26,7 +38,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
           display: "flex",
           alignItems: "center",
           overflow: "hidden",
-          backgroundImage: "linear-gradient(90deg, rgba(22,16,12,.76) 0%, rgba(45,27,15,.56) 38%, rgba(23,17,13,.2) 68%, rgba(10,12,13,.72) 100%), url('/hero-bedroom.png')",
+          backgroundImage: `linear-gradient(90deg, rgba(22,16,12,.76) 0%, rgba(45,27,15,.56) 38%, rgba(23,17,13,.2) 68%, rgba(10,12,13,.72) 100%), url('${heroImage}')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           color: "var(--cream)",
@@ -255,7 +267,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
               Best Seller
             </span>
             <img
-              src="/armario.png"
+              src={productImage}
               alt="Luxense Glow Bar installed inside a wardrobe"
               style={{
                 width: "100%",
@@ -405,21 +417,26 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
   )
 }
 
-function ProductDetailView({ buildCheckoutUrl, selectedVariant, shopDomain }) {
+function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVariant, shopDomain }) {
   const [finish, setFinish] = useState("Matte White")
   const [selectedSet, setSelectedSet] = useState("duo")
   const [activeImage, setActiveImage] = useState(0)
   const [cartOpen, setCartOpen] = useState(false)
   const [cartQuantity, setCartQuantity] = useState(4)
   const [cartItem, setCartItem] = useState(null)
-  const galleryImages = [
-    { src: "/armario.png", alt: "Luxense Glow Bar main placeholder image" },
-    { src: principalAsset, alt: "Luxense Glow Bar warm product render" },
-    { src: cargadorAsset, alt: "Luxense Glow Bar charging detail" },
-    { src: armarioAsset, alt: "Luxense Glow Bar wardrobe lighting" },
-    { src: heroDetailAsset, alt: "Luxense Glow Bar bedroom scene" },
-    { src: "/hero-bedroom.png", alt: "Luxense Glow Bar nightstand installation" },
-  ]
+  const editableGallery = Array.isArray(media?.galleryImages) ? media.galleryImages.filter(Boolean) : []
+  const fallbackGallery = [
+    media?.productImage,
+    ...productImages,
+    principalAsset,
+    cargadorAsset,
+    armarioAsset,
+    heroDetailAsset,
+  ].filter(Boolean)
+  const galleryImages = (editableGallery.length > 0 ? editableGallery : fallbackGallery).map((src, index) => ({
+    src,
+    alt: `Luxense Glow Bar image ${index + 1}`,
+  }))
   const setOptions = [
     {
       id: "single",
@@ -840,7 +857,7 @@ function ProductDetailView({ buildCheckoutUrl, selectedVariant, shopDomain }) {
                 }}
               >
                 <img
-                  src={principalAsset}
+                  src={galleryImages[0]?.src || principalAsset}
                   alt="Luxense Glow Bar"
                   style={{
                     width: 100,

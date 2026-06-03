@@ -2,42 +2,42 @@ import armarioImage from "../../../../assets/product/armario.png"
 import heroDetailImage from "../../../../assets/product/hero-detail.png"
 import principalImage from "../../../../assets/product/principal.png"
 
-const roomCards = [
-  {
-    title: "Bedroom",
-    units: "1-2 units",
-    image: "/dormitorio.jpg",
-    featured: true,
-  },
-  {
-    title: "Closet",
-    units: "1-2 units",
-    image: armarioImage,
-  },
-  {
-    title: "Kitchen",
-    units: "2-3 units",
-    image: principalImage,
-  },
-  {
-    title: "Hallway",
-    units: "2 units",
-    image: heroDetailImage,
-  },
-  {
-    title: "Staircase",
-    units: "3-4 units",
-    image: "/hero-bedroom.png",
-  },
-  {
-    title: "Wardrobe",
-    units: "2-4 units",
-    image: "/armario.png",
-    wide: true,
-  },
-]
+export default function Rooms({ media }) {
+  const roomCards = [
+    {
+      title: "Bedroom",
+      units: "1-2 units",
+      image: media?.bedroomImage || heroDetailImage,
+      featured: true,
+    },
+    {
+      title: "Closet",
+      units: "1-2 units",
+      image: armarioImage,
+    },
+    {
+      title: "Kitchen",
+      units: "2-3 units",
+      image: principalImage,
+    },
+    {
+      title: "Hallway",
+      units: "2 units",
+      image: heroDetailImage,
+    },
+    {
+      title: "Staircase",
+      units: "3-4 units",
+      image: media?.heroImage || heroDetailImage,
+    },
+    {
+      title: "Wardrobe",
+      units: "2-4 units",
+      image: media?.productImage || armarioImage,
+      wide: true,
+    },
+  ]
 
-export default function Rooms() {
   return (
     <section
       id="rooms"

@@ -1,8 +1,10 @@
 import { ArrowRight } from "lucide-react"
 import { buildCartUrl } from "../../utils/shopify.js"
+import heroDetailImage from "../../../../assets/product/hero-detail.png"
 
-export default function FinalCTA({ shopDomain, variantId }) {
+export default function FinalCTA({ media, shopDomain, variantId }) {
   const url = buildCartUrl(shopDomain, variantId, 1) || "#buy"
+  const backgroundImage = media?.finalCtaImage || media?.heroImage || heroDetailImage
 
   return (
     <section
@@ -15,7 +17,7 @@ export default function FinalCTA({ shopDomain, variantId }) {
         color: "var(--cream)",
         textAlign: "center",
         backgroundImage:
-          "linear-gradient(rgba(31,22,16,.76), rgba(31,22,16,.78)), url('/hero-bedroom.png')",
+          `linear-gradient(rgba(31,22,16,.76), rgba(31,22,16,.78)), url('${backgroundImage}')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

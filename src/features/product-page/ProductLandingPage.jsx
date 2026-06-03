@@ -58,11 +58,11 @@ export default function ProductLandingPage() {
       <ProductSection shopData={shopData} view={view} onOpenProductDetail={openProductDetail} />
       {!showProductDetail && (
         <>
-          <Rooms />
+          <Rooms media={shopData?.media} />
           <WhyUs />
-          <Reviews />
+          <Reviews media={shopData?.media} />
           <FAQ />
-          <FinalCTA shopDomain={shopData?.shopDomain} variantId={numericVariantId} />
+          <FinalCTA media={shopData?.media} shopDomain={shopData?.shopDomain} variantId={numericVariantId} />
           <Footer shopName={shopData?.shopName} />
         </>
       )}

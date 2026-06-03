@@ -3,38 +3,38 @@ import Stars from "../common/Stars.jsx"
 import armarioImage from "../../../../assets/product/armario.png"
 import heroDetailImage from "../../../../assets/product/hero-detail.png"
 
-const reviewCards = [
-  {
-    image: armarioImage,
-    rating: 5,
-    title: "Looks like it was professionally installed",
-    text: "I expected a cheap stick-on light. Instead it feels like a designer fixture. The warm glow in my closet is unreal and guests always ask about it.",
-    name: "Margaux L.",
-  },
-  {
-    image: heroDetailImage,
-    rating: 5,
-    title: "Bought one, came back for four",
-    text: "Started in the hallway, now they're on every staircase and under the kitchen cabinets. The motion sensor is genuinely instant.",
-    name: "Daniel R.",
-  },
-  {
-    image: "/hero-bedroom.png",
-    rating: 5,
-    title: "Battery life is no joke",
-    text: "Charged it once over a month ago and still going strong. No more fumbling for switches at night.",
-    name: "Priya S.",
-  },
-  {
-    image: "/armario.png",
-    rating: 4,
-    title: "Beautiful and so easy",
-    text: "Magnet mount took about ten seconds. Wish I'd ordered the three-pack from the start.",
-    name: "Tom B.",
-  },
-]
+export default function Reviews({ media }) {
+  const reviewCards = [
+    {
+      image: media?.productImage || armarioImage,
+      rating: 5,
+      title: "Looks like it was professionally installed",
+      text: "I expected a cheap stick-on light. Instead it feels like a designer fixture. The warm glow in my closet is unreal and guests always ask about it.",
+      name: "Margaux L.",
+    },
+    {
+      image: heroDetailImage,
+      rating: 5,
+      title: "Bought one, came back for four",
+      text: "Started in the hallway, now they're on every staircase and under the kitchen cabinets. The motion sensor is genuinely instant.",
+      name: "Daniel R.",
+    },
+    {
+      image: media?.heroImage || heroDetailImage,
+      rating: 5,
+      title: "Battery life is no joke",
+      text: "Charged it once over a month ago and still going strong. No more fumbling for switches at night.",
+      name: "Priya S.",
+    },
+    {
+      image: media?.bedroomImage || armarioImage,
+      rating: 4,
+      title: "Beautiful and so easy",
+      text: "Magnet mount took about ten seconds. Wish I'd ordered the three-pack from the start.",
+      name: "Tom B.",
+    },
+  ]
 
-export default function Reviews() {
   return (
     <section
       id="reviews"
