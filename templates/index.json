@@ -72,6 +72,7 @@
         "footer_email_placeholder": "Email for 10% off",
         "footer_button": "Join",
         "bedroom_image": "shopify://shop_images/cargador.png",
+        "closet_image": "shopify://shop_images/armario.png",
         "gallery_image_1": "{{ section.settings.product.featured_image }}"
       }
     }
