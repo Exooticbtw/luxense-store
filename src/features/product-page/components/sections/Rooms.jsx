@@ -1,31 +1,238 @@
-import { ROOMS_DATA } from "../../data/productPageData.js"
+import armarioImage from "../../../../assets/product/armario.png"
+import heroDetailImage from "../../../../assets/product/hero-detail.png"
+import principalImage from "../../../../assets/product/principal.png"
+
+const roomCards = [
+  {
+    title: "Bedroom",
+    units: "1-2 units",
+    image: "/dormitorio.jpg",
+    featured: true,
+  },
+  {
+    title: "Closet",
+    units: "1-2 units",
+    image: armarioImage,
+  },
+  {
+    title: "Kitchen",
+    units: "2-3 units",
+    image: principalImage,
+  },
+  {
+    title: "Hallway",
+    units: "2 units",
+    image: heroDetailImage,
+  },
+  {
+    title: "Staircase",
+    units: "3-4 units",
+    image: "/hero-bedroom.png",
+  },
+  {
+    title: "Wardrobe",
+    units: "2-4 units",
+    image: "/armario.png",
+    wide: true,
+  },
+]
 
 export default function Rooms() {
   return (
-    <section id="rooms" style={{ padding:"80px 24px",scrollMarginTop:72 }}>
-      <div style={{ maxWidth:1280,margin:"0 auto" }}>
-        <div style={{ marginBottom:48,display:"flex",flexWrap:"wrap",gap:24,justifyContent:"space-between",alignItems:"flex-end" }}>
-          <div style={{ maxWidth:560 }}>
-            <p style={{ fontSize:12,textTransform:"uppercase",letterSpacing:"0.2em",color:"var(--muted)",marginBottom:10 }}>Designed for every room</p>
-            <h2 className="serif" style={{ fontSize:40,lineHeight:1.1,letterSpacing:"-0.02em" }}>A quiet upgrade for every corner of the home.</h2>
-          </div>
-          <p style={{ maxWidth:380,color:"var(--muted)",lineHeight:1.7,fontSize:14 }}>From walk‑in closets to staircases, it disappears into your interiors and reappears the moment you need it.</p>
-        </div>
-        <div style={{ display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:16 }}>
-          {ROOMS_DATA.map((r)=>(
-            <figure key={r.title} style={{ position:"relative",aspectRatio:"3/4",borderRadius:18,overflow:"hidden",background:r.gradient,margin:0,cursor:"default" }}
-              onMouseEnter={e=>{e.currentTarget.firstElementChild.style.transform="scale(1.1)"}}
-              onMouseLeave={e=>{e.currentTarget.firstElementChild.style.transform="scale(1)"}}>
-              <div style={{ position:"absolute",inset:0,background:r.gradient,transition:"transform 1.2s ease" }} />
-              <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(26,22,18,.88) 0%,rgba(26,22,18,.2) 50%,transparent 100%)" }} />
-              <figcaption style={{ position:"absolute",bottom:0,left:0,right:0,padding:20,color:"var(--bg)" }}>
-                <h3 className="serif" style={{ fontSize:24 }}>{r.title}</h3>
-                <p style={{ fontSize:13,color:"rgba(253,250,246,.75)",marginTop:4 }}>{r.desc}</p>
+    <section
+      id="rooms"
+      style={{
+        padding: "92px 24px 110px",
+        scrollMarginTop: 72,
+        background: "var(--bg)",
+        borderTop: "1px solid var(--border)",
+      }}
+    >
+      <div style={{ maxWidth: 1560, margin: "0 auto" }}>
+        <h2
+          className="serif"
+          style={{
+            maxWidth: 900,
+            fontSize: 66,
+            lineHeight: 1.05,
+            fontWeight: 600,
+            textWrap: "balance",
+          }}
+        >
+          One light solves a problem. A few transform a home.
+        </h2>
+
+        <div
+          className="spaces-mosaic"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.05fr 1fr 1fr",
+            gridAutoRows: 390,
+            gap: 28,
+            marginTop: 70,
+          }}
+        >
+          {roomCards.map((room) => (
+            <figure
+              key={room.title}
+              className={room.featured ? "spaces-card spaces-card-featured" : room.wide ? "spaces-card spaces-card-wide" : "spaces-card"}
+              style={{
+                position: "relative",
+                minHeight: 0,
+                borderRadius: 16,
+                overflow: "hidden",
+                margin: 0,
+                background: "var(--sec)",
+              }}
+            >
+              <img
+                src={room.image}
+                alt={`${room.title} lighting with Luxense Glow Bar`}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                  filter: "saturate(.95)",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(180deg, rgba(20,14,10,.04) 32%, rgba(20,14,10,.78) 100%)",
+                }}
+              />
+              <figcaption
+                style={{
+                  position: "absolute",
+                  left: 26,
+                  right: 26,
+                  bottom: 26,
+                  color: "var(--cream)",
+                  textShadow: "0 2px 16px rgba(0,0,0,.35)",
+                }}
+              >
+                <h3 className="serif" style={{ fontSize: 30, lineHeight: 1, fontWeight: 600 }}>
+                  {room.title}
+                </h3>
+                <p style={{ marginTop: 4, fontSize: 15, fontWeight: 700 }}>{room.units}</p>
               </figcaption>
             </figure>
           ))}
         </div>
+
+        <div
+          className="room-planner"
+          style={{
+            marginTop: 72,
+            border: "1px solid var(--border)",
+            borderRadius: 18,
+            background: "rgba(252,250,247,.58)",
+            padding: "46px 52px 52px",
+          }}
+        >
+          <h3 className="serif" style={{ fontSize: 32, lineHeight: 1.1, fontWeight: 600 }}>
+            Room planner
+          </h3>
+          <p style={{ marginTop: 10, color: "var(--muted)", fontSize: 18 }}>
+            A simple guide to lighting each space beautifully.
+          </p>
+
+          <div
+            className="room-planner-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+              border: "1px solid var(--border)",
+              borderRadius: 14,
+              overflow: "hidden",
+              marginTop: 38,
+              background: "rgba(252,250,247,.42)",
+            }}
+          >
+            {[
+              ["Small Closet", "1 Unit"],
+              ["Large Closet", "2 Units"],
+              ["Kitchen", "2-3 Units"],
+              ["Hallway", "2 Units"],
+              ["Staircase", "3-4 Units"],
+              ["Entire Home", "5+ Units"],
+            ].map(([room, units], index) => (
+              <div
+                key={room}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 18,
+                  minHeight: 70,
+                  padding: "0 28px",
+                  borderRight: index % 3 !== 2 ? "1px solid var(--border)" : "none",
+                  borderBottom: index < 3 ? "1px solid var(--border)" : "none",
+                  fontSize: 18,
+                }}
+              >
+                <span>{room}</span>
+                <strong>{units}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
+      <style>{`
+        .spaces-card-featured {
+          grid-row: span 2;
+        }
+        .spaces-card-wide {
+          grid-column: span 1;
+        }
+        @media (max-width: 1040px) {
+          .spaces-mosaic {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            grid-auto-rows: 340px !important;
+          }
+          .spaces-card-featured {
+            grid-row: span 1 !important;
+          }
+          .room-planner-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          }
+          .room-planner-grid > div {
+            border-right: 1px solid var(--border) !important;
+            border-bottom: 1px solid var(--border) !important;
+          }
+        }
+        @media (max-width: 760px) {
+          #rooms {
+            padding: 64px 16px 76px !important;
+          }
+          #rooms h2 {
+            font-size: 42px !important;
+          }
+          .spaces-mosaic {
+            grid-template-columns: 1fr !important;
+            grid-auto-rows: 320px !important;
+            gap: 16px !important;
+            margin-top: 42px !important;
+          }
+          .room-planner {
+            margin-top: 42px !important;
+            padding: 30px 22px !important;
+          }
+          .room-planner-grid {
+            grid-template-columns: 1fr !important;
+            margin-top: 26px !important;
+          }
+          .room-planner-grid > div {
+            min-height: 64px !important;
+            padding: 0 18px !important;
+            border-right: none !important;
+            border-bottom: 1px solid var(--border) !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

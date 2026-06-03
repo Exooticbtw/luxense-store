@@ -1,63 +1,152 @@
-import { useState } from "react"
-import { BadgeCheck, ThumbsUp } from "lucide-react"
+import { BadgeCheck } from "lucide-react"
 import Stars from "../common/Stars.jsx"
-import { REVIEWS_DATA } from "../../data/productPageData.js"
+import armarioImage from "../../../../assets/product/armario.png"
+import heroDetailImage from "../../../../assets/product/hero-detail.png"
+
+const reviewCards = [
+  {
+    image: armarioImage,
+    rating: 5,
+    title: "Looks like it was professionally installed",
+    text: "I expected a cheap stick-on light. Instead it feels like a designer fixture. The warm glow in my closet is unreal and guests always ask about it.",
+    name: "Margaux L.",
+  },
+  {
+    image: heroDetailImage,
+    rating: 5,
+    title: "Bought one, came back for four",
+    text: "Started in the hallway, now they're on every staircase and under the kitchen cabinets. The motion sensor is genuinely instant.",
+    name: "Daniel R.",
+  },
+  {
+    image: "/hero-bedroom.png",
+    rating: 5,
+    title: "Battery life is no joke",
+    text: "Charged it once over a month ago and still going strong. No more fumbling for switches at night.",
+    name: "Priya S.",
+  },
+  {
+    image: "/armario.png",
+    rating: 4,
+    title: "Beautiful and so easy",
+    text: "Magnet mount took about ten seconds. Wish I'd ordered the three-pack from the start.",
+    name: "Tom B.",
+  },
+]
 
 export default function Reviews() {
-  const [helpful, setHelpful] = useState({})
   return (
-    <section id="reviews" style={{ padding:"80px 24px",scrollMarginTop:72 }}>
-      <div style={{ maxWidth:1280,margin:"0 auto" }}>
-        <div style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:48,flexWrap:"wrap",gap:24 }}>
+    <section
+      id="reviews"
+      style={{
+        padding: "92px 24px 106px",
+        scrollMarginTop: 72,
+        background: "var(--bg)",
+        borderTop: "1px solid var(--border)",
+      }}
+    >
+      <div style={{ maxWidth: 1560, margin: "0 auto" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            gap: 32,
+            flexWrap: "wrap",
+            marginBottom: 66,
+          }}
+        >
           <div>
-            <p style={{ fontSize:12,textTransform:"uppercase",letterSpacing:"0.2em",color:"var(--muted)",marginBottom:10 }}>Customer reviews</p>
-            <h2 className="serif" style={{ fontSize:40,lineHeight:1.1,letterSpacing:"-0.02em" }}>12,847 reviews. All glowing.</h2>
+            <p className="eyebrow" style={{ color: "var(--accent)" }}>
+              Loved by 3,284+ homes
+            </p>
+            <h2
+              className="serif"
+              style={{
+                fontSize: 66,
+                lineHeight: 1.04,
+                fontWeight: 600,
+                textWrap: "balance",
+              }}
+            >
+              Real installs, real reviews
+            </h2>
           </div>
-          <div style={{ display:"flex",flexDirection:"column",gap:8,minWidth:260 }}>
-            {[[5,89],[4,8],[3,2],[2,"0.8"],[1,"0.4"]].map(([stars,pct])=>(
-              <div key={stars} style={{ display:"flex",alignItems:"center",gap:10,fontSize:13 }}>
-                <span style={{ color:"var(--muted)",width:16 }}>{stars}</span>
-                <div style={{ flex:1,height:6,borderRadius:999,background:"var(--border)",overflow:"hidden" }}>
-                  <div style={{ height:"100%",borderRadius:999,background:"var(--accent)",width:`${pct}%` }} />
-                </div>
-                <span style={{ color:"var(--muted)",width:32,textAlign:"right" }}>{pct}%</span>
-              </div>
-            ))}
+
+          <div style={{ display: "flex", alignItems: "center", gap: 14, color: "var(--muted)", fontSize: 17, marginBottom: 18 }}>
+            <Stars rating={5} size={23} />
+            <span>4.9 average</span>
           </div>
         </div>
-        <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(340px,1fr))",gap:20 }}>
-          {REVIEWS_DATA.map((r,i)=>(
-            <div key={r.name} style={{ borderRadius:18,border:"1px solid var(--border)",background:"var(--card)",padding:24,display:"flex",flexDirection:"column",gap:14 }}>
-              <div style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-start" }}>
-                <div style={{ display:"flex",gap:12,alignItems:"center" }}>
-                  <div style={{ width:40,height:40,borderRadius:"50%",background:`hsl(${i*47},30%,75%)`,display:"grid",placeItems:"center",fontSize:15,fontWeight:600 }}>
-                    {r.name[0]}
-                  </div>
-                  <div>
-                    <div style={{ fontWeight:600,fontSize:14 }}>{r.name}</div>
-                    <div style={{ fontSize:12,color:"var(--muted)" }}>{r.country}</div>
-                  </div>
-                </div>
-                <div style={{ display:"flex",gap:6,alignItems:"center" }}>
-                  <BadgeCheck size={14} style={{ color:"var(--accent)" }}/>
-                  <span style={{ fontSize:11,color:"var(--muted)" }}>Verified</span>
-                </div>
-              </div>
+
+        <div className="real-reviews-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 30 }}>
+          {reviewCards.map((review) => (
+            <article
+              key={review.name}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "140px 1fr",
+                gap: 28,
+                alignItems: "start",
+                border: "1px solid var(--border)",
+                borderRadius: 18,
+                background: "rgba(252,250,247,.72)",
+                padding: 30,
+              }}
+            >
+              <img
+                src={review.image}
+                alt={`${review.name} Luxense install`}
+                style={{
+                  width: 140,
+                  height: 140,
+                  borderRadius: 12,
+                  objectFit: "cover",
+                }}
+              />
               <div>
-                <Stars rating={r.rating} size={13}/>
-                <h4 style={{ fontSize:14,fontWeight:600,marginTop:8,marginBottom:6 }}>{r.title}</h4>
-                <p style={{ fontSize:13,color:"var(--muted)",lineHeight:1.7 }}>{r.text}</p>
+                <Stars rating={review.rating} size={16} />
+                <h3 className="serif" style={{ fontSize: 24, lineHeight: 1.12, marginTop: 14, fontWeight: 600 }}>
+                  {review.title}
+                </h3>
+                <p style={{ color: "var(--muted)", fontSize: 18, lineHeight: 1.48, marginTop: 10 }}>
+                  {review.text}
+                </p>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 22, color: "var(--muted)" }}>
+                  <BadgeCheck size={16} style={{ color: "var(--accent)" }} />
+                  <strong style={{ color: "var(--fg)", fontSize: 14 }}>{review.name}</strong>
+                  <span>·</span>
+                  <span>Verified Buyer</span>
+                </div>
               </div>
-              <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",fontSize:12,color:"var(--muted)",paddingTop:10,borderTop:"1px solid var(--border)" }}>
-                <span>{r.variant} · {r.date}</span>
-                <button onClick={()=>setHelpful(h=>({...h,[i]:(h[i]||r.helpful)+1}))} style={{ display:"flex",alignItems:"center",gap:4,background:"none",border:"none",cursor:"pointer",fontSize:12,color:"var(--muted)" }}>
-                  <ThumbsUp size={13}/> {helpful[i]||r.helpful}
-                </button>
-              </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 1040px) {
+          .real-reviews-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        @media (max-width: 760px) {
+          #reviews {
+            padding: 64px 16px 78px !important;
+          }
+          #reviews h2 {
+            font-size: 42px !important;
+          }
+          .real-reviews-grid article {
+            grid-template-columns: 1fr !important;
+            padding: 22px !important;
+          }
+          .real-reviews-grid img {
+            width: 100% !important;
+            height: 220px !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

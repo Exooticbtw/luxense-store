@@ -1,22 +1,101 @@
 export const PRODUCT_PAGE_STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap');
   :root {
-    --bg: #fdfaf6; --fg: #1a1612; --card: #ffffff; --sec: #f5f1ea;
-    --muted: #7a756e; --accent: #c9a96a; --border: #e8e2d8;
-    --primary: #1a1612; --primary-fg: #fdfaf6; --radius: 14px;
+    --bg: #f6f4ef;
+    --cream: #fbfaf6;
+    --warm-white: #fffdf8;
+    --card: #ffffff;
+    --sec: #efebe4;
+    --fg: #231913;
+    --charcoal: #231913;
+    --primary: #231913;
+    --primary-fg: #fbfaf6;
+    --muted: #74685d;
+    --muted-light: #ded8cf;
+    --accent: #c89a59;
+    --border: #ded8cf;
+    --border-subtle: rgba(35, 25, 19, 0.09);
+    --shadow: 0 24px 70px rgba(35, 25, 19, 0.11);
+    --radius: 24px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--fg);line-height:1.6}
+  html{scroll-behavior:smooth;overflow-x:hidden;background:var(--bg)}
+  body{
+    font-family:'Manrope',sans-serif;
+    background:var(--bg);
+    color:var(--fg);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  #root{min-height:100vh}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  button, input{font:inherit}
+  button{font-family:'Manrope',sans-serif}
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes glowPulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
-  @keyframes ping{75%,100%{transform:scale(2);opacity:0}}
-  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  @keyframes glowPulse{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
   @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
   .fade-up{animation:fadeUp .7s ease both}
   .glow-anim{animation:glowPulse 3.4s ease-in-out infinite}
   .float-anim{animation:floatY 6s ease-in-out infinite}
-  .glass{background:rgba(253,250,246,.82);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px)}
+  .glass{
+    background:rgba(252,250,247,.82);
+    backdrop-filter:saturate(140%) blur(14px);
+    -webkit-backdrop-filter:saturate(140%) blur(14px);
+  }
   .serif{font-family:'Cormorant Garamond',serif}
+  .page-shell{min-height:100vh;background:var(--bg);padding-top:112px}
+  .site-shell{position:relative;overflow:hidden}
+  .section-shell{padding:84px 24px}
+  .section-shell > div{max-width:1280px;margin:0 auto}
+  .eyebrow{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.24em;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .section-title{
+    font-size:42px;
+    line-height:1.02;
+    letter-spacing:-.04em;
+    text-wrap:balance;
+  }
+  .soft-card{
+    border-radius:22px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.82);
+    box-shadow:var(--shadow);
+  }
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:rgba(252,250,247,.86);
+    padding:8px 14px;
+    font-size:12px;
+    font-weight:700;
+    color:var(--fg);
+    backdrop-filter:blur(12px);
+  }
   input[type=email]{font-family:'Manrope',sans-serif}
+  .desktop-nav{display:flex}
+  @media (max-width: 1040px){
+    .desktop-nav{display:none !important}
+    .how-grid,.rooms-grid,.why-grid,.faq-grid,.stats-grid{grid-template-columns:1fr !important}
+    .faq-grid{gap:28px !important}
+    .why-grid{gap:28px !important}
+    .rooms-grid{grid-template-columns:repeat(2, minmax(0,1fr)) !important}
+    .stats-grid{grid-template-columns:repeat(2, minmax(0,1fr)) !important}
+  }
+  @media (max-width: 760px){
+    .glass{backdrop-filter:saturate(130%) blur(10px);-webkit-backdrop-filter:saturate(130%) blur(10px)}
+    .rooms-grid,.stats-grid{grid-template-columns:1fr !important}
+    .how-grid{grid-template-columns:1fr !important}
+    .section-title{font-size:34px !important}
+    .page-shell{padding-top:106px}
+  }
 `

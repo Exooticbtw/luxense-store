@@ -1,53 +1,198 @@
-import { ShoppingBag } from "lucide-react"
+import { Menu, ShoppingBag, X } from "lucide-react"
+import { useState } from "react"
 
-export default function Navbar({ scrolled, shopName }) {
-  const navLinks = [["Product","#product"],["Features","#features"],["How it works","#how"],["Rooms","#rooms"],["Reviews","#reviews"],["FAQ","#faq"]]
+export default function Navbar({ scrolled, shopName, onNavigateHome }) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const navLinks = [
+    ["Shop", "#buy"],
+    ["Spaces", "#rooms"],
+    ["Reviews", "#reviews"],
+    ["Our Story", "#story"],
+  ]
+  const handleNavigate = (event, href) => {
+    if (!onNavigateHome) return
+
+    event.preventDefault()
+    const targetId = href.replace("#", "") || "top"
+    setMenuOpen(false)
+    onNavigateHome(targetId)
+  }
+
   return (
     <>
-      <div style={{ background:"var(--fg)", color:"var(--bg)", padding:"8px 16px", textAlign:"center", fontSize:11, fontWeight:500, letterSpacing:"0.08em" }}>
-        <span style={{ color:"var(--accent)", marginRight:8 }}>●</span>
-        FREE worldwide shipping on orders over $39 · 30‑day returns · 2‑year warranty
-        <span style={{ color:"var(--accent)", marginLeft:8 }}>●</span>
-      </div>
-      <header style={{
-        position:"sticky", top:0, zIndex:50,
-        background: scrolled ? "rgba(253,250,246,0.85)" : "var(--bg)",
-        backdropFilter: scrolled ? "saturate(140%) blur(14px)" : "none",
-        borderBottom: scrolled ? "1px solid var(--border)" : "none",
-        transition:"all .4s ease"
-      }}>
-        <div style={{ maxWidth:1280, margin:"0 auto", padding:"0 24px", height:64, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-          <a href="#top" style={{ display:"flex", alignItems:"center", gap:10, textDecoration:"none", color:"inherit" }}>
-            <div style={{ position:"relative", width:36,height:36,borderRadius:10,background:"var(--fg)",display:"grid",placeItems:"center",color:"var(--bg)" }}>
-              <div className="glow-anim" style={{ position:"absolute",inset:0,borderRadius:10,background:"rgba(201,169,106,.4)",filter:"blur(8px)" }} />
-              <svg viewBox="0 0 24 24" style={{ width:16,height:16,position:"relative" }} fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4" strokeLinecap="round"/>
-                <circle cx="12" cy="12" r="4"/>
-              </svg>
-            </div>
-            <div style={{ display:"flex", flexDirection:"column", lineHeight:1 }}>
-              <span className="serif" style={{ fontSize:20, letterSpacing:"-0.02em" }}>{shopName || "LUXENSE"}</span>
-              <span style={{ fontSize:9, fontWeight:600, letterSpacing:"0.22em", color:"var(--muted)", textTransform:"uppercase", marginTop:2 }}>SmartGlow</span>
+      <header
+        style={{
+          position: "fixed",
+          top: 36,
+          left: 0,
+          right: 0,
+          zIndex: 90,
+          background: scrolled ? "rgba(251,250,246,0.72)" : "rgba(251,250,246,0.96)",
+          backdropFilter: "saturate(150%) blur(18px)",
+          WebkitBackdropFilter: "saturate(150%) blur(18px)",
+          borderBottom: scrolled ? "1px solid rgba(35,25,19,.06)" : "1px solid rgba(35,25,19,.08)",
+          boxShadow: scrolled ? "0 12px 34px rgba(35,25,19,.06)" : "none",
+          transition: "all .35s ease",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1560,
+            margin: "0 auto",
+            padding: "0 24px",
+            height: 76,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 20,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 28, minWidth: 420 }}>
+            <button
+              className="mobile-menu-trigger"
+              onClick={() => setMenuOpen((current) => !current)}
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: 14,
+                border: "1px solid rgba(35,25,19,.12)",
+                background: "rgba(255,255,255,.72)",
+                display: "grid",
+                placeItems: "center",
+                color: "var(--fg)",
+                cursor: "pointer",
+              }}
+              aria-label="Menu"
+            >
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+            <nav style={{ display: "flex", alignItems: "center", gap: 28 }} className="desktop-nav">
+              {navLinks.map(([label, href]) => (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={(event) => handleNavigate(event, href)}
+                  style={{ fontSize: 15, color: "var(--muted)", textDecoration: "none", transition: "color .2s" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "var(--fg)"
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "var(--muted)"
+                  }}
+                >
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          <a
+            href="#top"
+            onClick={(event) => handleNavigate(event, "#top")}
+            style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", lineHeight: 1, alignItems: "center" }}>
+              <span className="serif" style={{ fontSize: 27, letterSpacing: "0.02em" }}>
+                {shopName || "Luxense"}
+              </span>
             </div>
           </a>
-          <nav style={{ display:"flex", alignItems:"center", gap:28 }} className="desktop-nav">
-            {navLinks.map(([l,h]) => (
-              <a key={h} href={h} style={{ fontSize:13, color:"var(--muted)", textDecoration:"none", transition:"color .2s" }}
-                onMouseEnter={e=>e.target.style.color="var(--fg)"} onMouseLeave={e=>e.target.style.color="var(--muted)"}>{l}</a>
-            ))}
-          </nav>
-          <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-            <a href="#buy" style={{
-              display:"flex",alignItems:"center",gap:8,borderRadius:999,background:"var(--fg)",
-              color:"var(--bg)",padding:"8px 16px",fontSize:13,fontWeight:600,textDecoration:"none",
-              transition:"all .2s"
-            }} onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.03)";e.currentTarget.style.boxShadow="0 8px 24px rgba(0,0,0,.2)"}}
-              onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="none"}}>
-              <ShoppingBag size={15}/> Shop Now
+
+          <div style={{ display: "flex", gap: 8, alignItems: "center", justifyContent: "flex-end", minWidth: 420 }}>
+            <a
+              href="#buy"
+              onClick={(event) => handleNavigate(event, "#buy")}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 42,
+                height: 42,
+                borderRadius: 14,
+                border: "1px solid rgba(35,25,19,.12)",
+                background: "rgba(255,255,255,.62)",
+                color: "var(--fg)",
+                padding: 0,
+                fontSize: 14,
+                fontWeight: 700,
+                textDecoration: "none",
+                transition: "all .2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-1px)"
+                e.currentTarget.style.boxShadow = "0 10px 30px rgba(32,25,21,.18)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)"
+                e.currentTarget.style.boxShadow = "none"
+              }}
+              aria-label="Shop now"
+            >
+              <ShoppingBag size={19} />
             </a>
           </div>
         </div>
       </header>
+
+      {menuOpen && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 54,
+            top: 106,
+          }}
+          onClick={() => setMenuOpen(false)}
+          >
+            <div
+              style={{
+                background: "rgba(252,250,247,.98)",
+                borderBottom: "1px solid var(--border)",
+                padding: "32px 24px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+              }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {navLinks.map(([label, href]) => (
+              <a
+                key={label}
+                href={href}
+                onClick={(event) => handleNavigate(event, href)}
+                style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontSize: "1.5rem",
+                  fontWeight: 400,
+                  color: "var(--fg)",
+                  textDecoration: "none",
+                  padding: "12px 0",
+                  borderBottom: "1px solid var(--border-subtle)",
+                }}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        .mobile-menu-trigger {
+          display: none !important;
+        }
+        @media (max-width: 1040px) {
+          .mobile-menu-trigger {
+            display: grid !important;
+          }
+          header > div {
+            height: 70px !important;
+          }
+          header > div > div {
+            min-width: 42px !important;
+          }
+        }
+      `}</style>
     </>
   )
 }

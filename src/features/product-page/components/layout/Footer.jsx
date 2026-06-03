@@ -1,77 +1,136 @@
-import { AtSign, Mail, MessageCircle, Video } from "lucide-react"
-import PaymentIcons from "../common/PaymentIcons.jsx"
+const columns = [
+  {
+    title: "Shop",
+    links: ["Glow Bar", "Bundles", "Closet Kit", "Whole Home Kit", "Gift Cards"],
+  },
+  {
+    title: "Support",
+    links: ["Help Center", "Shipping", "Returns", "Warranty", "Contact"],
+  },
+  {
+    title: "Company",
+    links: ["Our Story", "Sustainability", "Reviews", "Press", "Careers"],
+  },
+]
 
 export default function Footer({ shopName }) {
-  return (
-    <footer style={{ borderTop:"1px solid var(--border)",padding:"64px 24px" }}>
-      <div style={{ maxWidth:1280,margin:"0 auto" }}>
-        <div style={{ borderRadius:24,border:"1px solid var(--border)",background:"var(--card)",padding:"36px 40px",marginBottom:48 }}>
-          <div style={{ display:"grid",gridTemplateColumns:"1.3fr 1fr",gap:32,alignItems:"center" }}>
-            <div>
-              <h3 className="serif" style={{ fontSize:32,letterSpacing:"-0.02em" }}>Join the {shopName||"LUXENSE"} inner circle.</h3>
-              <p style={{ marginTop:8,fontSize:13,color:"var(--muted)",maxWidth:420 }}>Get 10% off your first order, early access to new drops, and design inspiration delivered monthly.</p>
-            </div>
-            <div style={{ display:"flex",gap:8 }}>
-              <div style={{ position:"relative",flex:1 }}>
-                <Mail size={15} style={{ position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",color:"var(--muted)" }}/>
-                <input type="email" placeholder="your@email.com" style={{ height:48,width:"100%",borderRadius:12,border:"1px solid var(--border)",paddingLeft:36,paddingRight:12,fontSize:13,outline:"none",fontFamily:"inherit",background:"var(--bg)" }} />
-              </div>
-              <button style={{ height:48,borderRadius:12,background:"var(--fg)",color:"var(--bg)",border:"none",padding:"0 20px",fontSize:13,fontWeight:600,cursor:"pointer",whiteSpace:"nowrap" }}>Subscribe</button>
-            </div>
-          </div>
-        </div>
+  const brand = shopName || "Luxense"
 
-        <div style={{ display:"grid",gridTemplateColumns:"1.4fr 1fr 1fr 1fr",gap:40 }}>
+  return (
+    <footer style={{ background: "var(--bg)", color: "var(--fg)", padding: "74px 24px 34px" }}>
+      <div style={{ maxWidth: 1560, margin: "0 auto" }}>
+        <div
+          className="footer-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.45fr repeat(3, .72fr)",
+            gap: 70,
+            alignItems: "start",
+          }}
+        >
           <div>
-            <div style={{ display:"flex",gap:10,alignItems:"center",marginBottom:14 }}>
-              <div style={{ width:36,height:36,borderRadius:10,background:"var(--fg)",display:"grid",placeItems:"center",color:"var(--bg)" }}>
-                <svg viewBox="0 0 24 24" style={{ width:16,height:16 }} fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div style={{ display:"flex",flexDirection:"column",lineHeight:1 }}>
-                <span className="serif" style={{ fontSize:18 }}>{shopName||"LUXENSE"}</span>
-                <span style={{ fontSize:9,fontWeight:600,letterSpacing:"0.22em",color:"var(--muted)",textTransform:"uppercase",marginTop:2 }}>SmartGlow</span>
-              </div>
-            </div>
-            <p style={{ fontSize:13,color:"var(--muted)",lineHeight:1.7,maxWidth:280 }}>Premium wireless lighting for modern living. Designed in Copenhagen, shipped worldwide.</p>
-            <div style={{ display:"flex",gap:8,marginTop:18 }}>
-              {[AtSign,MessageCircle,Video].map((Icon,i)=>(
-                <a key={i} href="#" style={{ width:36,height:36,borderRadius:"50%",border:"1px solid var(--border)",display:"grid",placeItems:"center",color:"inherit",transition:"all .2s",textDecoration:"none" }}
-                  onMouseEnter={e=>{e.currentTarget.style.background="var(--fg)";e.currentTarget.style.color="var(--bg)"}}
-                  onMouseLeave={e=>{e.currentTarget.style.background="none";e.currentTarget.style.color="inherit"}}>
-                  <Icon size={15}/>
-                </a>
-              ))}
-            </div>
+            <h2 className="serif" style={{ fontSize: 32, lineHeight: 1, fontWeight: 600 }}>
+              {brand}
+            </h2>
+            <p style={{ maxWidth: 500, color: "var(--muted)", fontSize: 18, lineHeight: 1.6, marginTop: 26 }}>
+              Considered lighting for the modern home. Designed to disappear into your space and appear exactly when you need it.
+            </p>
+            <form style={{ display: "flex", gap: 12, maxWidth: 500, marginTop: 32 }}>
+              <input
+                type="email"
+                placeholder="Email for 10% off"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  height: 56,
+                  borderRadius: 999,
+                  border: "1px solid var(--border)",
+                  background: "rgba(252,250,247,.62)",
+                  padding: "0 22px",
+                  color: "var(--fg)",
+                  outline: "none",
+                  fontSize: 16,
+                }}
+              />
+              <button
+                type="button"
+                style={{
+                  height: 56,
+                  borderRadius: 999,
+                  border: "none",
+                  background: "var(--fg)",
+                  color: "var(--cream)",
+                  padding: "0 25px",
+                  fontSize: 16,
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                Join
+              </button>
+            </form>
           </div>
-          {[["Shop",["SmartGlow 20CM","SmartGlow 30CM","SmartGlow 40CM","SmartGlow 50CM","Bundles"]],
-            ["Support",["Shipping","Returns","Warranty","Track Order","Contact"]],
-            ["Company",["About","Press","Sustainability","Affiliate","Careers"]]
-          ].map(([title,items])=>(
-            <div key={title}>
-              <div style={{ fontSize:13,fontWeight:600,marginBottom:16 }}>{title}</div>
-              <ul style={{ listStyle:"none",display:"flex",flexDirection:"column",gap:10 }}>
-                {items.map(it=>(
-                  <li key={it}><a href="#" style={{ fontSize:13,color:"var(--muted)",textDecoration:"none",transition:"color .15s" }}
-                    onMouseEnter={e=>e.target.style.color="var(--fg)"} onMouseLeave={e=>e.target.style.color="var(--muted)"}>{it}</a></li>
+
+          {columns.map((column) => (
+            <div key={column.title}>
+              <h3 style={{ fontSize: 14, textTransform: "uppercase", letterSpacing: "0.16em", marginBottom: 24 }}>
+                {column.title}
+              </h3>
+              <ul style={{ listStyle: "none", display: "grid", gap: 18 }}>
+                {column.links.map((link) => (
+                  <li key={link}>
+                    <a href="#" style={{ color: "var(--muted)", textDecoration: "none", fontSize: 18 }}>
+                      {link}
+                    </a>
+                  </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
 
-        <div style={{ marginTop:48,borderTop:"1px solid var(--border)",paddingTop:24 }}>
-          <div style={{ marginBottom:16 }}><PaymentIcons /></div>
-          <div style={{ display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:12,fontSize:12,color:"var(--muted)" }}>
-            <span>© {new Date().getFullYear()} {shopName||"LUXENSE"}™ SmartGlow. All rights reserved.</span>
-            <div style={{ display:"flex",gap:20 }}>
-              {["Privacy","Terms","Cookies"].map(l=><a key={l} href="#" style={{ color:"var(--muted)",textDecoration:"none" }} onMouseEnter={e=>e.target.style.color="var(--fg)"} onMouseLeave={e=>e.target.style.color="var(--muted)"}>{l}</a>)}
-            </div>
-            <span>Designed in Copenhagen · Shipped worldwide</span>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 24,
+            flexWrap: "wrap",
+            borderTop: "1px solid var(--border)",
+            paddingTop: 28,
+            marginTop: 72,
+            color: "var(--muted)",
+          }}
+        >
+          <span>© 2026 Luxense Home. All rights reserved.</span>
+          <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
+            {["Privacy", "Terms", "Accessibility"].map((label) => (
+              <a key={label} href="#" style={{ color: "var(--muted)", textDecoration: "none" }}>
+                {label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 1040px) {
+          .footer-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          }
+        }
+        @media (max-width: 760px) {
+          footer {
+            padding: 54px 16px 30px !important;
+          }
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 38px !important;
+          }
+          footer form {
+            flex-direction: column !important;
+          }
+        }
+      `}</style>
     </footer>
   )
 }

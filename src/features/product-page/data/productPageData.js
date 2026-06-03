@@ -5,75 +5,244 @@ import {
   Layers,
   Magnet,
   Plug,
-  Sun,
+  SunMedium,
   Wrench,
 } from "lucide-react"
 
+import heroImage from "../../../assets/product/principal.png"
+import chargerImage from "../../../assets/product/cargador.png"
+import closetImage from "../../../assets/product/armario.png"
+import lifestyleImage from "../../../assets/product/hero-detail.png"
+
+export const PRODUCT_NAME = "Luxense Motion Light"
+
 export const FALLBACK_VARIANTS = [
-  { id: null, title: "20CM", price: "29.00", battery: "30 days", coverage: "Drawer / Small space", leds: 6 },
-  { id: null, title: "30CM", price: "39.00", battery: "45 days", coverage: "Wardrobe shelf", leds: 9 },
-  { id: null, title: "40CM", price: "49.00", battery: "60 days", coverage: "Cabinet / Hallway", leds: 12, popular: true },
-  { id: null, title: "50CM", price: "59.00", battery: "75 days", coverage: "Closet / Stairs", leds: 15 },
+  { id: null, title: "Matte Black", price: "24.99", battery: "Up to 75 days", coverage: "Closets and cabinets", leds: 6, image: heroImage, popular: true },
+  { id: null, title: "Warm White", price: "24.99", battery: "Up to 75 days", coverage: "Kitchen and hallway", leds: 6, image: lifestyleImage },
+  { id: null, title: "Champagne Gold", price: "24.99", battery: "Up to 75 days", coverage: "Wardrobes and stairs", leds: 6, image: closetImage },
 ]
+
 export const COLORS = [
-  { name: "Matte Black", hex: "#1a1a1a" },
-  { name: "Champagne Gold", hex: "#c8a96a" },
-  { name: "Pearl White", hex: "#f4f1ea" },
+  { name: "Matte Black", hex: "#1d1a17", image: heroImage },
+  { name: "Warm White", hex: "#f1ede5", image: lifestyleImage },
+  { name: "Champagne Gold", hex: "#c8a96a", image: closetImage },
 ]
-export const GALLERY_PLACEHOLDERS = [
-  { gradient: "linear-gradient(135deg,#e8e0d0 0%,#d4c9b0 100%)", label: "Front view" },
-  { gradient: "linear-gradient(135deg,#d4c9b0 0%,#c5b898 100%)", label: "Detail" },
-  { gradient: "linear-gradient(135deg,#1a1612 0%,#2d261e 100%)", label: "Dark" },
-  { gradient: "linear-gradient(135deg,#f4f1ea 0%,#e8e2d8 100%)", label: "White" },
-  { gradient: "linear-gradient(135deg,#c8a96a 0%,#b8943a 100%)", label: "Gold" },
+
+export const BUNDLE_OPTIONS = [
+  { label: "1 Unit", quantity: 1, price: 24.99, badge: null, caption: "Perfect for one space" },
+  { label: "2 Units", quantity: 2, price: 39.99, badge: "Most Popular", caption: "Best for kitchen + closet" },
+  { label: "3 Units", quantity: 3, price: 49.99, badge: "Best Value", caption: "Cover a full route at home" },
 ]
+
+export const TRUST_POINTS = [
+  "Free shipping",
+  "Easy returns",
+  "Secure checkout",
+  "30-day guarantee",
+  "Fast support",
+]
+
+export const GALLERY_IMAGES = [
+  { src: heroImage, label: "Hero product", alt: "Luxense light installed under a shelf in a modern kitchen" },
+  { src: lifestyleImage, label: "Kitchen mood", alt: "Warm shelf lighting in a contemporary interior" },
+  { src: closetImage, label: "Closet glow", alt: "Warm closet lighting with hanging garments" },
+  { src: chargerImage, label: "USB rechargeable", alt: "USB rechargeable light and power module on a wood surface" },
+  { src: heroImage, label: "Hallway install", alt: "Architectural under-shelf light on a dark wall" },
+  { src: lifestyleImage, label: "Motion demo", alt: "Lighting creating soft arcs across the wall" },
+  { src: chargerImage, label: "Battery graphic", alt: "USB rechargeable battery module" },
+  { src: closetImage, label: "Customer style", alt: "Elegant closet lighting installation" },
+]
+
 export const FEATURES_DATA = [
-  { Icon: Activity, title: "Motion Sensor Activation", desc: "Detects movement up to 3 meters and softly fades on." },
-  { Icon: BatteryCharging, title: "USB‑C Rechargeable", desc: "Up to 75 days per charge. No batteries to replace." },
-  { Icon: Magnet, title: "Magnetic Installation", desc: "Snap onto any surface with the included steel strip." },
-  { Icon: Wrench, title: "No Wiring Required", desc: "Wireless freedom. Place anywhere in seconds." },
-  { Icon: Sun, title: "Warm Ambient Glow", desc: "3000K light that flatters wood, fabric and skin tones." },
-  { Icon: Layers, title: "Ultra‑Slim Profile", desc: "Just 9mm thin — disappears into the architecture." },
-  { Icon: Clock, title: "Long Battery Life", desc: "Smart auto‑off ensures power lasts months, not days." },
+  {
+    Icon: Activity,
+    title: "Motion Sensor Activation",
+    desc: "Light appears exactly when movement is detected, then fades away softly. No switches, no fuss.",
+  },
+  {
+    Icon: BatteryCharging,
+    title: "USB-C Rechargeable",
+    desc: "Charge it like a premium device, then enjoy weeks of elegant lighting without constant charging.",
+  },
+  {
+    Icon: Magnet,
+    title: "Magnetic Installation",
+    desc: "Mount in seconds with the included magnetic system. No drilling, no wires, no damage.",
+  },
+  {
+    Icon: SunMedium,
+    title: "Warm Ambient Glow",
+    desc: "A soft 3000K tone that flatters wood, fabric and stone while making spaces feel more curated.",
+  },
+  {
+    Icon: Layers,
+    title: "Ultra-Slim Profile",
+    desc: "Clean, minimal, and discreet enough to disappear into the architecture of your home.",
+  },
+  {
+    Icon: Wrench,
+    title: "No Wiring Required",
+    desc: "The simplest upgrade you can make to a closet, hallway, shelf or under-cabinet space.",
+  },
+  {
+    Icon: Clock,
+    title: "Long Runtime",
+    desc: "Designed to stay ready in the background so you can charge less and enjoy more.",
+  },
 ]
+
 export const HOW_STEPS = [
-  { n: "01", Icon: Plug, title: "Charge via USB‑C", desc: "A single 2‑hour charge powers it for up to 75 days of everyday use." },
-  { n: "02", Icon: Magnet, title: "Attach magnetically", desc: "Place the included metal strip and snap into position. No tools, no holes." },
-  { n: "03", Icon: Activity, title: "It just illuminates", desc: "Walk by and it softly fades on — then off — automatically. Effortless." },
+  {
+    n: "01",
+    Icon: Plug,
+    title: "Charge via USB-C",
+    desc: "A quick charge gives you a lighting system that feels effortless for daily use.",
+  },
+  {
+    n: "02",
+    Icon: Magnet,
+    title: "Mount in seconds",
+    desc: "Stick the magnetic base where you need it and snap the light into place.",
+  },
+  {
+    n: "03",
+    Icon: Activity,
+    title: "Enjoy the glow",
+    desc: "It turns on automatically when needed, then fades off softly to keep the room calm.",
+  },
 ]
+
 export const ROOMS_DATA = [
-  { gradient: "linear-gradient(160deg,#2d261e,#1a1612)", title: "Wardrobes", desc: "Find what you need without flooding the bedroom." },
-  { gradient: "linear-gradient(160deg,#4a3f30,#2d261e)", title: "Kitchen", desc: "A warm under‑cabinet glow for late‑night essentials." },
-  { gradient: "linear-gradient(160deg,#3d3428,#241e17)", title: "Hallways", desc: "Subtle wayfinding from bedroom to bath." },
-  { gradient: "linear-gradient(160deg,#1a1612,#0d0b08)", title: "Staircases", desc: "Step‑level safety with architectural grace." },
+  {
+    gradient: "linear-gradient(160deg,#2f261d,#15120f)",
+    title: "Closets",
+    desc: "See every fabric and accessory without flooding the room with harsh light.",
+  },
+  {
+    gradient: "linear-gradient(160deg,#4a3f30,#2b221a)",
+    title: "Kitchen shelves",
+    desc: "A warm under-cabinet glow that makes the whole space feel more intentional.",
+  },
+  {
+    gradient: "linear-gradient(160deg,#3d3428,#241e17)",
+    title: "Hallways",
+    desc: "Soft wayfinding that feels premium instead of technical.",
+  },
+  {
+    gradient: "linear-gradient(160deg,#1d1a17,#0f0d0b)",
+    title: "Staircases",
+    desc: "A subtle safety upgrade with an architectural feel.",
+  },
 ]
+
 export const WHY_ROWS = [
-  { label: "Wireless & rechargeable", us: true, them: false },
-  { label: "Ultra‑slim 9mm profile", us: true, them: false },
-  { label: "Up to 75‑day battery", us: true, them: "5–7 days" },
-  { label: "Magnetic install (no tools)", us: true, them: false },
-  { label: "Warm 3000K ambient glow", us: true, them: "Cool blue" },
-  { label: "30‑day satisfaction guarantee", us: true, them: false },
+  { label: "Wireless and rechargeable", us: true, them: false },
+  { label: "Slim profile", us: true, them: false },
+  { label: "Warm 3000K glow", us: true, them: "Cool blue" },
+  { label: "Magnetic install", us: true, them: false },
+  { label: "Automatic motion activation", us: true, them: "Manual switch" },
+  { label: "30-day guarantee", us: true, them: false },
 ]
+
 export const STATS = [
-  { v: "12,000+", l: "Happy customers" }, { v: "4.9/5", l: "Average rating" },
-  { v: "96%", l: "Positive reviews" }, { v: "75 days", l: "Battery per charge" },
+  { v: "12k+", l: "Happy customers" },
+  { v: "4.9/5", l: "Average rating" },
+  { v: "96%", l: "Positive reviews" },
+  { v: "75 days", l: "Battery per charge" },
 ]
+
 export const REVIEWS_DATA = [
-  { name: "Sophie L.", country: "🇬🇧 United Kingdom", rating: 5, title: "The most elegant addition to my home", date: "2 weeks ago", text: "The warm light is dreamy and the install took thirty seconds. The matte black finish is gorgeous against my oak shelves — feels properly luxury, not like a cheap LED strip.", helpful: 247, variant: "40CM · Matte Black" },
-  { name: "Marcus R.", country: "🇩🇪 Germany", rating: 5, title: "Bought four — every space transformed", date: "1 month ago", text: "Battery life is incredible — months between charges. The motion sensor is precise, no false triggers, and the magnetic mount holds rock solid.", helpful: 198, variant: "30CM · Champagne Gold" },
-  { name: "Aisha K.", country: "🇺🇸 United States", rating: 5, title: "Finally a motion light that doesn't look cheap", date: "3 weeks ago", text: "It blends into the wood beautifully and the glow is so calming at night. Quality of build is honestly Apple‑tier. Worth every cent and then some.", helpful: 312, variant: "50CM · Matte Black" },
-  { name: "Camila V.", country: "🇪🇸 Spain", rating: 5, title: "Mi pasillo nunca se vio tan bonito", date: "5 days ago", text: "Llegó en 4 días, la instalación es magnética y se carga rapidísimo con USB‑C. La luz cálida es perfecta.", helpful: 84, variant: "40CM · Pearl White" },
-  { name: "Kenji T.", country: "🇯🇵 Japan", rating: 4, title: "Beautiful design, slight learning curve", date: "2 months ago", text: "Love the minimal design. The motion sensor is sensitive enough that I had to play with placement, but once dialed in it's flawless.", helpful: 56, variant: "20CM · Matte Black" },
-  { name: "Helena M.", country: "🇳🇱 Netherlands", rating: 5, title: "Looks like it costs three times more", date: "1 week ago", text: "I keep getting compliments from guests. Nobody believes it's wireless. The quality of light is so warm and inviting.", helpful: 173, variant: "40CM · Champagne Gold" },
+  {
+    name: "Sophie L.",
+    country: "United Kingdom",
+    rating: 5,
+    title: "The most elegant addition to my home",
+    date: "2 weeks ago",
+    text: "The warm light is dreamy and the install took thirty seconds. It feels luxury, not like a cheap strip light.",
+    helpful: 247,
+    variant: "Matte Black",
+  },
+  {
+    name: "Marcus R.",
+    country: "Germany",
+    rating: 5,
+    title: "Bought four and transformed every space",
+    date: "1 month ago",
+    text: "Battery life is great, the sensor is precise, and the magnetic mount holds rock solid. Very premium feel.",
+    helpful: 198,
+    variant: "Champagne Gold",
+  },
+  {
+    name: "Aisha K.",
+    country: "United States",
+    rating: 5,
+    title: "Finally a motion light that does not look cheap",
+    date: "3 weeks ago",
+    text: "It blends into the wood beautifully and the glow is calm at night. Worth every cent.",
+    helpful: 312,
+    variant: "Warm White",
+  },
+  {
+    name: "Camila V.",
+    country: "Spain",
+    rating: 5,
+    title: "Mi pasillo nunca se vio tan bonito",
+    date: "5 days ago",
+    text: "La instalacion es magnética y se carga rapidísimo con USB-C. La luz cálida es perfecta.",
+    helpful: 84,
+    variant: "Matte Black",
+  },
+  {
+    name: "Helena M.",
+    country: "Netherlands",
+    rating: 5,
+    title: "Looks like it costs three times more",
+    date: "1 week ago",
+    text: "I keep getting compliments from guests. Nobody believes it is wireless.",
+    helpful: 173,
+    variant: "Champagne Gold",
+  },
+  {
+    name: "Kenji T.",
+    country: "Japan",
+    rating: 4,
+    title: "Beautiful design and really practical",
+    date: "2 months ago",
+    text: "The minimal design is the reason I bought it. It feels intentional in the room.",
+    helpful: 56,
+    variant: "Warm White",
+  },
 ]
+
 export const FAQS_DATA = [
-  { q: "How long does the battery last?", a: "On a full charge, it lasts up to 75 days of typical use. A built‑in motion timer ensures the light only stays on while needed." },
-  { q: "Does it work during daytime?", a: "Yes. An ambient light sensor lets you choose between night‑only mode (recommended) or 24/7 motion activation." },
-  { q: "Is installation difficult?", a: "Not at all. Peel the included magnetic strip, stick it to your surface, and snap into place. The whole setup takes under a minute." },
-  { q: "How is it charged?", a: "A USB‑C cable is included. A full charge takes about 2 hours from any standard USB power source." },
-  { q: "Can it be removed easily?", a: "Yes. It detaches cleanly from the magnetic strip, so you can take it down to recharge or relocate without damage." },
-  { q: "Is it safe for children's rooms?", a: "Absolutely. The warm 3000K glow is gentle on the eyes, the housing stays cool, and there are no exposed wires." },
+  {
+    q: "How long does the battery last?",
+    a: "Typical use gets you weeks of light between charges. It is designed to feel like a premium device, not a disposable accessory.",
+  },
+  {
+    q: "Is installation difficult?",
+    a: "Not at all. The magnetic mount installs in seconds and does not require drilling or wiring.",
+  },
+  {
+    q: "How is it charged?",
+    a: "A USB-C cable is used for charging, so it plugs into the same kind of power setup most people already use.",
+  },
+  {
+    q: "Can it be removed easily?",
+    a: "Yes. It detaches cleanly from the magnetic strip, so you can recharge or relocate it whenever needed.",
+  },
 ]
-export const PURCHASE_NAMES = ["Emma","Liam","Olivia","Noah","Ava","Lucas","Mia","Ethan","Isla","Hugo"]
-export const PURCHASE_PLACES = ["London","Berlin","New York","Paris","Sydney","Toronto","Madrid","Tokyo"]
+
+export const DETAILS_DATA = [
+  { title: "Battery capacity", value: "Long-lasting rechargeable battery for daily use." },
+  { title: "Charging time", value: "Quick USB-C charging for easy top-ups." },
+  { title: "Runtime", value: "Designed for extended use between charges." },
+  { title: "Motion sensor range", value: "Responsive motion activation for walk-by lighting." },
+  { title: "Lighting angle", value: "Soft wide-angle illumination for shelves and cabinetry." },
+  { title: "Materials", value: "Minimal housing with a premium matte finish." },
+  { title: "Dimensions", value: "Compact slim-profile light bar." },
+  { title: "Installation", value: "Magnetic, tool-free installation." },
+]
+
+export const PURCHASE_NAMES = ["Emma", "Liam", "Olivia", "Noah", "Ava", "Lucas", "Mia", "Ethan", "Isla", "Hugo"]
+export const PURCHASE_PLACES = ["London", "Berlin", "New York", "Paris", "Sydney", "Toronto", "Madrid", "Tokyo"]

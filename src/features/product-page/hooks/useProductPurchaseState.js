@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { COLORS, FALLBACK_VARIANTS, GALLERY_PLACEHOLDERS } from "../data/productPageData.js"
+import { COLORS, FALLBACK_VARIANTS, GALLERY_IMAGES } from "../data/productPageData.js"
 import { formatFixedCurrency } from "../helpers/formatters.js"
 import { buildCartUrl, getNumericVariantId, parsePrice } from "../utils/shopify.js"
 
@@ -23,7 +23,7 @@ export function useProductPurchaseState(shopData) {
       (image, index, collection) => image && collection.indexOf(image) === index,
     )
 
-    return uniqueImages.length > 0 ? uniqueImages : GALLERY_PLACEHOLDERS.map((image) => image)
+    return uniqueImages.length > 0 ? uniqueImages : GALLERY_IMAGES.map((image) => image)
   }, [rawImages, rawVariants])
 
   const preferredVariantIndex = useMemo(() => {
