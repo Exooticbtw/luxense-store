@@ -18,7 +18,16 @@
       heroImage: {% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 2400 | json }}{% else %}null{% endif %},
       productImage: {% if section.settings.product_image != blank %}{{ section.settings.product_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
       bedroomImage: {% if section.settings.bedroom_image != blank %}{{ section.settings.bedroom_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
+      closetImage: {% if section.settings.closet_image != blank %}{{ section.settings.closet_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
+      kitchenImage: {% if section.settings.kitchen_image != blank %}{{ section.settings.kitchen_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
+      hallwayImage: {% if section.settings.hallway_image != blank %}{{ section.settings.hallway_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
+      staircaseImage: {% if section.settings.staircase_image != blank %}{{ section.settings.staircase_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
+      wardrobeImage: {% if section.settings.wardrobe_image != blank %}{{ section.settings.wardrobe_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
       finalCtaImage: {% if section.settings.final_cta_image != blank %}{{ section.settings.final_cta_image | image_url: width: 2400 | json }}{% else %}null{% endif %},
+      reviewImage1: {% if section.settings.review_image_1 != blank %}{{ section.settings.review_image_1 | image_url: width: 900 | json }}{% else %}null{% endif %},
+      reviewImage2: {% if section.settings.review_image_2 != blank %}{{ section.settings.review_image_2 | image_url: width: 900 | json }}{% else %}null{% endif %},
+      reviewImage3: {% if section.settings.review_image_3 != blank %}{{ section.settings.review_image_3 | image_url: width: 900 | json }}{% else %}null{% endif %},
+      reviewImage4: {% if section.settings.review_image_4 != blank %}{{ section.settings.review_image_4 | image_url: width: 900 | json }}{% else %}null{% endif %},
       galleryImages: [
         {% if section.settings.gallery_image_1 != blank %}{{ section.settings.gallery_image_1 | image_url: width: 1600 | json }}{% else %}null{% endif %},
         {% if section.settings.gallery_image_2 != blank %}{{ section.settings.gallery_image_2 | image_url: width: 1600 | json }}{% else %}null{% endif %},
@@ -27,6 +36,63 @@
         {% if section.settings.gallery_image_5 != blank %}{{ section.settings.gallery_image_5 | image_url: width: 1600 | json }}{% else %}null{% endif %},
         {% if section.settings.gallery_image_6 != blank %}{{ section.settings.gallery_image_6 | image_url: width: 1600 | json }}{% else %}null{% endif %}
       ]
+    },
+    theme: {
+      bgColor: {{ section.settings.bg_color | json }},
+      creamColor: {{ section.settings.cream_color | json }},
+      warmWhiteColor: {{ section.settings.warm_white_color | json }},
+      textColor: {{ section.settings.text_color | json }},
+      mutedColor: {{ section.settings.muted_color | json }},
+      accentColor: {{ section.settings.accent_color | json }},
+      borderColor: {{ section.settings.border_color | json }},
+      announcementText: {{ section.settings.announcement_text | json }},
+      heroEyebrow: {{ section.settings.hero_eyebrow | json }},
+      heroTitle: {{ section.settings.hero_title | json }},
+      heroText: {{ section.settings.hero_text | json }},
+      heroPrimaryButton: {{ section.settings.hero_primary_button | json }},
+      heroSecondaryButton: {{ section.settings.hero_secondary_button | json }},
+      featuresEyebrow: {{ section.settings.features_eyebrow | json }},
+      featuresTitle: {{ section.settings.features_title | json }},
+      featuresText: {{ section.settings.features_text | json }},
+      productEyebrow: {{ section.settings.product_eyebrow | json }},
+      productTitle: {{ section.settings.product_title | json }},
+      productDescription: {{ section.settings.product_description | json }},
+      productPrice: {{ section.settings.product_price | json }},
+      productCompareAt: {{ section.settings.product_compare_at | json }},
+      productBadge: {{ section.settings.product_badge | json }},
+      productButton: {{ section.settings.product_button | json }},
+      detailPrice: {{ section.settings.detail_price | json }},
+      detailCompareAt: {{ section.settings.detail_compare_at | json }},
+      detailBadge: {{ section.settings.detail_badge | json }},
+      singlePrice: {{ section.settings.single_price | json }},
+      singleCompareAt: {{ section.settings.single_compare_at | json }},
+      duoPrice: {{ section.settings.duo_price | json }},
+      duoCompareAt: {{ section.settings.duo_compare_at | json }},
+      trioPrice: {{ section.settings.trio_price | json }},
+      trioCompareAt: {{ section.settings.trio_compare_at | json }},
+      addToCartButton: {{ section.settings.add_to_cart_button | json }},
+      buyNowButton: {{ section.settings.buy_now_button | json }},
+      roomsTitle: {{ section.settings.rooms_title | json }},
+      plannerTitle: {{ section.settings.planner_title | json }},
+      plannerText: {{ section.settings.planner_text | json }},
+      faqEyebrow: {{ section.settings.faq_eyebrow | json }},
+      faqTitle: {{ section.settings.faq_title | json }},
+      faqQuestion1: {{ section.settings.faq_question_1 | json }},
+      faqAnswer1: {{ section.settings.faq_answer_1 | json }},
+      faqQuestion2: {{ section.settings.faq_question_2 | json }},
+      faqAnswer2: {{ section.settings.faq_answer_2 | json }},
+      faqQuestion3: {{ section.settings.faq_question_3 | json }},
+      faqAnswer3: {{ section.settings.faq_answer_3 | json }},
+      faqQuestion4: {{ section.settings.faq_question_4 | json }},
+      faqAnswer4: {{ section.settings.faq_answer_4 | json }},
+      faqQuestion5: {{ section.settings.faq_question_5 | json }},
+      faqAnswer5: {{ section.settings.faq_answer_5 | json }},
+      finalCtaTitle: {{ section.settings.final_cta_title | json }},
+      finalCtaText: {{ section.settings.final_cta_text | json }},
+      finalCtaButton: {{ section.settings.final_cta_button | json }},
+      footerText: {{ section.settings.footer_text | json }},
+      footerEmailPlaceholder: {{ section.settings.footer_email_placeholder | json }},
+      footerButton: {{ section.settings.footer_button | json }}
     },
     targetProductId: {{ section.settings.target_product_id | default: blank | json }},
     preferredVariantId: {{ luxense_default_variant_id | default: blank | json }},
@@ -102,6 +168,369 @@
     },
     {
       "type": "header",
+      "content": "Theme colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Page background",
+      "default": "#f6f4ef"
+    },
+    {
+      "type": "color",
+      "id": "cream_color",
+      "label": "Cream text",
+      "default": "#fbfaf6"
+    },
+    {
+      "type": "color",
+      "id": "warm_white_color",
+      "label": "Warm white",
+      "default": "#fffdf8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Main text",
+      "default": "#231913"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text",
+      "default": "#74685d"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#c89a59"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Borders",
+      "default": "#ded8cf"
+    },
+    {
+      "type": "header",
+      "content": "Announcement bar"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement messages",
+      "default": "Free shipping over $35 | Secure checkout | 30-day money-back guarantee | Fast human support",
+      "info": "Separate each message with a vertical bar: |"
+    },
+    {
+      "type": "header",
+      "content": "Hero text"
+    },
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "label": "Hero eyebrow",
+      "default": "Wireless motion-sensor lighting"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_title",
+      "label": "Hero title",
+      "default": "Transform any space into a luxury environment"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_text",
+      "label": "Hero description",
+      "default": "Wireless, rechargeable lighting that senses your every move and disappears into the architecture of your home until you need it."
+    },
+    {
+      "type": "text",
+      "id": "hero_primary_button",
+      "label": "Hero primary button",
+      "default": "Shop now"
+    },
+    {
+      "type": "text",
+      "id": "hero_secondary_button",
+      "label": "Hero secondary button",
+      "default": "Learn more"
+    },
+    {
+      "type": "header",
+      "content": "Feature section text"
+    },
+    {
+      "type": "text",
+      "id": "features_eyebrow",
+      "label": "Features eyebrow",
+      "default": "Why people love it"
+    },
+    {
+      "type": "textarea",
+      "id": "features_title",
+      "label": "Features title",
+      "default": "Designed to feel effortless"
+    },
+    {
+      "type": "textarea",
+      "id": "features_text",
+      "label": "Features description",
+      "default": "Every detail of the Glow Bar removes a little friction from daily life: no switches, no wiring, no compromise on how it looks."
+    },
+    {
+      "type": "header",
+      "content": "Product text and prices"
+    },
+    {
+      "type": "text",
+      "id": "product_eyebrow",
+      "label": "Product eyebrow",
+      "default": "The Glow Bar"
+    },
+    {
+      "type": "text",
+      "id": "product_title",
+      "label": "Product display title",
+      "default": "Luxense Glow Bar"
+    },
+    {
+      "type": "textarea",
+      "id": "product_description",
+      "label": "Product description",
+      "default": "A slim, rechargeable motion light that turns on the moment you arrive and fades the instant you leave. No wiring. No switches. Just effortless, ambient warmth wherever you need it."
+    },
+    {
+      "type": "text",
+      "id": "product_price",
+      "label": "Showcase price",
+      "default": "$24.99"
+    },
+    {
+      "type": "text",
+      "id": "product_compare_at",
+      "label": "Showcase compare-at price",
+      "default": "$39.99"
+    },
+    {
+      "type": "text",
+      "id": "product_badge",
+      "label": "Showcase badge",
+      "default": "Save with the Duo (2-pack)"
+    },
+    {
+      "type": "text",
+      "id": "product_button",
+      "label": "Showcase button",
+      "default": "Shop the Glow Bar"
+    },
+    {
+      "type": "text",
+      "id": "detail_price",
+      "label": "Product page main price",
+      "default": "$39.99"
+    },
+    {
+      "type": "text",
+      "id": "detail_compare_at",
+      "label": "Product page compare-at price",
+      "default": "$79.98"
+    },
+    {
+      "type": "text",
+      "id": "detail_badge",
+      "label": "Product page discount badge",
+      "default": "Save $39.99 (50% off)"
+    },
+    {
+      "type": "text",
+      "id": "single_price",
+      "label": "1 unit price",
+      "default": "$24.99"
+    },
+    {
+      "type": "text",
+      "id": "single_compare_at",
+      "label": "1 unit compare-at price",
+      "default": "$39.99"
+    },
+    {
+      "type": "text",
+      "id": "duo_price",
+      "label": "2 units price",
+      "default": "$39.99"
+    },
+    {
+      "type": "text",
+      "id": "duo_compare_at",
+      "label": "2 units compare-at price",
+      "default": "$79.98"
+    },
+    {
+      "type": "text",
+      "id": "trio_price",
+      "label": "3 units price",
+      "default": "$49.99"
+    },
+    {
+      "type": "text",
+      "id": "trio_compare_at",
+      "label": "3 units compare-at price",
+      "default": "$119.97"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_button",
+      "label": "Add to cart button",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "buy_now_button",
+      "label": "Buy now button",
+      "default": "Buy it now"
+    },
+    {
+      "type": "header",
+      "content": "Spaces and planner text"
+    },
+    {
+      "type": "textarea",
+      "id": "rooms_title",
+      "label": "Spaces title",
+      "default": "One light solves a problem. A few transform a home."
+    },
+    {
+      "type": "text",
+      "id": "planner_title",
+      "label": "Planner title",
+      "default": "Room planner"
+    },
+    {
+      "type": "textarea",
+      "id": "planner_text",
+      "label": "Planner description",
+      "default": "A simple guide to lighting each space beautifully."
+    },
+    {
+      "type": "header",
+      "content": "FAQ text"
+    },
+    {
+      "type": "text",
+      "id": "faq_eyebrow",
+      "label": "FAQ eyebrow",
+      "default": "Questions"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_title",
+      "label": "FAQ title",
+      "default": "Everything you need to know"
+    },
+    {
+      "type": "text",
+      "id": "faq_question_1",
+      "label": "FAQ question 1",
+      "default": "How does the motion sensor work?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_answer_1",
+      "label": "FAQ answer 1",
+      "default": "It detects nearby movement and turns the light on automatically, then fades off after the space is quiet again."
+    },
+    {
+      "type": "text",
+      "id": "faq_question_2",
+      "label": "FAQ question 2",
+      "default": "How long does the battery last?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_answer_2",
+      "label": "FAQ answer 2",
+      "default": "Most homes get weeks of use per charge, depending on traffic and brightness settings."
+    },
+    {
+      "type": "text",
+      "id": "faq_question_3",
+      "label": "FAQ question 3",
+      "default": "How do I install it?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_answer_3",
+      "label": "FAQ answer 3",
+      "default": "Use the included magnetic mount. Place the adhesive base, snap the light on, and remove it anytime for charging."
+    },
+    {
+      "type": "text",
+      "id": "faq_question_4",
+      "label": "FAQ question 4",
+      "default": "Is the light warm or cool?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_answer_4",
+      "label": "FAQ answer 4",
+      "default": "It uses a warm ambient glow designed for bedrooms, closets, hallways, and kitchens."
+    },
+    {
+      "type": "text",
+      "id": "faq_question_5",
+      "label": "FAQ question 5",
+      "default": "What's your guarantee?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_answer_5",
+      "label": "FAQ answer 5",
+      "default": "Every order is backed by a 30-day love-it-or-return-it guarantee and a 2-year warranty. If anything isn't right, our support team responds within hours."
+    },
+    {
+      "type": "header",
+      "content": "Final CTA and footer"
+    },
+    {
+      "type": "textarea",
+      "id": "final_cta_title",
+      "label": "Final CTA title",
+      "default": "Bring your home to light"
+    },
+    {
+      "type": "textarea",
+      "id": "final_cta_text",
+      "label": "Final CTA text",
+      "default": "Free shipping, a 30-day guarantee, and a glow you'll wonder how you lived without."
+    },
+    {
+      "type": "text",
+      "id": "final_cta_button",
+      "label": "Final CTA button",
+      "default": "Shop Now"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_text",
+      "label": "Footer brand text",
+      "default": "Considered lighting for the modern home. Designed to disappear into your space and appear exactly when you need it."
+    },
+    {
+      "type": "text",
+      "id": "footer_email_placeholder",
+      "label": "Footer email placeholder",
+      "default": "Email for 10% off"
+    },
+    {
+      "type": "text",
+      "id": "footer_button",
+      "label": "Footer email button",
+      "default": "Join"
+    },
+    {
+      "type": "header",
       "content": "Editable images"
     },
     {
@@ -121,8 +550,57 @@
     },
     {
       "type": "image_picker",
+      "id": "closet_image",
+      "label": "Spaces closet image"
+    },
+    {
+      "type": "image_picker",
+      "id": "kitchen_image",
+      "label": "Spaces kitchen image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hallway_image",
+      "label": "Spaces hallway image"
+    },
+    {
+      "type": "image_picker",
+      "id": "staircase_image",
+      "label": "Spaces staircase image"
+    },
+    {
+      "type": "image_picker",
+      "id": "wardrobe_image",
+      "label": "Spaces wardrobe image"
+    },
+    {
+      "type": "image_picker",
       "id": "final_cta_image",
       "label": "Final CTA background image"
+    },
+    {
+      "type": "header",
+      "content": "Review images"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_image_1",
+      "label": "Review image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_image_2",
+      "label": "Review image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_image_3",
+      "label": "Review image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_image_4",
+      "label": "Review image 4"
     },
     {
       "type": "header",

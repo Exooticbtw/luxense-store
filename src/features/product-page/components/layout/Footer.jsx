@@ -13,7 +13,7 @@ const columns = [
   },
 ]
 
-export default function Footer({ shopName }) {
+export default function Footer({ shopName, theme }) {
   const brand = shopName || "Luxense"
 
   return (
@@ -33,12 +33,12 @@ export default function Footer({ shopName }) {
               {brand}
             </h2>
             <p style={{ maxWidth: 500, color: "var(--muted)", fontSize: 18, lineHeight: 1.6, marginTop: 26 }}>
-              Considered lighting for the modern home. Designed to disappear into your space and appear exactly when you need it.
+              {theme?.footerText || "Considered lighting for the modern home. Designed to disappear into your space and appear exactly when you need it."}
             </p>
             <form style={{ display: "flex", gap: 12, maxWidth: 500, marginTop: 32 }}>
               <input
                 type="email"
-                placeholder="Email for 10% off"
+                placeholder={theme?.footerEmailPlaceholder || "Email for 10% off"}
                 style={{
                   flex: 1,
                   minWidth: 0,
@@ -66,7 +66,7 @@ export default function Footer({ shopName }) {
                   cursor: "pointer",
                 }}
               >
-                Join
+                {theme?.footerButton || "Join"}
               </button>
             </form>
           </div>

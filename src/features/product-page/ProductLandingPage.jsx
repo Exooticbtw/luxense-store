@@ -19,6 +19,16 @@ export default function ProductLandingPage() {
   const { scrolled } = useScrollFlags()
   const [view, setView] = useState("home")
   const showProductDetail = view === "product"
+  const theme = shopData?.theme || {}
+  const themeVars = {
+    ...(theme.bgColor ? { "--bg": theme.bgColor } : {}),
+    ...(theme.creamColor ? { "--cream": theme.creamColor } : {}),
+    ...(theme.warmWhiteColor ? { "--warm-white": theme.warmWhiteColor } : {}),
+    ...(theme.textColor ? { "--fg": theme.textColor, "--charcoal": theme.textColor, "--primary": theme.textColor } : {}),
+    ...(theme.mutedColor ? { "--muted": theme.mutedColor } : {}),
+    ...(theme.accentColor ? { "--accent": theme.accentColor } : {}),
+    ...(theme.borderColor ? { "--border": theme.borderColor } : {}),
+  }
 
   const variants = shopData?.product?.variants || []
   const preferredVariantId = getNumericVariantId(shopData?.preferredVariantId)
@@ -47,9 +57,9 @@ export default function ProductLandingPage() {
   }
 
   return (
-    <div className="page-shell" id="top">
+    <div className="page-shell" id="top" style={themeVars}>
       <style>{PRODUCT_PAGE_STYLES}</style>
-      <AnnouncementBar />
+      <AnnouncementBar theme={theme} />
       <Navbar
         scrolled={scrolled}
         shopName={shopData?.shopName}
@@ -58,12 +68,12 @@ export default function ProductLandingPage() {
       <ProductSection shopData={shopData} view={view} onOpenProductDetail={openProductDetail} />
       {!showProductDetail && (
         <>
-          <Rooms media={shopData?.media} />
+          <Rooms media={shopData?.media} theme={theme} />
           <WhyUs />
           <Reviews media={shopData?.media} />
-          <FAQ />
-          <FinalCTA media={shopData?.media} shopDomain={shopData?.shopDomain} variantId={numericVariantId} />
-          <Footer shopName={shopData?.shopName} />
+          <FAQ theme={theme} />
+          <FinalCTA media={shopData?.media} theme={theme} shopDomain={shopData?.shopDomain} variantId={numericVariantId} />
+          <Footer shopName={shopData?.shopName} theme={theme} />
         </>
       )}
       {loading && <LoadingOverlay />}

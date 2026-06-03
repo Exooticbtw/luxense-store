@@ -7,8 +7,15 @@ const messages = [
   { icon: Headphones, text: "Fast human support" },
 ]
 
-export default function AnnouncementBar() {
-  const repeatedMessages = [...messages, ...messages, ...messages, ...messages]
+export default function AnnouncementBar({ theme }) {
+  const editableMessages = (theme?.announcementText || "")
+    .split("|")
+    .map((text) => text.trim())
+    .filter(Boolean)
+  const sourceMessages = editableMessages.length
+    ? editableMessages.map((text, index) => ({ icon: messages[index % messages.length].icon, text }))
+    : messages
+  const repeatedMessages = [...sourceMessages, ...sourceMessages, ...sourceMessages, ...sourceMessages]
 
   return (
     <div

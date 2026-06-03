@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react"
 import { buildCartUrl } from "../../utils/shopify.js"
 import heroDetailImage from "../../../../assets/product/hero-detail.png"
 
-export default function FinalCTA({ media, shopDomain, variantId }) {
+export default function FinalCTA({ media, theme, shopDomain, variantId }) {
   const url = buildCartUrl(shopDomain, variantId, 1) || "#buy"
   const backgroundImage = media?.finalCtaImage || media?.heroImage || heroDetailImage
 
@@ -24,10 +24,10 @@ export default function FinalCTA({ media, shopDomain, variantId }) {
     >
       <div style={{ maxWidth: 760, padding: "72px 24px" }}>
         <h2 className="serif" style={{ fontSize: 72, lineHeight: 1, fontWeight: 600 }}>
-          Bring your home to light
+          {theme?.finalCtaTitle || "Bring your home to light"}
         </h2>
         <p style={{ maxWidth: 560, margin: "24px auto 0", fontSize: 20, lineHeight: 1.45, fontWeight: 700 }}>
-          Free shipping, a 30-day guarantee, and a glow you'll wonder how you lived without.
+          {theme?.finalCtaText || "Free shipping, a 30-day guarantee, and a glow you'll wonder how you lived without."}
         </p>
         <a
           href={url}
@@ -48,7 +48,7 @@ export default function FinalCTA({ media, shopDomain, variantId }) {
             textDecoration: "none",
           }}
         >
-          Shop Now <ArrowRight size={18} />
+          {theme?.finalCtaButton || "Shop Now"} <ArrowRight size={18} />
         </a>
       </div>
 

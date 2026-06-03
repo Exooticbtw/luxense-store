@@ -24,22 +24,26 @@ const questions = [
   },
 ]
 
-export default function FAQ() {
+export default function FAQ({ theme }) {
   const [open, setOpen] = useState(4)
+  const editableQuestions = questions.map((item, index) => ({
+    q: theme?.[`faqQuestion${index + 1}`] || item.q,
+    a: theme?.[`faqAnswer${index + 1}`] || item.a,
+  }))
 
   return (
     <section id="faq" style={{ background: "var(--bg)", padding: "94px 24px 106px", scrollMarginTop: 72 }}>
       <div style={{ maxWidth: 940, margin: "0 auto", textAlign: "center" }}>
         <p className="eyebrow" style={{ color: "var(--accent)" }}>
-          Questions
+          {theme?.faqEyebrow || "Questions"}
         </p>
         <h2 className="serif" style={{ fontSize: 66, lineHeight: 1.05, fontWeight: 600 }}>
-          Everything you need to know
+          {theme?.faqTitle || "Everything you need to know"}
         </h2>
       </div>
 
       <div style={{ maxWidth: 920, margin: "62px auto 0" }}>
-        {questions.map((item, index) => {
+        {editableQuestions.map((item, index) => {
           const isOpen = open === index
 
           return (

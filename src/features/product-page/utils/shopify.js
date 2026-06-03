@@ -10,6 +10,89 @@ export function normalizeImageUrl(src) {
   return imageUrl.startsWith("//") ? `https:${imageUrl}` : imageUrl
 }
 
+export function normalizeMedia(media = {}) {
+  const galleryImages = Array.isArray(media.galleryImages)
+    ? media.galleryImages.map((image) => normalizeImageUrl(image)).filter(Boolean)
+    : []
+
+  return {
+    heroImage: normalizeImageUrl(media.heroImage),
+    productImage: normalizeImageUrl(media.productImage),
+    bedroomImage: normalizeImageUrl(media.bedroomImage),
+    closetImage: normalizeImageUrl(media.closetImage),
+    kitchenImage: normalizeImageUrl(media.kitchenImage),
+    hallwayImage: normalizeImageUrl(media.hallwayImage),
+    staircaseImage: normalizeImageUrl(media.staircaseImage),
+    wardrobeImage: normalizeImageUrl(media.wardrobeImage),
+    finalCtaImage: normalizeImageUrl(media.finalCtaImage),
+    reviewImage1: normalizeImageUrl(media.reviewImage1),
+    reviewImage2: normalizeImageUrl(media.reviewImage2),
+    reviewImage3: normalizeImageUrl(media.reviewImage3),
+    reviewImage4: normalizeImageUrl(media.reviewImage4),
+    galleryImages,
+  }
+}
+
+export function normalizeTheme(theme = {}) {
+  return {
+    bgColor: theme.bgColor || null,
+    creamColor: theme.creamColor || null,
+    warmWhiteColor: theme.warmWhiteColor || null,
+    textColor: theme.textColor || null,
+    mutedColor: theme.mutedColor || null,
+    accentColor: theme.accentColor || null,
+    borderColor: theme.borderColor || null,
+    announcementText: theme.announcementText || null,
+    heroEyebrow: theme.heroEyebrow || null,
+    heroTitle: theme.heroTitle || null,
+    heroText: theme.heroText || null,
+    heroPrimaryButton: theme.heroPrimaryButton || null,
+    heroSecondaryButton: theme.heroSecondaryButton || null,
+    featuresEyebrow: theme.featuresEyebrow || null,
+    featuresTitle: theme.featuresTitle || null,
+    featuresText: theme.featuresText || null,
+    productEyebrow: theme.productEyebrow || null,
+    productTitle: theme.productTitle || null,
+    productDescription: theme.productDescription || null,
+    productPrice: theme.productPrice || null,
+    productCompareAt: theme.productCompareAt || null,
+    productBadge: theme.productBadge || null,
+    productButton: theme.productButton || null,
+    detailPrice: theme.detailPrice || null,
+    detailCompareAt: theme.detailCompareAt || null,
+    detailBadge: theme.detailBadge || null,
+    singlePrice: theme.singlePrice || null,
+    singleCompareAt: theme.singleCompareAt || null,
+    duoPrice: theme.duoPrice || null,
+    duoCompareAt: theme.duoCompareAt || null,
+    trioPrice: theme.trioPrice || null,
+    trioCompareAt: theme.trioCompareAt || null,
+    addToCartButton: theme.addToCartButton || null,
+    buyNowButton: theme.buyNowButton || null,
+    roomsTitle: theme.roomsTitle || null,
+    plannerTitle: theme.plannerTitle || null,
+    plannerText: theme.plannerText || null,
+    faqEyebrow: theme.faqEyebrow || null,
+    faqTitle: theme.faqTitle || null,
+    faqQuestion1: theme.faqQuestion1 || null,
+    faqAnswer1: theme.faqAnswer1 || null,
+    faqQuestion2: theme.faqQuestion2 || null,
+    faqAnswer2: theme.faqAnswer2 || null,
+    faqQuestion3: theme.faqQuestion3 || null,
+    faqAnswer3: theme.faqAnswer3 || null,
+    faqQuestion4: theme.faqQuestion4 || null,
+    faqAnswer4: theme.faqAnswer4 || null,
+    faqQuestion5: theme.faqQuestion5 || null,
+    faqAnswer5: theme.faqAnswer5 || null,
+    finalCtaTitle: theme.finalCtaTitle || null,
+    finalCtaText: theme.finalCtaText || null,
+    finalCtaButton: theme.finalCtaButton || null,
+    footerText: theme.footerText || null,
+    footerEmailPlaceholder: theme.footerEmailPlaceholder || null,
+    footerButton: theme.footerButton || null,
+  }
+}
+
 export function buildCartUrl(shopDomain, variantId, quantity = 1) {
   const numericVariantId = getNumericVariantId(variantId)
   if (!shopDomain || !numericVariantId) return null
@@ -57,7 +140,8 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
     shopName: meta.shopName || payload?.shop?.name || "LUXENSE",
     shopDomain: meta.shopDomain || payload?.shop?.domain || null,
     currency: meta.currency || payload?.currency || "USD",
-    media: meta.media || payload?.media || {},
+    media: normalizeMedia(meta.media || payload?.media || {}),
+    theme: normalizeTheme(meta.theme || payload?.theme || {}),
     targetProductId: meta.targetProductId || payload?.targetProductId || null,
     preferredVariantId: meta.preferredVariantId || payload?.preferredVariantId || null,
     product: {

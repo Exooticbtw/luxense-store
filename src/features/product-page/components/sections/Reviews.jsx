@@ -6,28 +6,28 @@ import heroDetailImage from "../../../../assets/product/hero-detail.png"
 export default function Reviews({ media }) {
   const reviewCards = [
     {
-      image: media?.productImage || armarioImage,
+      image: media?.reviewImage1 || media?.productImage || armarioImage,
       rating: 5,
       title: "Looks like it was professionally installed",
       text: "I expected a cheap stick-on light. Instead it feels like a designer fixture. The warm glow in my closet is unreal and guests always ask about it.",
       name: "Margaux L.",
     },
     {
-      image: heroDetailImage,
+      image: media?.reviewImage2 || heroDetailImage,
       rating: 5,
       title: "Bought one, came back for four",
       text: "Started in the hallway, now they're on every staircase and under the kitchen cabinets. The motion sensor is genuinely instant.",
       name: "Daniel R.",
     },
     {
-      image: media?.heroImage || heroDetailImage,
+      image: media?.reviewImage3 || media?.heroImage || heroDetailImage,
       rating: 5,
       title: "Battery life is no joke",
       text: "Charged it once over a month ago and still going strong. No more fumbling for switches at night.",
       name: "Priya S.",
     },
     {
-      image: media?.bedroomImage || armarioImage,
+      image: media?.reviewImage4 || media?.bedroomImage || armarioImage,
       rating: 4,
       title: "Beautiful and so easy",
       text: "Magnet mount took about ten seconds. Wish I'd ordered the three-pack from the start.",
@@ -115,7 +115,7 @@ export default function Reviews({ media }) {
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 22, color: "var(--muted)" }}>
                   <BadgeCheck size={16} style={{ color: "var(--accent)" }} />
                   <strong style={{ color: "var(--fg)", fontSize: 14 }}>{review.name}</strong>
-                  <span>·</span>
+                  <span>-</span>
                   <span>Verified Buyer</span>
                 </div>
               </div>

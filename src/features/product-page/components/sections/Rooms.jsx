@@ -2,7 +2,7 @@ import armarioImage from "../../../../assets/product/armario.png"
 import heroDetailImage from "../../../../assets/product/hero-detail.png"
 import principalImage from "../../../../assets/product/principal.png"
 
-export default function Rooms({ media }) {
+export default function Rooms({ media, theme }) {
   const roomCards = [
     {
       title: "Bedroom",
@@ -13,27 +13,27 @@ export default function Rooms({ media }) {
     {
       title: "Closet",
       units: "1-2 units",
-      image: armarioImage,
+      image: media?.closetImage || armarioImage,
     },
     {
       title: "Kitchen",
       units: "2-3 units",
-      image: principalImage,
+      image: media?.kitchenImage || principalImage,
     },
     {
       title: "Hallway",
       units: "2 units",
-      image: heroDetailImage,
+      image: media?.hallwayImage || heroDetailImage,
     },
     {
       title: "Staircase",
       units: "3-4 units",
-      image: media?.heroImage || heroDetailImage,
+      image: media?.staircaseImage || media?.heroImage || heroDetailImage,
     },
     {
       title: "Wardrobe",
       units: "2-4 units",
-      image: media?.productImage || armarioImage,
+      image: media?.wardrobeImage || media?.productImage || armarioImage,
       wide: true,
     },
   ]
@@ -59,7 +59,7 @@ export default function Rooms({ media }) {
             textWrap: "balance",
           }}
         >
-          One light solves a problem. A few transform a home.
+          {theme?.roomsTitle || "One light solves a problem. A few transform a home."}
         </h2>
 
         <div
@@ -133,10 +133,10 @@ export default function Rooms({ media }) {
           }}
         >
           <h3 className="serif" style={{ fontSize: 32, lineHeight: 1.1, fontWeight: 600 }}>
-            Room planner
+            {theme?.plannerTitle || "Room planner"}
           </h3>
           <p style={{ marginTop: 10, color: "var(--muted)", fontSize: 18 }}>
-            A simple guide to lighting each space beautifully.
+            {theme?.plannerText || "A simple guide to lighting each space beautifully."}
           </p>
 
           <div

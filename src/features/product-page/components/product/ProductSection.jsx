@@ -11,9 +11,15 @@ import principalAsset from "../../../../assets/product/principal.png"
 export default function ProductSection({ shopData, view = "home", onOpenProductDetail }) {
   const { buildCheckoutUrl, v } = useProductPurchaseState(shopData)
   const media = shopData?.media || {}
+  const theme = shopData?.theme || {}
   const productImages = shopData?.product?.images || []
   const heroImage = media.heroImage || productImages[0] || heroDetailAsset
   const productImage = media.productImage || productImages[0] || principalAsset
+  const productTitle = theme.productTitle || shopData?.product?.title || "Luxense Glow Bar"
+  const productDescription =
+    theme.productDescription ||
+    shopData?.product?.description ||
+    "A slim, rechargeable motion light that turns on the moment you arrive and fades the instant you leave. No wiring. No switches. Just effortless, ambient warmth wherever you need it."
 
   if (view === "product") {
     return (
@@ -23,6 +29,9 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
         productImages={productImages}
         selectedVariant={v}
         shopDomain={shopData?.shopDomain}
+        theme={theme}
+        productTitle={productTitle}
+        productDescription={productDescription}
       />
     )
   }
@@ -63,7 +72,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
                 color: "var(--accent)",
               }}
             >
-              Wireless motion-sensor lighting
+              {theme.heroEyebrow || "Wireless motion-sensor lighting"}
             </p>
 
             <h1
@@ -76,11 +85,11 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
                 textWrap: "balance",
               }}
             >
-              Transform any space into a luxury environment
+              {theme.heroTitle || "Transform any space into a luxury environment"}
             </h1>
 
             <p style={{ maxWidth: 570, fontSize: 18, lineHeight: 1.75, color: "rgba(247,241,232,.78)", fontWeight: 600 }}>
-              Wireless, rechargeable lighting that senses your every move and disappears into the architecture of your home until you need it.
+              {theme.heroText || "Wireless, rechargeable lighting that senses your every move and disappears into the architecture of your home until you need it."}
             </p>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 4 }}>
@@ -101,7 +110,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
                   textDecoration: "none",
                 }}
               >
-                Shop now <ArrowRight size={18} />
+                {theme.heroPrimaryButton || "Shop now"} <ArrowRight size={18} />
               </a>
               <a
                 href="#story"
@@ -121,7 +130,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
                   backdropFilter: "blur(10px)",
                 }}
               >
-                Learn more
+                {theme.heroSecondaryButton || "Learn more"}
               </a>
             </div>
 
@@ -181,12 +190,12 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
 
       <section id="features" style={{ padding: "84px 24px 86px", background: "var(--bg)", scrollMarginTop: 110 }}>
         <div style={{ maxWidth: 1560, margin: "0 auto" }}>
-          <p className="eyebrow" style={{ color: "var(--accent)" }}>Why people love it</p>
+          <p className="eyebrow" style={{ color: "var(--accent)" }}>{theme.featuresEyebrow || "Why people love it"}</p>
           <h2 className="serif section-title" style={{ maxWidth: 720 }}>
-            Designed to feel effortless
+            {theme.featuresTitle || "Designed to feel effortless"}
           </h2>
           <p style={{ marginTop: 20, maxWidth: 720, color: "var(--muted)", fontSize: 20, lineHeight: 1.55 }}>
-            Every detail of the Glow Bar removes a little friction from daily life: no switches, no wiring, no compromise on how it looks.
+            {theme.featuresText || "Every detail of the Glow Bar removes a little friction from daily life: no switches, no wiring, no compromise on how it looks."}
           </p>
 
           <div
@@ -280,7 +289,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
           </div>
 
           <div style={{ maxWidth: 720 }}>
-            <p className="eyebrow" style={{ color: "var(--accent)" }}>The Glow Bar</p>
+            <p className="eyebrow" style={{ color: "var(--accent)" }}>{theme.productEyebrow || "The Glow Bar"}</p>
             <h2
               className="serif"
               style={{
@@ -290,7 +299,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
                 marginTop: 24,
               }}
             >
-              Luxense Glow Bar
+              {productTitle}
             </h2>
 
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 24 }}>
@@ -299,7 +308,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
             </div>
 
             <p style={{ marginTop: 28, color: "var(--muted)", fontSize: 21, lineHeight: 1.55, maxWidth: 710 }}>
-              A slim, rechargeable motion light that turns on the moment you arrive and fades the instant you leave. No wiring. No switches. Just effortless, ambient warmth wherever you need it.
+              {productDescription}
             </p>
 
             <div
@@ -325,8 +334,8 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginTop: 40 }}>
-              <span className="serif" style={{ fontSize: 38, lineHeight: 1 }}>$24.99</span>
-              <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 18 }}>$39.99</span>
+              <span className="serif" style={{ fontSize: 38, lineHeight: 1 }}>{theme.productPrice || "$24.99"}</span>
+              <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 18 }}>{theme.productCompareAt || "$39.99"}</span>
               <span
                 style={{
                   borderRadius: 999,
@@ -336,12 +345,12 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
                   fontWeight: 700,
                 }}
               >
-                Save with the Duo (2-pack)
+                {theme.productBadge || "Save with the Duo (2-pack)"}
               </span>
             </div>
 
             <button type="button" onClick={onOpenProductDetail} style={{ ...productCtaStyle, border: "none", cursor: "pointer" }}>
-              Shop the Glow Bar <ArrowRight size={18} />
+              {theme.productButton || "Shop the Glow Bar"} <ArrowRight size={18} />
             </button>
           </div>
         </div>
@@ -417,7 +426,7 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
   )
 }
 
-function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVariant, shopDomain }) {
+function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVariant, shopDomain, theme, productTitle, productDescription }) {
   const [finish, setFinish] = useState("Matte White")
   const [selectedSet, setSelectedSet] = useState("duo")
   const [activeImage, setActiveImage] = useState(0)
@@ -442,8 +451,8 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
       id: "single",
       title: "1 unit",
       each: "$24.99 each",
-      price: "$24.99",
-      compareAt: "$39.99",
+      price: theme?.singlePrice || "$24.99",
+      compareAt: theme?.singleCompareAt || "$39.99",
       badge: null,
       units: 1,
     },
@@ -451,8 +460,8 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
       id: "duo",
       title: "2 units",
       each: "$20.00 each",
-      price: "$39.99",
-      compareAt: "$79.98",
+      price: theme?.duoPrice || "$39.99",
+      compareAt: theme?.duoCompareAt || "$79.98",
       badge: "MOST POPULAR",
       units: 2,
     },
@@ -460,8 +469,8 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
       id: "trio",
       title: "3 units",
       each: "$16.66 each",
-      price: "$49.99",
-      compareAt: "$119.97",
+      price: theme?.trioPrice || "$49.99",
+      compareAt: theme?.trioCompareAt || "$119.97",
       badge: "BEST VALUE",
       units: 3,
     },
@@ -586,7 +595,7 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
 
         <div style={{ paddingTop: 36 }}>
           <h1 className="serif" style={{ fontSize: 54, lineHeight: 1, fontWeight: 600 }}>
-            Luxense Glow Bar
+            {productTitle}
           </h1>
 
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 22, color: "var(--muted)", fontSize: 18 }}>
@@ -595,8 +604,8 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginTop: 34 }}>
-            <span className="serif" style={{ fontSize: 40, lineHeight: 1 }}>$39.99</span>
-            <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 20 }}>$79.98</span>
+            <span className="serif" style={{ fontSize: 40, lineHeight: 1 }}>{theme?.detailPrice || theme?.duoPrice || "$39.99"}</span>
+            <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 20 }}>{theme?.detailCompareAt || theme?.duoCompareAt || "$79.98"}</span>
             <span
               style={{
                 borderRadius: 999,
@@ -606,7 +615,7 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
                 fontWeight: 800,
               }}
             >
-              Save $39.99 (50% off)
+              {theme?.detailBadge || "Save $39.99 (50% off)"}
             </span>
           </div>
 
@@ -622,7 +631,7 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
           </div>
 
           <p style={{ marginTop: 34, color: "var(--muted)", fontSize: 19, lineHeight: 1.6, maxWidth: 720 }}>
-            A slim, rechargeable motion light that turns on the moment you arrive and fades the instant you leave. No wiring. No switches. Just effortless, ambient warmth wherever you need it.
+            {productDescription}
           </p>
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20, marginTop: 42 }}>
@@ -739,11 +748,11 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
           </div>
 
           <button type="button" onClick={handleAddToCart} style={{ ...detailCheckoutStyle, border: "none", cursor: "pointer" }}>
-            Add to Cart - {selectedOption.price}
+            {theme?.addToCartButton || "Add to Cart"} - {selectedOption.price}
           </button>
 
           <a href={buildCheckoutUrl(selectedOption.units || 1)} target={shopDomain ? "_blank" : "_self"} style={detailBuyNowStyle}>
-            <Zap size={18} /> Buy it now
+            <Zap size={18} /> {theme?.buyNowButton || "Buy it now"}
           </a>
 
           <div
@@ -867,7 +876,7 @@ function ProductDetailView({ buildCheckoutUrl, media, productImages, selectedVar
                   }}
                 />
                 <div>
-                  <div style={{ fontSize: 18, fontWeight: 800 }}>Luxense Glow Bar</div>
+                  <div style={{ fontSize: 18, fontWeight: 800 }}>{productTitle}</div>
                   <div style={{ color: "var(--muted)", marginTop: 2 }}>
                     {cartFinish} - {cartOption.title}
                   </div>
