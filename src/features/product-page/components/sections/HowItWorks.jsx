@@ -2,65 +2,70 @@ import { HOW_STEPS } from "../../data/productPageData.js"
 
 export default function HowItWorks() {
   return (
-    <section id="how" style={{ position: "relative", background: "var(--charcoal)", color: "var(--cream)", padding: "84px 24px", scrollMarginTop: 72, overflow: "hidden" }}>
-      <div
-        className="glow-anim"
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          width: 700,
-          height: 700,
-          transform: "translate(-50%,-50%)",
-          borderRadius: "50%",
-          opacity: 0.22,
-          background: "radial-gradient(closest-side, rgba(199,164,106,.6), transparent 70%)",
-          filter: "blur(40px)",
-          pointerEvents: "none",
-        }}
-      />
-      <div style={{ position: "relative", maxWidth: 1280, margin: "0 auto" }}>
-        <div style={{ marginBottom: 56, maxWidth: 560 }}>
-          <p style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.22em", color: "rgba(252,250,247,.58)", marginBottom: 10 }}>How it works</p>
-          <h2 className="serif" style={{ fontSize: 42, lineHeight: 1.05, letterSpacing: "-0.03em", textWrap: "balance" }}>
-            Three steps. Then forget it is there.
+    <section id="how-it-works" style={{ padding: "86px 24px", background: "var(--bg)", scrollMarginTop: 110 }}>
+      <div style={{ maxWidth: 1560, margin: "0 auto" }}>
+        <div style={{ maxWidth: 700 }}>
+          <p className="eyebrow" style={{ color: "var(--accent)" }}>
+            How it works
+          </p>
+          <h2 className="serif section-title" style={{ fontSize: 64 }}>
+            Three simple steps, then it quietly takes care of the room.
           </h2>
         </div>
 
-        <div className="how-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
-          {HOW_STEPS.map(({ n, Icon, title, desc }, index) => (
-            <div
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16, marginTop: 38 }}>
+          {HOW_STEPS.map(({ n, Icon, title, desc }) => (
+            <article
               key={n}
+              className="soft-card"
               style={{
-                borderRadius: 22,
-                border: "1px solid rgba(255,255,255,.1)",
-                background: "rgba(255,255,255,.04)",
-                padding: 28,
-                backdropFilter: "blur(8px)",
-                transition: "background .3s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,.07)"
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,.04)"
+                padding: 26,
+                borderRadius: 28,
+                background: "rgba(255,255,255,.86)",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
-                <span className="serif" style={{ fontSize: 30, color: "rgba(252,250,247,.42)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start" }}>
+                <div className="serif" style={{ fontSize: 30, lineHeight: 1, color: "var(--accent)" }}>
                   {n}
-                </span>
-                <div style={{ position: "relative", width: 44, height: 44, borderRadius: 14, background: "var(--cream)", display: "grid", placeItems: "center", color: "var(--charcoal)" }}>
+                </div>
+                <div
+                  style={{
+                    width: 46,
+                    height: 46,
+                    borderRadius: 16,
+                    background: "rgba(200,169,106,.12)",
+                    display: "grid",
+                    placeItems: "center",
+                  }}
+                >
                   <Icon size={20} />
-                  {index === 2 && <span className="glow-anim" style={{ position: "absolute", inset: -8, borderRadius: 18, border: "1px solid rgba(199,164,106,.34)" }} />}
                 </div>
               </div>
-              <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>{title}</h3>
-              <p style={{ fontSize: 13, color: "rgba(252,250,247,.72)", lineHeight: 1.75 }}>{desc}</p>
-            </div>
+              <h3 style={{ marginTop: 18, fontSize: 24, lineHeight: 1.1, fontWeight: 800 }}>{title}</h3>
+              <p style={{ marginTop: 10, fontSize: 15, lineHeight: 1.7, color: "var(--muted)" }}>{desc}</p>
+            </article>
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 1040px) {
+          #how-it-works > div > div:last-child {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          }
+        }
+        @media (max-width: 760px) {
+          #how-it-works {
+            padding: 64px 16px !important;
+          }
+          #how-it-works > div > div:last-child {
+            grid-template-columns: 1fr !important;
+          }
+          #how-it-works .section-title {
+            font-size: 40px !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

@@ -1,21 +1,21 @@
 export const PRODUCT_PAGE_STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap');
   :root {
-    --bg: #f6f4ef;
-    --cream: #fbfaf6;
-    --warm-white: #fffdf8;
+    --bg: #f5f5f3;
+    --cream: #ffffff;
+    --warm-white: #ffffff;
     --card: #ffffff;
-    --sec: #efebe4;
-    --fg: #231913;
-    --charcoal: #231913;
-    --primary: #231913;
-    --primary-fg: #fbfaf6;
-    --muted: #74685d;
-    --muted-light: #ded8cf;
-    --accent: #c89a59;
-    --border: #ded8cf;
-    --border-subtle: rgba(35, 25, 19, 0.09);
-    --shadow: 0 24px 70px rgba(35, 25, 19, 0.11);
+    --sec: #f5f5f3;
+    --fg: #111111;
+    --charcoal: #111111;
+    --primary: #111111;
+    --primary-fg: #ffffff;
+    --muted: #5f5f5f;
+    --muted-light: #e4e4df;
+    --accent: #c8a96a;
+    --border: rgba(17, 17, 17, 0.08);
+    --border-subtle: rgba(17, 17, 17, 0.08);
+    --shadow: 0 22px 60px rgba(17, 17, 17, 0.08);
     --radius: 24px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -96,6 +96,6 @@ export const PRODUCT_PAGE_STYLES = `
     .rooms-grid,.stats-grid{grid-template-columns:1fr !important}
     .how-grid{grid-template-columns:1fr !important}
     .section-title{font-size:34px !important}
-    .page-shell{padding-top:106px}
+    .page-shell{padding-top:106px;padding-bottom:96px}
   }
 `

@@ -1,14 +1,17 @@
 import { Menu, ShoppingBag, X } from "lucide-react"
 import { useState } from "react"
 
+const navLinks = [
+  ["Benefits", "#benefits"],
+  ["Bundles", "#bundles"],
+  ["Options", "#options"],
+  ["How it works", "#how-it-works"],
+  ["FAQ", "#faq"],
+]
+
 export default function Navbar({ scrolled, shopName, onNavigateHome }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const navLinks = [
-    ["Shop", "#buy"],
-    ["Spaces", "#rooms"],
-    ["Reviews", "#reviews"],
-    ["Our Story", "#story"],
-  ]
+
   const handleNavigate = (event, href) => {
     if (!onNavigateHome) return
 
@@ -26,13 +29,13 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
           top: 36,
           left: 0,
           right: 0,
-          zIndex: 90,
-          background: scrolled ? "rgba(251,250,246,0.72)" : "rgba(251,250,246,0.96)",
-          backdropFilter: "saturate(150%) blur(18px)",
-          WebkitBackdropFilter: "saturate(150%) blur(18px)",
-          borderBottom: scrolled ? "1px solid rgba(35,25,19,.06)" : "1px solid rgba(35,25,19,.08)",
-          boxShadow: scrolled ? "0 12px 34px rgba(35,25,19,.06)" : "none",
-          transition: "all .35s ease",
+          zIndex: 100,
+          background: scrolled ? "rgba(255,255,255,.7)" : "rgba(255,255,255,.88)",
+          backdropFilter: "saturate(160%) blur(20px)",
+          WebkitBackdropFilter: "saturate(160%) blur(20px)",
+          borderBottom: scrolled ? "1px solid rgba(17,17,17,.06)" : "1px solid rgba(17,17,17,.08)",
+          boxShadow: scrolled ? "0 12px 30px rgba(17,17,17,.06)" : "none",
+          transition: "all .28s ease",
         }}
       >
         <div
@@ -47,7 +50,7 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
             gap: 20,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 28, minWidth: 420 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
             <button
               className="mobile-menu-trigger"
               onClick={() => setMenuOpen((current) => !current)}
@@ -55,8 +58,8 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
                 width: 42,
                 height: 42,
                 borderRadius: 14,
-                border: "1px solid rgba(35,25,19,.12)",
-                background: "rgba(255,255,255,.72)",
+                border: "1px solid rgba(17,17,17,.1)",
+                background: "rgba(255,255,255,.78)",
                 display: "grid",
                 placeItems: "center",
                 color: "var(--fg)",
@@ -66,13 +69,21 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
-            <nav style={{ display: "flex", alignItems: "center", gap: 28 }} className="desktop-nav">
+
+            <nav className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 26 }}>
               {navLinks.map(([label, href]) => (
                 <a
                   key={href}
                   href={href}
                   onClick={(event) => handleNavigate(event, href)}
-                  style={{ fontSize: 15, color: "var(--muted)", textDecoration: "none", transition: "color .2s" }}
+                  style={{
+                    color: "var(--muted)",
+                    textDecoration: "none",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    letterSpacing: "0.02em",
+                    transition: "color .2s ease",
+                  }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.color = "var(--fg)"
                   }}
@@ -89,46 +100,38 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
           <a
             href="#top"
             onClick={(event) => handleNavigate(event, "#top")}
-            style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "inherit" }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              textDecoration: "none",
+              color: "var(--fg)",
+            }}
           >
-            <div style={{ display: "flex", flexDirection: "column", lineHeight: 1, alignItems: "center" }}>
-              <span className="serif" style={{ fontSize: 27, letterSpacing: "0.02em" }}>
-                {shopName || "Luxense"}
-              </span>
-            </div>
+            <span className="serif" style={{ fontSize: 26, lineHeight: 1, letterSpacing: "0.03em" }}>
+              {shopName || "Luxense"}
+            </span>
           </a>
 
-          <div style={{ display: "flex", gap: 8, alignItems: "center", justifyContent: "flex-end", minWidth: 420 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", minWidth: 84, justifyContent: "flex-end" }}>
             <a
-              href="#buy"
-              onClick={(event) => handleNavigate(event, "#buy")}
+              href="#bundles"
+              onClick={(event) => handleNavigate(event, "#bundles")}
+              aria-label="Shop now"
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
                 width: 42,
                 height: 42,
                 borderRadius: 14,
-                border: "1px solid rgba(35,25,19,.12)",
-                background: "rgba(255,255,255,.62)",
+                border: "1px solid rgba(17,17,17,.1)",
+                background: "rgba(255,255,255,.78)",
                 color: "var(--fg)",
-                padding: 0,
-                fontSize: 14,
-                fontWeight: 700,
+                display: "grid",
+                placeItems: "center",
                 textDecoration: "none",
-                transition: "all .2s",
+                transition: "transform .2s ease, box-shadow .2s ease",
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-1px)"
-                e.currentTarget.style.boxShadow = "0 10px 30px rgba(32,25,21,.18)"
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)"
-                e.currentTarget.style.boxShadow = "none"
-              }}
-              aria-label="Shop now"
             >
-              <ShoppingBag size={19} />
+              <ShoppingBag size={18} />
             </a>
           </div>
         </div>
@@ -139,21 +142,20 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
           style={{
             position: "fixed",
             inset: 0,
-            zIndex: 54,
+            zIndex: 95,
             top: 106,
           }}
           onClick={() => setMenuOpen(false)}
-          >
-            <div
-              style={{
-                background: "rgba(252,250,247,.98)",
-                borderBottom: "1px solid var(--border)",
-                padding: "32px 24px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-              }}
+        >
+          <div
             onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "rgba(255,255,255,.98)",
+              borderBottom: "1px solid var(--border)",
+              padding: "28px 20px 22px",
+              display: "grid",
+              gap: 6,
+            }}
           >
             {navLinks.map(([label, href]) => (
               <a
@@ -161,13 +163,12 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
                 href={href}
                 onClick={(event) => handleNavigate(event, href)}
                 style={{
-                  fontFamily: "Cormorant Garamond, serif",
-                  fontSize: "1.5rem",
-                  fontWeight: 400,
+                  fontSize: 22,
+                  fontWeight: 600,
                   color: "var(--fg)",
                   textDecoration: "none",
                   padding: "12px 0",
-                  borderBottom: "1px solid var(--border-subtle)",
+                  borderBottom: "1px solid var(--border)",
                 }}
               >
                 {label}
@@ -185,11 +186,11 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
           .mobile-menu-trigger {
             display: grid !important;
           }
+          .desktop-nav {
+            display: none !important;
+          }
           header > div {
             height: 70px !important;
-          }
-          header > div > div {
-            min-width: 42px !important;
           }
         }
       `}</style>
