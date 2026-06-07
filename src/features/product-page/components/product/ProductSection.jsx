@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 
 import { ArrowRight, Check, ShieldCheck, Sparkles, Star } from "lucide-react"
 
@@ -34,9 +34,6 @@ export default function ProductSection({
 
   const bundle = selectedBundle || BUNDLE_OPTIONS.find((item) => item.quantity === purchase?.qty) || BUNDLE_OPTIONS[1]
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
-  const toneLabel = useMemo(() => {
-    return LIGHT_TONES.find((tone) => tone.title === selectedTone)?.tone || "Soft / cozy"
-  }, [selectedTone])
 
   const summaryRows = [
     ["Bundle", bundle?.label || "Buy 2"],
@@ -610,7 +607,7 @@ export default function ProductSection({
                       })}
                     </div>
                     <div style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.6 }}>
-                      {LIGHT_TONES.find((tone) => tone.title === selectedTone)?.desc || toneLabel}
+                      {LIGHT_TONES.find((tone) => tone.title === selectedTone)?.desc || "Best fit for the room."}
                     </div>
                   </div>
 

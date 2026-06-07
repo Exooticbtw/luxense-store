@@ -15,7 +15,6 @@ import FinalCTA from "./components/sections/FinalCTA.jsx"
 import GuaranteeSection from "./components/sections/GuaranteeSection.jsx"
 import ProductFeatures from "./components/sections/ProductFeatures.jsx"
 import ProductBenefits from "./components/sections/ProductBenefits.jsx"
-import ProductOptions from "./components/sections/ProductOptions.jsx"
 import BundleOffers from "./components/sections/BundleOffers.jsx"
 import CustomerReviews from "./components/sections/CustomerReviews.jsx"
 import SocialProof from "./components/sections/SocialProof.jsx"
@@ -36,11 +35,6 @@ export default function ProductLandingPage() {
   const [selectedSize, setSelectedSize] = useState("30cm")
   const [selectedBundle, setSelectedBundle] = useState(BUNDLE_OPTIONS[1])
   const [isCartOpen, setIsCartOpen] = useState(false)
-
-  const selectedColorIdx = Math.max(
-    0,
-    COLORS.findIndex((color) => color.name === selectedColor),
-  )
 
   useEffect(() => {
     if (qty !== selectedBundle.quantity) {
@@ -123,13 +117,6 @@ export default function ProductLandingPage() {
           onSelectBundle={handleSelectBundle}
           onOpenCart={handleOpenCart}
           selectedBundleQuantity={purchase.qty}
-        />
-        <ProductOptions
-          selectedColorIdx={selectedColorIdx}
-          onSelectColor={handleSelectColor}
-          selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
-          onOpenCart={handleOpenCart}
         />
         <CustomerReviews />
         <SocialProof />
