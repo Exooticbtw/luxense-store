@@ -74,7 +74,7 @@
         "bedroom_image": "shopify://shop_images/5a6114b44494521d07ca0c553d9c21a1.jpg",
         "closet_image": "shopify://shop_images/armario.png",
         "kitchen_image": "shopify://shop_images/upscalemedia-transformed.png",
-        "hallway_image": "shopify://shop_images/woman3.webp",
+        "hallway_image": "shopify://shop_images/Captura_de_pantalla_2026-06-06_190746.png",
         "gallery_image_1": "{{ section.settings.product.featured_image }}"
       }
     }
