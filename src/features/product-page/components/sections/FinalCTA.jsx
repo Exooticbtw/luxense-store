@@ -3,7 +3,7 @@ import { ArrowRight, ShieldCheck } from "lucide-react"
 import { FINAL_CTA_POINTS } from "../../data/productPageData.js"
 import { buildCartUrl } from "../../utils/shopify.js"
 
-export default function FinalCTA({ shopData, purchase }) {
+export default function FinalCTA({ shopData, purchase, onOpenCart }) {
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, purchase?.qty || 1) || "#top"
 
   return (
@@ -62,8 +62,10 @@ export default function FinalCTA({ shopData, purchase }) {
 
           <a
             href={checkoutUrl}
-            target={shopData?.shopDomain ? "_blank" : "_self"}
-            rel={shopData?.shopDomain ? "noreferrer" : undefined}
+            onClick={(event) => {
+              event.preventDefault()
+              onOpenCart?.()
+            }}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -78,9 +80,10 @@ export default function FinalCTA({ shopData, purchase }) {
               fontSize: 16,
               fontWeight: 900,
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
-            Continue to checkout <ArrowRight size={18} />
+            Open cart <ArrowRight size={18} />
           </a>
         </div>
       </div>

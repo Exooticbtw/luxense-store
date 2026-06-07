@@ -1,150 +1,285 @@
-import { ChevronDown, ChevronUp, CreditCard, ShieldCheck } from "lucide-react"
-import { useState } from "react"
+import { X, CreditCard, ShieldCheck } from "lucide-react"
 
 import { BUNDLE_OPTIONS, COLORS } from "../../data/productPageData.js"
 import { buildCartUrl } from "../../utils/shopify.js"
 import PaymentIcons from "../common/PaymentIcons.jsx"
 
-export default function CartDrawer({ shopData, purchase, selectedSize }) {
-  const [open, setOpen] = useState(true)
-  const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, purchase?.qty || 1) || "#top"
-  const selectedBundle = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === purchase?.qty) || BUNDLE_OPTIONS[0]
-  const selectedColor = COLORS[purchase?.colorIdx] || COLORS[0]
-  const priceText = purchase?.total || "$29.99"
+export default function CartDrawer({
+  shopData,
+  purchase,
+  selectedColor,
+  selectedSize,
+  selectedBundle,
+  isCartOpen,
+  onCloseCart,
+}) {
+  const bundle = selectedBundle || BUNDLE_OPTIONS[1]
+  const color = COLORS.find((item) => item.name === selectedColor) || COLORS[0]
+  const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, bundle.quantity) || "#top"
+  const priceText = `$${Number(bundle.price).toFixed(2)}`
+  const compareAtText = bundle.compareAt ? `$${Number(bundle.compareAt).toFixed(2)}` : null
 
   return (
-    <aside
-      id="cart-drawer"
-      style={{
-        position: "fixed",
-        right: 20,
-        bottom: 96,
-        zIndex: 112,
-        width: 380,
-        maxWidth: "calc(100vw - 40px)",
-      }}
-    >
-      <button
-        type="button"
-        onClick={() => setOpen((current) => !current)}
+    <>
+      {isCartOpen && (
+        <button
+          type="button"
+          aria-label="Close cart overlay"
+          onClick={onCloseCart}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 111,
+            border: "none",
+            background: "rgba(10,10,10,.56)",
+            backdropFilter: "blur(4px)",
+            cursor: "pointer",
+          }}
+        />
+      )}
+
+      <aside
+        id="cart-drawer"
+        aria-hidden={!isCartOpen}
         style={{
-          width: "100%",
-          marginBottom: 10,
-          border: "1px solid rgba(17,17,17,.08)",
-          background: "rgba(255,255,255,.9)",
-          borderRadius: 18,
-          padding: "12px 14px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          boxShadow: "0 12px 30px rgba(17,17,17,.08)",
-          cursor: "pointer",
+          position: "fixed",
+          right: 18,
+          top: 104,
+          bottom: 18,
+          zIndex: 112,
+          width: 420,
+          maxWidth: "calc(100vw - 36px)",
+          transform: isCartOpen ? "translateX(0)" : "translateX(calc(100% + 28px))",
+          opacity: isCartOpen ? 1 : 0,
+          pointerEvents: isCartOpen ? "auto" : "none",
+          transition: "transform .28s ease, opacity .2s ease",
         }}
       >
-        <span style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-          Purchase interface
-        </span>
-        {open ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
-      </button>
-
-      {open && (
         <div
           style={{
-            borderRadius: 26,
+            height: "100%",
+            borderRadius: 28,
             overflow: "hidden",
-            background: "rgba(17,17,17,.96)",
+            background: "rgba(17,17,17,.97)",
             color: "var(--cream)",
             border: "1px solid rgba(255,255,255,.08)",
-            boxShadow: "0 24px 60px rgba(17,17,17,.22)",
+            boxShadow: "0 28px 72px rgba(17,17,17,.28)",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <div style={{ padding: 18, borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-            <div style={{ fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,.6)", fontWeight: 700 }}>
-              Luxense MotionGlow\u2122
+          <div
+            style={{
+              padding: 18,
+              borderBottom: "1px solid rgba(255,255,255,.08)",
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              gap: 16,
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,.6)", fontWeight: 700 }}>
+                Purchase interface
+              </div>
+              <h3 className="serif" style={{ marginTop: 8, fontSize: 32, lineHeight: 1, fontWeight: 700 }}>
+                Luxense MotionGlow\u2122
+              </h3>
             </div>
-            <div className="serif" style={{ marginTop: 8, fontSize: 32, lineHeight: 1, fontWeight: 700 }}>
-              {priceText}
+            <button
+              type="button"
+              aria-label="Close cart"
+              onClick={onCloseCart}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,.1)",
+                background: "rgba(255,255,255,.06)",
+                color: "var(--cream)",
+                display: "grid",
+                placeItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          <div style={{ padding: 18, overflowY: "auto", display: "grid", gap: 14, flex: 1 }}>
+            <div
+              style={{
+                borderRadius: 22,
+                padding: 16,
+                background: "rgba(255,255,255,.05)",
+                border: "1px solid rgba(255,255,255,.08)",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 14, alignItems: "baseline" }}>
+                <div>
+                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.16em", color: "rgba(255,255,255,.58)", fontWeight: 700 }}>
+                    Selected bundle
+                  </div>
+                  <div style={{ marginTop: 6, fontSize: 18, fontWeight: 800 }}>
+                    {bundle.label} {bundle.savings ? `- ${bundle.savings}` : ""}
+                  </div>
+                </div>
+                <div className="serif" style={{ fontSize: 32, lineHeight: 1, fontWeight: 700 }}>
+                  {priceText}
+                </div>
+              </div>
+
+              <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "7px 10px", background: "rgba(255,255,255,.08)", fontSize: 12, fontWeight: 700 }}>
+                  Qty {bundle.quantity}
+                </span>
+                {compareAtText && (
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "7px 10px", background: "rgba(200,169,106,.14)", fontSize: 12, fontWeight: 700 }}>
+                    Was {compareAtText}
+                  </span>
+                )}
+                {bundle.savings && (
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, padding: "7px 10px", background: "rgba(255,255,255,.08)", fontSize: 12, fontWeight: 700 }}>
+                    {bundle.savings}
+                  </span>
+                )}
+              </div>
             </div>
-            <div style={{ marginTop: 8, fontSize: 13, color: "rgba(255,255,255,.72)" }}>
-              {selectedBundle?.label} | {selectedColor?.name} | {selectedSize || "30cm"}
+
+            <div
+              style={{
+                borderRadius: 22,
+                padding: 16,
+                background: "rgba(255,255,255,.05)",
+                border: "1px solid rgba(255,255,255,.08)",
+                display: "grid",
+                gap: 10,
+              }}
+            >
+              {[
+                ["Product", "Luxense MotionGlow\u2122"],
+                ["Color", color?.name || "White"],
+                ["Size", selectedSize || "30cm"],
+                ["Quantity", String(bundle.quantity)],
+                ["Current price", priceText],
+                ["Savings", bundle.savings || "Save 0%"],
+              ].map(([label, value]) => (
+                <div
+                  key={label}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 16,
+                    alignItems: "center",
+                    padding: "10px 0",
+                    borderBottom: "1px solid rgba(255,255,255,.08)",
+                  }}
+                >
+                  <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.16em", color: "rgba(255,255,255,.58)", fontWeight: 700 }}>
+                    {label}
+                  </span>
+                  <span style={{ fontSize: 14, fontWeight: 800, textAlign: "right" }}>{value}</span>
+                </div>
+              ))}
+            </div>
+
+            <div
+              style={{
+                borderRadius: 22,
+                padding: 16,
+                background: "rgba(255,255,255,.05)",
+                border: "1px solid rgba(255,255,255,.08)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,.9)", fontSize: 14, fontWeight: 800 }}>
+                <ShieldCheck size={16} style={{ color: "var(--accent)" }} />
+                Secure Checkout · Free Shipping · 30-Day Guarantee
+              </div>
+              <p style={{ marginTop: 10, fontSize: 13, lineHeight: 1.65, color: "rgba(255,255,255,.72)" }}>
+                Payment is completed in Shopify checkout after you continue from this drawer.
+              </p>
+            </div>
+
+            <div
+              style={{
+                borderRadius: 22,
+                padding: 16,
+                background: "rgba(255,255,255,.05)",
+                border: "1px solid rgba(255,255,255,.08)",
+              }}
+            >
+              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.16em", color: "rgba(255,255,255,.58)", fontWeight: 700 }}>
+                Payment badges
+              </div>
+              <div style={{ marginTop: 12 }}>
+                <PaymentIcons />
+              </div>
+              <div style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {["Visa", "Mastercard", "PayPal", "Apple Pay", "Google Pay", "Shop Pay"].map((badge) => (
+                  <span
+                    key={badge}
+                    style={{
+                      padding: "7px 10px",
+                      borderRadius: 999,
+                      background: "rgba(255,255,255,.06)",
+                      border: "1px solid rgba(255,255,255,.08)",
+                      fontSize: 12,
+                      fontWeight: 700,
+                    }}
+                  >
+                    {badge}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div style={{ padding: 18, display: "grid", gap: 10 }}>
-            {[
-              ["Bundle", selectedBundle?.label || "Buy 1"],
-              ["Color", selectedColor?.name || "White"],
-              ["Size", selectedSize || "30cm"],
-              ["Checkout", "Secure Shopify flow"],
-            ].map(([label, value]) => (
-              <div
-                key={label}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 14,
-                  alignItems: "center",
-                  padding: "10px 12px",
-                  borderRadius: 16,
-                  background: "rgba(255,255,255,.06)",
-                  border: "1px solid rgba(255,255,255,.08)",
-                }}
-              >
-                <span style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,.6)", fontWeight: 700 }}>
-                  {label}
-                </span>
-                <span style={{ fontSize: 13, fontWeight: 800, textAlign: "right" }}>{value}</span>
-              </div>
-            ))}
-
+          <div style={{ padding: 18, borderTop: "1px solid rgba(255,255,255,.08)", background: "rgba(17,17,17,.98)" }}>
             <a
               href={checkoutUrl}
               target={shopData?.shopDomain ? "_blank" : "_self"}
               rel={shopData?.shopDomain ? "noreferrer" : undefined}
               style={{
                 display: "inline-flex",
+                width: "100%",
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 10,
-                minHeight: 52,
+                minHeight: 54,
                 borderRadius: 999,
                 background: "var(--cream)",
                 color: "var(--fg)",
                 padding: "0 18px",
                 textDecoration: "none",
-                fontSize: 14,
+                fontSize: 15,
                 fontWeight: 900,
-                marginTop: 4,
               }}
             >
               <CreditCard size={16} />
-              Continue to checkout
+              Continue to Checkout
             </a>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,.74)", fontSize: 12, lineHeight: 1.5 }}>
-              <ShieldCheck size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />
-              Secure payments and a 30-day guarantee help keep the purchase low-friction.
-            </div>
-
-            <div style={{ paddingTop: 4 }}>
-              <PaymentIcons />
-            </div>
           </div>
         </div>
-      )}
+      </aside>
 
       <style>{`
-        @media (max-width: 1040px) {
-          #cart-drawer {
-            width: 320px !important;
-          }
-        }
         @media (max-width: 760px) {
           #cart-drawer {
-            display: none !important;
+            right: 0 !important;
+            left: 0 !important;
+            top: auto !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            max-width: none !important;
+            transform: translateY(${isCartOpen ? "0" : "100%"}) !important;
+          }
+          #cart-drawer > div {
+            border-radius: 24px 24px 0 0 !important;
+            height: auto !important;
+            max-height: 88vh !important;
           }
         }
       `}</style>
-    </aside>
+    </>
   )
 }

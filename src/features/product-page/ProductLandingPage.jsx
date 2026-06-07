@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import LoadingOverlay from "./components/feedback/LoadingOverlay.jsx"
 import CartDrawer from "./components/feedback/CartDrawer.jsx"
@@ -25,13 +25,28 @@ import UseCases from "./components/sections/UseCases.jsx"
 import { useScrollFlags } from "./hooks/useScrollFlags.js"
 import { useShopifyProductData } from "./hooks/useShopifyProductData.js"
 import { useProductPurchaseState } from "./hooks/useProductPurchaseState.js"
+import { BUNDLE_OPTIONS, COLORS } from "./data/productPageData.js"
 import { PRODUCT_PAGE_STYLES } from "./styles/productPageStyles.js"
 
 export default function ProductLandingPage() {
   const { shopData, loading } = useShopifyProductData()
   const { scrolled } = useScrollFlags()
   const purchase = useProductPurchaseState(shopData)
+  const [selectedColor, setSelectedColor] = useState("White")
   const [selectedSize, setSelectedSize] = useState("30cm")
+  const [selectedBundle, setSelectedBundle] = useState(BUNDLE_OPTIONS[1])
+  const [isCartOpen, setIsCartOpen] = useState(false)
+
+  const selectedColorIdx = Math.max(
+    0,
+    COLORS.findIndex((color) => color.name === selectedColor),
+  )
+
+  useEffect(() => {
+    if (purchase.qty !== selectedBundle.quantity) {
+      purchase.setQty(selectedBundle.quantity)
+    }
+  }, [purchase.qty, purchase.setQty, selectedBundle.quantity])
 
   const theme = shopData?.theme || {}
   const themeVars = {
@@ -57,8 +72,21 @@ export default function ProductLandingPage() {
   }
 
   const handleSelectBundle = (quantity) => {
+    const nextBundle = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === quantity) || BUNDLE_OPTIONS[0]
+    setSelectedBundle(nextBundle)
     purchase.setQty(quantity)
-    navigateHome("bundles")
+    setIsCartOpen(true)
+  }
+
+  const handleSelectColor = (index) => {
+    const nextColor = COLORS[index] || COLORS[0]
+    setSelectedColor(nextColor.name)
+    purchase.setColorIdx(index)
+    purchase.setActiveImage(index)
+  }
+
+  const handleOpenCart = () => {
+    setIsCartOpen(true)
   }
 
   const checkoutUrl = purchase.buildCheckoutUrl(purchase.qty)
@@ -69,7 +97,12 @@ export default function ProductLandingPage() {
       <AnnouncementBar theme={theme} />
       <Navbar scrolled={scrolled} shopName={shopData?.shopName} onNavigateHome={navigateHome} />
       <main>
-        <ProductSection shopData={shopData} purchase={purchase} onNavigateSection={navigateHome} />
+        <ProductSection
+          shopData={shopData}
+          purchase={purchase}
+          onNavigateSection={navigateHome}
+          onOpenCart={handleOpenCart}
+        />
         <VideoDemonstration />
         <ProblemSection />
         <SolutionSection />
@@ -81,14 +114,12 @@ export default function ProductLandingPage() {
           checkoutUrl={checkoutUrl}
           shopDomain={shopData?.shopDomain}
           onSelectBundle={handleSelectBundle}
+          onOpenCart={handleOpenCart}
           selectedBundleQuantity={purchase.qty}
         />
         <ProductOptions
-          selectedColorIdx={purchase.colorIdx}
-          onSelectColor={(index) => {
-            purchase.setColorIdx(index)
-            purchase.setActiveImage(index)
-          }}
+          selectedColorIdx={selectedColorIdx}
+          onSelectColor={handleSelectColor}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
         />
@@ -97,11 +128,23 @@ export default function ProductLandingPage() {
         <HowItWorks />
         <FAQ />
         <GuaranteeSection />
-        <FinalCTA shopData={shopData} purchase={purchase} />
+        <FinalCTA shopData={shopData} purchase={purchase} onOpenCart={handleOpenCart} />
         <Footer shopName={shopData?.shopName} theme={theme} />
       </main>
-      <CartDrawer shopData={shopData} purchase={purchase} selectedSize={selectedSize} />
-      <StickyMobileAddToCart shopData={shopData} purchase={purchase} selectedBundleQuantity={purchase.qty} />
+      <CartDrawer
+        shopData={shopData}
+        purchase={purchase}
+        selectedColor={selectedColor}
+        selectedSize={selectedSize}
+        selectedBundle={selectedBundle}
+        isCartOpen={isCartOpen}
+        onCloseCart={() => setIsCartOpen(false)}
+      />
+      <StickyMobileAddToCart
+        selectedBundle={selectedBundle}
+        selectedBundleQuantity={purchase.qty}
+        onOpenCart={handleOpenCart}
+      />
       {loading && <LoadingOverlay />}
     </div>
   )

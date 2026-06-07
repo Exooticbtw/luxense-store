@@ -1,10 +1,7 @@
 import { ShoppingBag } from "lucide-react"
 
-import { buildCartUrl } from "../../utils/shopify.js"
-
-export default function StickyMobileAddToCart({ shopData, purchase, selectedBundleQuantity = 1 }) {
-  const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, selectedBundleQuantity) || "#bundles"
-  const priceText = purchase?.total || "$29.99"
+export default function StickyMobileAddToCart({ selectedBundle, selectedBundleQuantity = 1, onOpenCart }) {
+  const priceText = selectedBundle?.price ? `$${Number(selectedBundle.price).toFixed(2)}` : "$29.99"
 
   return (
     <div
@@ -45,13 +42,12 @@ export default function StickyMobileAddToCart({ shopData, purchase, selectedBund
         </div>
 
         <div style={{ minWidth: 0, color: "rgba(255,255,255,.72)", fontSize: 13, lineHeight: 1.45 }}>
-          Tap to continue with the selected bundle and finish in secure checkout.
+          Tap to review your bundle, color, and size in the cart drawer.
         </div>
 
-        <a
-          href={checkoutUrl}
-          target={shopData?.shopDomain ? "_blank" : "_self"}
-          rel={shopData?.shopDomain ? "noreferrer" : undefined}
+        <button
+          type="button"
+          onClick={onOpenCart}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -66,11 +62,13 @@ export default function StickyMobileAddToCart({ shopData, purchase, selectedBund
             fontSize: 14,
             fontWeight: 900,
             whiteSpace: "nowrap",
+            border: "none",
+            cursor: "pointer",
           }}
         >
           <ShoppingBag size={16} />
-          Shop MotionGlow
-        </a>
+          Open cart
+        </button>
       </div>
 
       <style>{`
@@ -96,7 +94,7 @@ export default function StickyMobileAddToCart({ shopData, purchase, selectedBund
             flex-direction: column !important;
             gap: 2px !important;
           }
-          .sticky-mobile-atc > div > a {
+          .sticky-mobile-atc > div > button {
             min-height: 50px !important;
             padding: 0 14px !important;
             font-size: 14px !important;

@@ -4,7 +4,7 @@ import Stars from "../common/Stars.jsx"
 import { HERO_HIGHLIGHTS, PRODUCT_NAME } from "../../data/productPageData.js"
 import lifestyleImage from "../../../../assets/product/hero-detail.png"
 
-export default function ProductSection({ shopData, purchase, onNavigateSection }) {
+export default function ProductSection({ shopData, purchase, onOpenCart }) {
   const theme = shopData?.theme || {}
   const media = shopData?.media || {}
   const productImages = shopData?.product?.images || []
@@ -165,7 +165,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     href="#bundles"
                     onClick={(event) => {
                       event.preventDefault()
-                      onNavigateSection?.("bundles")
+                      onOpenCart?.()
                     }}
                     style={{
                       display: "inline-flex",
@@ -184,7 +184,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                       boxShadow: "0 16px 34px rgba(17,17,17,.18)",
                     }}
                   >
-                    Choose bundle <ArrowRight size={18} />
+                    Open cart <ArrowRight size={18} />
                   </a>
                 </div>
 

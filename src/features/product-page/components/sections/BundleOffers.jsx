@@ -2,7 +2,7 @@ import { ArrowRight, Check, ShieldCheck } from "lucide-react"
 
 import { BUNDLE_OPTIONS } from "../../data/productPageData.js"
 
-export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, selectedBundleQuantity }) {
+export default function BundleOffers({ onSelectBundle, onOpenCart, selectedBundleQuantity }) {
   return (
     <section id="bundles" style={{ padding: "86px 24px", background: "var(--sec)", scrollMarginTop: 110 }}>
       <div style={{ maxWidth: 1560, margin: "0 auto" }}>
@@ -16,10 +16,9 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
             </h2>
           </div>
 
-          <a
-            href={checkoutUrl || "#options"}
-            target={shopDomain ? "_blank" : "_self"}
-            rel={shopDomain ? "noreferrer" : undefined}
+          <button
+            type="button"
+            onClick={() => onOpenCart?.()}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -34,10 +33,11 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
               fontSize: 15,
               fontWeight: 800,
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
-            Shop MotionGlow <ArrowRight size={17} />
-          </a>
+            Open cart <ArrowRight size={17} />
+          </button>
         </div>
 
         <div
@@ -176,7 +176,10 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
 
                 <button
                   type="button"
-                  onClick={() => onSelectBundle?.(bundle.quantity)}
+                  onClick={() => {
+                    onSelectBundle?.(bundle.quantity)
+                    onOpenCart?.()
+                  }}
                   style={{
                     width: "100%",
                     minHeight: 58,
