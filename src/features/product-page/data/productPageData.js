@@ -20,7 +20,7 @@ import chargerImage from "../../../assets/product/cargador.png"
 import closetImage from "../../../assets/product/armario.png"
 import lifestyleImage from "../../../assets/product/hero-detail.png"
 
-export const PRODUCT_NAME = "Luxense MotionGlow\u2122"
+export const PRODUCT_NAME = "Luxense MotionGlow™"
 
 export const GALLERY_IMAGES = [
   { src: heroImage, label: "MotionGlow hero", alt: "Luxense MotionGlow in a modern home setting" },

@@ -1,6 +1,6 @@
 import { ArrowRight, CreditCard, ShieldCheck } from "lucide-react"
 
-import { BUNDLE_OPTIONS, COLORS } from "../../data/productPageData.js"
+import { BUNDLE_OPTIONS, COLORS, PRODUCT_NAME } from "../../data/productPageData.js"
 
 export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
   const checkoutUrl = purchase?.buildCheckoutUrl?.(purchase?.qty || 1) || "#top"
@@ -31,7 +31,7 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
           >
             <div
               style={{
-                padding: 28,
+                padding: 24,
                 background: "linear-gradient(180deg, rgba(17,17,17,.98), rgba(17,17,17,.92))",
                 color: "var(--cream)",
               }}
@@ -39,14 +39,14 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
               <p className="eyebrow" style={{ color: "rgba(255,255,255,.62)" }}>
                 Purchase area
               </p>
-              <h3 className="serif" style={{ fontSize: 34, lineHeight: 1, fontWeight: 600 }}>
-                Confirm your MotionGlow setup
+              <h3 className="serif" style={{ fontSize: 30, lineHeight: 1.05, fontWeight: 600, letterSpacing: "-0.04em" }}>
+                Confirm your {PRODUCT_NAME} setup
               </h3>
-              <p style={{ marginTop: 16, fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,.72)", maxWidth: 520 }}>
+              <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.65, color: "rgba(255,255,255,.72)", maxWidth: 520 }}>
                 Review the bundle, finish, and size before continuing to checkout.
               </p>
 
-              <div style={{ marginTop: 22, display: "grid", gap: 12 }}>
+              <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
                 {[
                   ["Selected bundle", selectedBundle?.label || "Buy 1"],
                   ["Selected color", selectedColor?.name || "White"],
@@ -57,11 +57,11 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                     key={label}
                     style={{
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "flex-start",
                       justifyContent: "space-between",
-                      gap: 18,
-                      padding: "12px 14px",
-                      borderRadius: 16,
+                      gap: 16,
+                      padding: "10px 12px",
+                      borderRadius: 14,
                       background: "rgba(255,255,255,.06)",
                       border: "1px solid rgba(255,255,255,.08)",
                     }}
@@ -69,15 +69,16 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                     <span
                       style={{
                         color: "rgba(255,255,255,.72)",
-                        fontSize: 11,
+                        fontSize: 10.5,
                         textTransform: "uppercase",
                         letterSpacing: "0.16em",
                         fontWeight: 700,
+                        lineHeight: 1.35,
                       }}
                     >
                       {label}
                     </span>
-                    <span style={{ fontSize: 14, fontWeight: 800, textAlign: "right" }}>{value}</span>
+                    <span style={{ fontSize: 14.5, lineHeight: 1.35, fontWeight: 600, textAlign: "right" }}>{value}</span>
                   </div>
                 ))}
               </div>
@@ -91,15 +92,16 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 10,
-                  minHeight: 58,
+                  minHeight: 52,
                   borderRadius: 999,
                   border: "1px solid rgba(255,255,255,.1)",
                   background: "var(--cream)",
                   color: "var(--fg)",
-                  padding: "0 26px",
-                  marginTop: 24,
-                  fontSize: 15,
-                  fontWeight: 900,
+                  padding: "0 22px",
+                  marginTop: 20,
+                  fontSize: 15.5,
+                  fontWeight: 700,
+                  letterSpacing: "-0.01em",
                   textDecoration: "none",
                 }}
               >
@@ -108,14 +110,14 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
 
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  marginTop: 18,
-                  color: "rgba(255,255,255,.76)",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  lineHeight: 1.4,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                marginTop: 14,
+                color: "rgba(255,255,255,.76)",
+                fontSize: 12,
+                fontWeight: 600,
+                lineHeight: 1.4,
                 }}
               >
                 <ShieldCheck size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />
@@ -128,7 +130,7 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                  gap: 12,
+                  gap: 10,
                 }}
               >
                 {[
@@ -140,35 +142,35 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                   <div
                     key={item.label}
                     style={{
-                      minHeight: 86,
-                      borderRadius: 18,
+                      minHeight: 80,
+                      borderRadius: 16,
                       border: "1px solid rgba(17,17,17,.08)",
                       background: "rgba(17,17,17,.03)",
-                      padding: "14px 14px",
+                      padding: "12px 12px",
                     }}
                   >
-                    <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--muted)", fontWeight: 700 }}>
+                    <div style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--muted)", fontWeight: 700, lineHeight: 1.35 }}>
                       {item.label}
                     </div>
-                    <div style={{ marginTop: 8, fontSize: 16, lineHeight: 1.35, fontWeight: 800 }}>{item.value}</div>
+                    <div style={{ marginTop: 7, fontSize: 14.5, lineHeight: 1.4, fontWeight: 600 }}>{item.value}</div>
                   </div>
                 ))}
               </div>
 
               <div
                 style={{
-                  marginTop: 18,
-                  padding: 18,
-                  borderRadius: 20,
+                  marginTop: 16,
+                  padding: 16,
+                  borderRadius: 18,
                   background: "rgba(17,17,17,.04)",
                   border: "1px solid rgba(17,17,17,.06)",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 10, color: "var(--fg)", fontSize: 14, fontWeight: 800 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, color: "var(--fg)", fontSize: 13.5, fontWeight: 700, lineHeight: 1.4 }}>
                   <CreditCard size={16} style={{ color: "var(--accent)" }} />
                   Ready for the next step
                 </div>
-                <p style={{ marginTop: 8, fontSize: 13, lineHeight: 1.65, color: "var(--muted)" }}>
+                <p style={{ marginTop: 8, fontSize: 12.5, lineHeight: 1.6, color: "var(--muted)" }}>
                   Confirm the finish, bundle, and size above, then continue in the next section.
                 </p>
               </div>
@@ -191,13 +193,13 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
             grid-template-columns: 1fr !important;
           }
           #purchase-summary > div > div > div > div:first-child {
-            padding: 20px !important;
+            padding: 18px !important;
           }
           #purchase-summary > div > div > div > div:last-child {
-            padding: 20px !important;
+            padding: 18px !important;
           }
           #purchase-summary h3 {
-            font-size: 28px !important;
+            font-size: 26px !important;
           }
           #purchase-summary a {
             width: 100% !important;
