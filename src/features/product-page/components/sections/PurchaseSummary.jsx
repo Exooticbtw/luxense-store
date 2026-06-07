@@ -7,9 +7,11 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
   const checkoutUrl = purchase?.buildCheckoutUrl?.(quantity) || "#top"
   const selectedBundle = getBundleOfferForQuantity(quantity)
   const selectedColor = COLORS[purchase?.colorIdx] || COLORS[0]
-  const startingPrice = selectedBundle?.subtotal
+  const currentTotal = selectedBundle?.subtotal
     ? `$${Number(selectedBundle.subtotal).toFixed(2)}`
     : purchase?.total || (purchase?.price ? `$${Number(purchase.price).toFixed(2)}` : "$29.99")
+  const savingsAmount = Number(selectedBundle?.savingsAmount || 0)
+  const savingsText = savingsAmount > 0 ? `You save $${savingsAmount.toFixed(2)}` : "No bundle savings"
 
   return (
     <section id="purchase-summary" style={{ padding: "0 24px 86px", background: "var(--bg)" }}>
@@ -56,7 +58,8 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                   ["Selected size", selectedSize || "30cm"],
                   ["Light tones", "Warm + Neutral + White included"],
                   ["Quantity", String(quantity)],
-                  ["Starting price", startingPrice],
+                  ["Current total", currentTotal],
+                  ["Savings", savingsText],
                 ].map(([label, value]) => (
                   <div
                     key={label}

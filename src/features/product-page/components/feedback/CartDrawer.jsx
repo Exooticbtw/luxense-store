@@ -22,16 +22,21 @@ export default function CartDrawer({
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, currentQuantity) || "#top"
   const priceText = `$${Number(summary?.subtotal ?? summary?.price ?? 29.99).toFixed(2)}`
   const compareAtText = summary?.compareAt ? `$${Number(summary.compareAt).toFixed(2)}` : null
+  const savingsAmount = Number(summary?.savingsAmount || 0)
   const savingsLabel = summary?.savingsLabel || summary?.savings || "Save 0%"
+  const selectedBundleLabel = summary?.summaryLabel || summary?.label || "Buy 1"
+  const selectedBundleTitle = summary?.isExact && currentQuantity > 1 ? `${selectedBundleLabel} - ${savingsLabel}` : selectedBundleLabel
+  const savingsText = savingsAmount > 0 ? `You save $${savingsAmount.toFixed(2)}` : "No bundle savings"
 
   const summaryRows = [
     ["Product", PRODUCT_NAME],
     ["Color", color?.name || "White"],
     ["Size", selectedSize || "30cm"],
     ["Quantity", String(currentQuantity)],
-    ["Bundle", summary?.summaryLabel || summary?.label || "Buy 1"],
+    ["Bundle", selectedBundleTitle],
+    ["Current total", priceText],
     ["Light tones", "Warm + Neutral + White included"],
-    ["Savings", savingsLabel],
+    ["Savings", savingsText],
   ]
 
   return (
@@ -155,51 +160,76 @@ export default function CartDrawer({
             }}
           >
             <div
+              className="selected-bundle-card"
               style={{
                 borderRadius: 20,
                 padding: 14,
-                background: "rgba(255,255,255,.05)",
-                border: "1px solid rgba(255,255,255,.08)",
+                background:
+                  summary?.selectedBundleQuantity === 4
+                    ? "linear-gradient(180deg, rgba(17,17,17,.98), rgba(33,31,27,.96))"
+                    : "linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04))",
+                border: summary?.selectedBundleQuantity === 4 ? "1px solid rgba(201,164,106,.50)" : "1px solid rgba(255,255,255,.08)",
+                boxShadow: summary?.selectedBundleQuantity === 4 ? "0 18px 36px rgba(17,17,17,.22)" : "0 12px 26px rgba(17,17,17,.14)",
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <div
                     style={{
                       fontSize: 10.5,
                       textTransform: "uppercase",
                       letterSpacing: "0.16em",
-                      color: "rgba(255,255,255,.56)",
+                      color: summary?.selectedBundleQuantity === 4 ? "rgba(255,255,255,.56)" : "rgba(255,255,255,.62)",
                       fontWeight: 700,
                     }}
                   >
-                    Current total
+                    Selected bundle
+                  </div>
+                  <div style={{ marginTop: 6, fontSize: 18, lineHeight: 1.15, fontWeight: 800, letterSpacing: "-0.03em" }}>
+                    {selectedBundleTitle}
+                  </div>
+                  {summary?.badge && (
+                    <div
+                      style={{
+                        marginTop: 8,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        borderRadius: 999,
+                        padding: "6px 10px",
+                        background: summary?.selectedBundleQuantity === 4 ? "rgba(201,164,106,.14)" : "rgba(143,174,138,.14)",
+                        color: summary?.selectedBundleQuantity === 4 ? "var(--cream)" : "#cfe6cc",
+                        fontSize: 12,
+                        fontWeight: 800,
+                        width: "fit-content",
+                      }}
+                    >
+                      {summary.badge}
+                    </div>
+                  )}
+                  <div style={{ marginTop: 6, fontSize: 13.5, lineHeight: 1.35, color: "rgba(255,255,255,.74)", fontWeight: 600 }}>
+                    Qty {currentQuantity}
+                  </div>
+                </div>
+
+                <div style={{ textAlign: "right", flexShrink: 0 }}>
+                  <div
+                    style={{
+                      fontSize: 10.5,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.16em",
+                      color: summary?.selectedBundleQuantity === 4 ? "rgba(255,255,255,.56)" : "rgba(255,255,255,.62)",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Total
                   </div>
                   <div className="serif" style={{ marginTop: 6, fontSize: 30, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.04em" }}>
                     {priceText}
                   </div>
-                  <div style={{ marginTop: 6, fontSize: 15, lineHeight: 1.35, fontWeight: 700 }}>
-                    {summary?.summaryLabel || summary?.label || "Buy 1"}
-                  </div>
                 </div>
-                {compareAtText && compareAtText !== priceText && (
-                  <div
-                    style={{
-                      borderRadius: 999,
-                      padding: "7px 12px",
-                      background: "rgba(201,164,106,.14)",
-                      color: "var(--cream)",
-                      fontSize: 13,
-                      fontWeight: 800,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Was {compareAtText}
-                  </div>
-                )}
               </div>
 
-              <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
                 <span
                   style={{
                     display: "inline-flex",
@@ -214,6 +244,23 @@ export default function CartDrawer({
                 >
                   Qty {currentQuantity}
                 </span>
+                {compareAtText && compareAtText !== priceText && (
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      borderRadius: 999,
+                      padding: "7px 10px",
+                      background: "rgba(201,164,106,.14)",
+                      color: "var(--cream)",
+                      fontSize: 12,
+                      fontWeight: 800,
+                    }}
+                  >
+                    Compare at {compareAtText}
+                  </span>
+                )}
                 <span
                   style={{
                     display: "inline-flex",
@@ -227,8 +274,12 @@ export default function CartDrawer({
                     fontWeight: 700,
                   }}
                 >
-                  {savingsLabel}
+                  {savingsText}
                 </span>
+              </div>
+
+              <div style={{ marginTop: 12 }}>
+                <QuantityStepper value={currentQuantity} onChange={onChangeQuantity} compact />
               </div>
             </div>
 
@@ -259,13 +310,12 @@ export default function CartDrawer({
                       fontWeight: 700,
                     }}
                   >
-                    Quantity
+                    Purchase summary
                   </div>
                   <div style={{ marginTop: 6, fontSize: 14.5, lineHeight: 1.35, color: "rgba(255,255,255,.78)" }}>
-                    Adjust the quantity before checkout.
+                    Review the full breakdown before checkout.
                   </div>
                 </div>
-                <QuantityStepper value={currentQuantity} onChange={onChangeQuantity} compact />
               </div>
 
               <div style={{ display: "grid", gap: 0 }}>
@@ -351,23 +401,6 @@ export default function CartDrawer({
               <div style={{ marginTop: 10 }}>
                 <PaymentIcons />
               </div>
-              <div className="payment-badges" style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {["Visa", "Mastercard", "PayPal", "Apple Pay", "Google Pay", "Shop Pay"].map((badge) => (
-                  <span
-                    key={badge}
-                    style={{
-                      padding: "7px 10px",
-                      borderRadius: 999,
-                      background: "rgba(255,255,255,.06)",
-                      border: "1px solid rgba(255,255,255,.08)",
-                      fontSize: 12,
-                      fontWeight: 700,
-                    }}
-                  >
-                    {badge}
-                  </span>
-                ))}
-              </div>
             </div>
           </div>
 
@@ -452,11 +485,11 @@ export default function CartDrawer({
             min-width: 38px !important;
             min-height: 38px !important;
           }
-          #cart-drawer .cart-drawer-body .payment-badges {
-            gap: 6px !important;
-          }
           #cart-drawer .cart-drawer-footer {
             padding: 14px !important;
+          }
+          #cart-drawer .selected-bundle-card .serif {
+            font-size: 26px !important;
           }
         }
       `}</style>
