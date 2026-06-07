@@ -222,41 +222,42 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
         }
         @media (max-width: 760px) {
           #bundles {
-            padding: 64px 16px !important;
+            padding: 60px 16px 56px !important;
           }
           #bundles > div > div:first-child {
             align-items: flex-start !important;
           }
           #bundles > div > div:first-child > a {
             width: 100% !important;
+            min-height: 52px !important;
           }
           #bundles > div > div:nth-of-type(2) {
             grid-template-columns: 1fr !important;
-            gap: 14px !important;
-            margin-top: 28px !important;
+            gap: 12px !important;
+            margin-top: 24px !important;
           }
           #bundles .section-title {
-            font-size: 40px !important;
+            font-size: 36px !important;
           }
           #bundles article {
-            padding: 20px !important;
-            border-radius: 24px !important;
+            padding: 18px !important;
+            border-radius: 22px !important;
           }
           #bundles article h3 {
-            font-size: 24px !important;
+            font-size: 22px !important;
             line-height: 1.12 !important;
           }
           #bundles article .serif {
-            font-size: 40px !important;
+            font-size: 34px !important;
           }
           #bundles article button {
-            min-height: 60px !important;
-            font-size: 16px !important;
+            min-height: 56px !important;
+            font-size: 15px !important;
           }
           #bundles article p,
           #bundles article li,
           #bundles article span {
-            line-height: 1.55 !important;
+            line-height: 1.5 !important;
           }
         }
       `}</style>

@@ -211,11 +211,18 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
             top: 32px !important;
           }
           header > div {
-            padding: 0 16px !important;
+            padding: 0 14px !important;
+            height: 60px !important;
           }
           header > div > a span {
-            font-size: 20px !important;
-            letter-spacing: 0.18em !important;
+            font-size: 18px !important;
+            letter-spacing: 0.16em !important;
+          }
+          .mobile-menu-trigger,
+          header > div > div > a {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 12px !important;
           }
         }
       `}</style>

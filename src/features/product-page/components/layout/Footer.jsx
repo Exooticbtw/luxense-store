@@ -66,10 +66,14 @@ export default function Footer({ shopName, theme }) {
       <style>{`
         @media (max-width: 760px) {
           footer {
-            padding: 54px 16px 30px !important;
+            padding: 44px 16px 24px !important;
           }
           .footer-grid {
             grid-template-columns: 1fr !important;
+          }
+          footer > div > div:last-child {
+            margin-top: 36px !important;
+            padding-top: 20px !important;
           }
         }
       `}</style>

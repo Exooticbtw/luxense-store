@@ -54,7 +54,7 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
                   whiteSpace: "nowrap",
                 }}
               >
-                Selected: {selectedColor?.name} · {selectedSize}
+                Selected: {selectedColor?.name} - {selectedSize}
               </span>
             </div>
 
@@ -230,18 +230,18 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
         }
         @media (max-width: 760px) {
           #options {
-            padding: 64px 16px !important;
+            padding: 60px 16px 56px !important;
           }
           #options > div > div:nth-of-type(2) {
-            gap: 14px !important;
-            margin-top: 28px !important;
+            gap: 12px !important;
+            margin-top: 24px !important;
           }
           #options .section-title {
-            font-size: 40px !important;
+            font-size: 36px !important;
           }
           #options article {
-            padding: 20px !important;
-            border-radius: 24px !important;
+            padding: 18px !important;
+            border-radius: 22px !important;
           }
           #options article > div:first-of-type {
             flex-direction: column !important;
@@ -250,14 +250,31 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
           #options article > div:first-of-type > span {
             width: 100% !important;
           }
+          #options article h3 {
+            font-size: 17px !important;
+          }
           #options article button {
-            min-height: 96px !important;
+            min-height: 84px !important;
+            border-radius: 18px !important;
+            padding: 14px !important;
+          }
+          #options article button span:first-child {
+            font-size: 16px !important;
           }
           #options article button p {
-            margin-top: 6px !important;
+            margin-top: 4px !important;
+            font-size: 12px !important;
           }
           #options article > div:nth-of-type(2) {
             grid-template-columns: 1fr !important;
+            gap: 10px !important;
+          }
+          #options article > div:nth-of-type(2) button {
+            min-height: 88px !important;
+            padding: 14px !important;
+          }
+          #options article > div:nth-of-type(2) button span:first-child {
+            font-size: 15px !important;
           }
         }
       `}</style>

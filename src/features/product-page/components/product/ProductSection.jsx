@@ -441,6 +441,9 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
             grid-template-columns: 1fr !important;
             min-height: auto !important;
           }
+          #hero > div > div > div:nth-child(2) {
+            min-height: auto !important;
+          }
           #hero > div > div > div:first-child,
           #hero > div > div > div:nth-child(2) {
             padding-left: 20px !important;
@@ -457,43 +460,96 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
         }
         @media (max-width: 760px) {
           #hero {
-            padding: 12px 12px 28px !important;
+            padding: 10px 10px 24px !important;
           }
           #hero > div > div {
             border-radius: 28px !important;
           }
           #hero h1 {
-            font-size: 46px !important;
+            font-size: 38px !important;
+            line-height: 0.98 !important;
           }
           #hero p {
-            font-size: 16px !important;
+            font-size: 15px !important;
+            line-height: 1.6 !important;
           }
           #hero > div > div > div:first-child {
-            padding-top: 60px !important;
-            padding-bottom: 22px !important;
+            padding-top: 56px !important;
+            padding-bottom: 18px !important;
+          }
+          #hero > div > div > div:first-child > div:first-child {
+            max-width: none !important;
+          }
+          #hero > div > div > div:first-child > div:first-child > div {
+            gap: 10px !important;
+          }
+          #hero > div > div > div:first-child > div:first-child > div:last-child {
+            margin-top: 24px !important;
+          }
+          #hero > div > div > div:first-child > div:first-child > div:last-child a {
+            min-height: 52px !important;
+            font-size: 15px !important;
+            padding: 0 20px !important;
           }
           #hero > div > div > div:first-child > div:last-child {
-            margin-top: 28px !important;
-            padding: 16px !important;
-            gap: 12px !important;
+            margin-top: 24px !important;
+            padding: 14px !important;
+            gap: 10px !important;
+            border-radius: 20px !important;
           }
           #hero > div > div > div:first-child > div:last-child > div:last-child {
             white-space: normal !important;
           }
+          #hero > div > div > div:first-child > div:last-child > div:first-child > div:first-child {
+            font-size: 9px !important;
+          }
+          #hero > div > div > div:first-child > div:last-child > div:first-child > div:last-child {
+            font-size: 27px !important;
+          }
+          #hero > div > div > div:first-child > div:last-child > div:last-child {
+            font-size: 11px !important;
+          }
+          #hero > div > div > div:first-child > div:last-child > div:first-child > span:last-child {
+            font-size: 12px !important;
+          }
           #hero > div > div > div:nth-child(2) {
             padding-top: 0 !important;
+            padding-bottom: 22px !important;
           }
           #hero > div > div > div:nth-child(2) > div {
             max-width: none !important;
           }
+          #hero > div > div > div:nth-child(2) > div > div:first-child {
+            padding: 14px 14px 0 !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+            flex-wrap: wrap !important;
+          }
+          #hero > div > div > div:nth-child(2) > div > div:first-child > span:first-child {
+            font-size: 10px !important;
+          }
+          #hero > div > div > div:nth-child(2) > div > div:first-child > span:last-child {
+            font-size: 11px !important;
+          }
+          #hero > div > div > div:nth-child(2) > div > div:nth-of-type(2) {
+            padding: 14px !important;
+          }
+          #hero > div > div > div:nth-child(2) > div > div:nth-of-type(2) img,
+          #hero > div > div > div:nth-child(2) > div > div:nth-of-type(2) [role="img"] {
+            aspect-ratio: 1 / 1 !important;
+            min-height: 0 !important;
+            border-radius: 22px !important;
+          }
           #hero > div > div > div:nth-child(2) > div > div:last-child {
             grid-template-columns: 1fr !important;
+            gap: 8px !important;
           }
           #hero > div > div > div:nth-child(2) > div > div:last-child > div {
-            padding: 14px 12px !important;
+            padding: 12px 12px !important;
+            border-radius: 16px !important;
           }
-          #hero > div > div > div:nth-child(2) > div > div:first-child {
-            padding: 16px 16px 0 !important;
+          #hero > div > div > div:nth-child(2) > div > div:last-child > div .serif {
+            font-size: 16px !important;
           }
         }
       `}</style>

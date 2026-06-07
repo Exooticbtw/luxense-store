@@ -74,8 +74,13 @@ export default function AnnouncementBar({ theme }) {
         }
         @media (max-width: 760px) {
           .announcement-track {
-            gap: 24px !important;
-            padding: 5px 12px !important;
+            gap: 18px !important;
+            padding: 5px 10px !important;
+            min-height: 28px !important;
+          }
+          .announcement-track span {
+            font-size: 10px !important;
+            letter-spacing: 0.12em !important;
           }
         }
       `}</style>
