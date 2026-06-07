@@ -50,7 +50,7 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
         >
           {BUNDLE_OPTIONS.map((bundle) => {
             const selected = bundle.quantity === selectedBundleQuantity
-            const featured = bundle.badge === "Most popular"
+            const featured = bundle.badge === "Most Popular"
             const isActive = selected || featured
             const ctaLabel = selected ? "Selected bundle" : "Select bundle"
 
@@ -81,7 +81,7 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
                       {selected ? "Selected bundle" : bundle.badge}
                     </p>
                     <h3 style={{ marginTop: 10, fontSize: 26, lineHeight: 1.08, fontWeight: 800 }}>
-                      {bundle.label} <span style={{ color: isActive ? "rgba(255,255,255,.78)" : "var(--muted)", fontWeight: 700 }}>— {bundle.savings}</span>
+                      {bundle.label} <span style={{ color: isActive ? "rgba(255,255,255,.78)" : "var(--muted)", fontWeight: 700 }}>- {bundle.savings}</span>
                     </h3>
                   </div>
                   <div

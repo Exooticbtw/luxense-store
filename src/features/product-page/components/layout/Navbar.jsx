@@ -2,11 +2,10 @@ import { Menu, ShoppingBag, X } from "lucide-react"
 import { useState } from "react"
 
 const navLinks = [
-  ["Benefits", "#benefits"],
-  ["Bundles", "#bundles"],
-  ["Options", "#options"],
-  ["How it works", "#how-it-works"],
-  ["FAQ", "#faq"],
+  ["Shop", "#bundles"],
+  ["Spaces", "#use-cases"],
+  ["Reviews", "#reviews"],
+  ["Our Story", "#guarantee"],
 ]
 
 export default function Navbar({ scrolled, shopName, onNavigateHome }) {
@@ -26,11 +25,11 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
       <header
         style={{
           position: "fixed",
-          top: 36,
+          top: 32,
           left: 0,
           right: 0,
           zIndex: 100,
-          background: scrolled ? "rgba(255,255,255,.7)" : "rgba(255,255,255,.88)",
+          background: scrolled ? "rgba(252,250,247,.82)" : "rgba(252,250,247,.94)",
           backdropFilter: "saturate(160%) blur(20px)",
           WebkitBackdropFilter: "saturate(160%) blur(20px)",
           borderBottom: scrolled ? "1px solid rgba(17,17,17,.06)" : "1px solid rgba(17,17,17,.08)",
@@ -43,14 +42,14 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
             maxWidth: 1560,
             margin: "0 auto",
             padding: "0 24px",
-            height: 76,
-            display: "flex",
+            height: 74,
+            display: "grid",
+            gridTemplateColumns: "1fr auto 1fr",
             alignItems: "center",
-            justifyContent: "space-between",
-            gap: 20,
+            gap: 18,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 18, minWidth: 0 }}>
             <button
               className="mobile-menu-trigger"
               onClick={() => setMenuOpen((current) => !current)}
@@ -59,18 +58,19 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
                 height: 42,
                 borderRadius: 14,
                 border: "1px solid rgba(17,17,17,.1)",
-                background: "rgba(255,255,255,.78)",
-                display: "grid",
+                background: "rgba(255,255,255,.8)",
+                display: "none",
                 placeItems: "center",
                 color: "var(--fg)",
                 cursor: "pointer",
+                flexShrink: 0,
               }}
               aria-label="Menu"
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
 
-            <nav className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 26 }}>
+            <nav className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 24, minWidth: 0 }}>
               {navLinks.map(([label, href]) => (
                 <a
                   key={href}
@@ -79,9 +79,10 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
                   style={{
                     color: "var(--muted)",
                     textDecoration: "none",
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: 600,
-                    letterSpacing: "0.02em",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
                     transition: "color .2s ease",
                   }}
                   onMouseEnter={(e) => {
@@ -103,27 +104,38 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
             style={{
               display: "inline-flex",
               alignItems: "center",
+              justifyContent: "center",
               gap: 10,
               textDecoration: "none",
               color: "var(--fg)",
+              justifySelf: "center",
             }}
           >
-            <span className="serif" style={{ fontSize: 26, lineHeight: 1, letterSpacing: "0.03em" }}>
-              {shopName || "Luxense"}
+            <span
+              className="serif"
+              style={{
+                fontSize: 24,
+                lineHeight: 1,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                fontWeight: 700,
+              }}
+            >
+              {shopName || "LUXENSE"}
             </span>
           </a>
 
-          <div style={{ display: "flex", gap: 8, alignItems: "center", minWidth: 84, justifyContent: "flex-end" }}>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "flex-end" }}>
             <a
               href="#bundles"
               onClick={(event) => handleNavigate(event, "#bundles")}
-              aria-label="Shop now"
+              aria-label="Cart"
               style={{
                 width: 42,
                 height: 42,
                 borderRadius: 14,
                 border: "1px solid rgba(17,17,17,.1)",
-                background: "rgba(255,255,255,.78)",
+                background: "rgba(255,255,255,.8)",
                 color: "var(--fg)",
                 display: "grid",
                 placeItems: "center",
@@ -150,9 +162,9 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              background: "rgba(255,255,255,.98)",
+              background: "rgba(252,250,247,.98)",
               borderBottom: "1px solid var(--border)",
-              padding: "28px 20px 22px",
+              padding: "24px 18px 22px",
               display: "grid",
               gap: 6,
             }}
@@ -163,8 +175,8 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
                 href={href}
                 onClick={(event) => handleNavigate(event, href)}
                 style={{
-                  fontSize: 22,
-                  fontWeight: 600,
+                  fontSize: 20,
+                  fontWeight: 700,
                   color: "var(--fg)",
                   textDecoration: "none",
                   padding: "12px 0",
@@ -179,9 +191,6 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
       )}
 
       <style>{`
-        .mobile-menu-trigger {
-          display: none !important;
-        }
         @media (max-width: 1040px) {
           .mobile-menu-trigger {
             display: grid !important;
@@ -190,7 +199,23 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
             display: none !important;
           }
           header > div {
-            height: 70px !important;
+            height: 68px !important;
+            grid-template-columns: auto 1fr auto !important;
+          }
+          header > div > a {
+            justify-self: center !important;
+          }
+        }
+        @media (max-width: 760px) {
+          header {
+            top: 32px !important;
+          }
+          header > div {
+            padding: 0 16px !important;
+          }
+          header > div > a span {
+            font-size: 20px !important;
+            letter-spacing: 0.18em !important;
           }
         }
       `}</style>

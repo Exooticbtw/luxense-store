@@ -35,11 +35,14 @@ export default function AnnouncementBar({ theme }) {
         className="announcement-track"
         style={{
           width: "max-content",
-          padding: "8px 12px",
+          padding: "6px 14px",
           display: "flex",
           alignItems: "center",
-          gap: 40,
+          gap: 32,
           flexWrap: "nowrap",
+          minHeight: 32,
+          maskImage: "linear-gradient(90deg, transparent 0, black 8%, black 92%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(90deg, transparent 0, black 8%, black 92%, transparent 100%)",
         }}
       >
         {repeatedMessages.map(({ icon: Icon, text }, index) => (
@@ -49,14 +52,14 @@ export default function AnnouncementBar({ theme }) {
               display: "inline-flex",
               alignItems: "center",
               gap: 8,
-              fontSize: 13,
+              fontSize: 11,
               fontWeight: 700,
-              letterSpacing: "0.06em",
+              letterSpacing: "0.16em",
               textTransform: "uppercase",
               whiteSpace: "nowrap",
             }}
           >
-            <Icon size={13} style={{ color: "var(--accent)" }} />
+            <Icon size={12} style={{ color: "var(--accent)" }} />
             {text}
           </span>
         ))}
@@ -68,6 +71,12 @@ export default function AnnouncementBar({ theme }) {
         @keyframes announcementMarquee {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
+        }
+        @media (max-width: 760px) {
+          .announcement-track {
+            gap: 24px !important;
+            padding: 5px 12px !important;
+          }
         }
       `}</style>
     </div>

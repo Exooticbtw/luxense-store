@@ -14,6 +14,7 @@ import LightingModes from "./components/sections/LightingModes.jsx"
 import LightTones from "./components/sections/LightTones.jsx"
 import ProductBenefits from "./components/sections/ProductBenefits.jsx"
 import ProductOptions from "./components/sections/ProductOptions.jsx"
+import PurchaseSummary from "./components/sections/PurchaseSummary.jsx"
 import BundleOffers from "./components/sections/BundleOffers.jsx"
 import ComparisonTable from "./components/sections/ComparisonTable.jsx"
 import TechnicalSpecifications from "./components/sections/TechnicalSpecifications.jsx"
@@ -84,6 +85,7 @@ export default function ProductLandingPage() {
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
         />
+        <PurchaseSummary shopData={shopData} purchase={purchase} selectedSize={selectedSize} />
         <HowItWorks />
         <LightingModes />
         <LightTones />

@@ -69,7 +69,7 @@ export default function StickyMobileAddToCart({ shopData, purchase, selectedBund
           }}
         >
           <ShoppingBag size={16} />
-          Checkout
+          Shop MotionGlow
         </a>
       </div>
 
