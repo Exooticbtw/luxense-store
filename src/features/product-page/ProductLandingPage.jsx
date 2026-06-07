@@ -13,7 +13,6 @@ import SolutionSection from "./components/sections/SolutionSection.jsx"
 import FAQ from "./components/sections/FAQ.jsx"
 import FinalCTA from "./components/sections/FinalCTA.jsx"
 import GuaranteeSection from "./components/sections/GuaranteeSection.jsx"
-import HowItWorks from "./components/sections/HowItWorks.jsx"
 import ProductFeatures from "./components/sections/ProductFeatures.jsx"
 import ProductBenefits from "./components/sections/ProductBenefits.jsx"
 import ProductOptions from "./components/sections/ProductOptions.jsx"
@@ -122,7 +121,6 @@ export default function ProductLandingPage() {
         />
         <CustomerReviews />
         <SocialProof />
-        <HowItWorks />
         <FAQ />
         <GuaranteeSection />
         <FinalCTA shopData={shopData} purchase={purchase} onOpenCart={handleOpenCart} />
