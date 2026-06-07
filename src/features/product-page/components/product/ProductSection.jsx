@@ -188,55 +188,6 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
         </div>
       </section>
 
-      <section id="features" style={{ padding: "84px 24px 86px", background: "var(--bg)", scrollMarginTop: 110 }}>
-        <div style={{ maxWidth: 1560, margin: "0 auto" }}>
-          <p className="eyebrow" style={{ color: "var(--accent)" }}>{theme.featuresEyebrow || "Why people love it"}</p>
-          <h2 className="serif section-title" style={{ maxWidth: 720 }}>
-            {theme.featuresTitle || "Designed to feel effortless"}
-          </h2>
-          <p style={{ marginTop: 20, maxWidth: 720, color: "var(--muted)", fontSize: 20, lineHeight: 1.55 }}>
-            {theme.featuresText || "Every detail of the Glow Bar removes a little friction from daily life: no switches, no wiring, no compromise on how it looks."}
-          </p>
-
-          <div
-            className="effortless-grid"
-            style={{
-              marginTop: 72,
-              display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-              border: "1px solid var(--border)",
-              borderRadius: 18,
-              overflow: "hidden",
-              background: "rgba(252,250,247,.62)",
-            }}
-          >
-            {[
-              ["01", "Truly wireless", "No electrician, no exposed cables. Mount it anywhere in seconds and reclaim the wall."],
-              ["02", "Weeks on one charge", "A single USB-C charge delivers up to six weeks of elegant, on-demand lighting."],
-              ["03", "Senses your every move", "An infrared sensor wakes the light as you approach and rests it when you leave."],
-              ["04", "Designed, not assembled", "Machined aluminum and a warm 2700K glow that feels intentional in any room."],
-            ].map(([number, title, text], index) => (
-              <article
-                key={number}
-                style={{
-                  minHeight: 270,
-                  padding: "50px 40px 42px",
-                  borderRight: index < 3 ? "1px solid var(--border)" : "none",
-                }}
-              >
-                <div className="serif" style={{ color: "var(--accent)", fontSize: 28, lineHeight: 1, marginBottom: 32 }}>
-                  {number}
-                </div>
-                <h3 className="serif" style={{ fontSize: 28, lineHeight: 1.05, marginBottom: 14 }}>
-                  {title}
-                </h3>
-                <p style={{ color: "var(--muted)", fontSize: 17, lineHeight: 1.55 }}>{text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section id="buy" style={{ padding: "78px 24px 92px", background: "var(--bg)", scrollMarginTop: 110 }}>
         <div
           className="product-showcase"
@@ -352,6 +303,55 @@ export default function ProductSection({ shopData, view = "home", onOpenProductD
             <button type="button" onClick={onOpenProductDetail} style={{ ...productCtaStyle, border: "none", cursor: "pointer" }}>
               {theme.productButton || "Shop the Glow Bar"} <ArrowRight size={18} />
             </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" style={{ padding: "84px 24px 86px", background: "var(--bg)", scrollMarginTop: 110 }}>
+        <div style={{ maxWidth: 1560, margin: "0 auto" }}>
+          <p className="eyebrow" style={{ color: "var(--accent)" }}>{theme.featuresEyebrow || "Why people love it"}</p>
+          <h2 className="serif section-title" style={{ maxWidth: 720 }}>
+            {theme.featuresTitle || "Designed to feel effortless"}
+          </h2>
+          <p style={{ marginTop: 20, maxWidth: 720, color: "var(--muted)", fontSize: 20, lineHeight: 1.55 }}>
+            {theme.featuresText || "Every detail of the Glow Bar removes a little friction from daily life: no switches, no wiring, no compromise on how it looks."}
+          </p>
+
+          <div
+            className="effortless-grid"
+            style={{
+              marginTop: 72,
+              display: "grid",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+              border: "1px solid var(--border)",
+              borderRadius: 18,
+              overflow: "hidden",
+              background: "rgba(252,250,247,.62)",
+            }}
+          >
+            {[
+              ["01", "Truly wireless", "No electrician, no exposed cables. Mount it anywhere in seconds and reclaim the wall."],
+              ["02", "Weeks on one charge", "A single USB-C charge delivers up to six weeks of elegant, on-demand lighting."],
+              ["03", "Senses your every move", "An infrared sensor wakes the light as you approach and rests it when you leave."],
+              ["04", "Designed, not assembled", "Machined aluminum and a warm 2700K glow that feels intentional in any room."],
+            ].map(([number, title, text], index) => (
+              <article
+                key={number}
+                style={{
+                  minHeight: 270,
+                  padding: "50px 40px 42px",
+                  borderRight: index < 3 ? "1px solid var(--border)" : "none",
+                }}
+              >
+                <div className="serif" style={{ color: "var(--accent)", fontSize: 28, lineHeight: 1, marginBottom: 32 }}>
+                  {number}
+                </div>
+                <h3 className="serif" style={{ fontSize: 28, lineHeight: 1.05, marginBottom: 14 }}>
+                  {title}
+                </h3>
+                <p style={{ color: "var(--muted)", fontSize: 17, lineHeight: 1.55 }}>{text}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
