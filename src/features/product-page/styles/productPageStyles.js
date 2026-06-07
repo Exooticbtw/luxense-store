@@ -1,21 +1,24 @@
 export const PRODUCT_PAGE_STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
   :root {
-    --bg: #f5f5f3;
+    --bg: #f7f4ef;
     --cream: #ffffff;
-    --warm-white: #ffffff;
+    --warm-white: #fbf7f0;
     --card: #ffffff;
-    --sec: #f5f5f3;
-    --fg: #111111;
-    --charcoal: #111111;
-    --primary: #111111;
+    --sec: #f1ebe1;
+    --fg: #121212;
+    --charcoal: #121212;
+    --primary: #121212;
     --primary-fg: #ffffff;
-    --muted: #5f5f5f;
-    --muted-light: #e4e4df;
-    --accent: #c8a96a;
-    --border: rgba(17, 17, 17, 0.08);
-    --border-subtle: rgba(17, 17, 17, 0.08);
-    --shadow: 0 22px 60px rgba(17, 17, 17, 0.08);
+    --muted: #5e5e5e;
+    --muted-light: #e8ddcb;
+    --accent: #c9a46a;
+    --accent-soft: #e8ddcb;
+    --trust: #8fae8a;
+    --mist: #dbe3ea;
+    --border: rgba(18, 18, 18, 0.08);
+    --border-subtle: rgba(18, 18, 18, 0.08);
+    --shadow: 0 22px 60px rgba(18, 18, 18, 0.08);
     --radius: 24px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -74,9 +77,9 @@ export const PRODUCT_PAGE_STYLES = `
     text-wrap:balance;
   }
   .soft-card{
-    border-radius:22px;
+    border-radius:28px;
     border:1px solid var(--border);
-    background:rgba(255,255,255,.82);
+    background:rgba(255,255,255,.92);
     box-shadow:var(--shadow);
   }
   .chip{
@@ -106,7 +109,7 @@ export const PRODUCT_PAGE_STYLES = `
     .glass{backdrop-filter:saturate(130%) blur(10px);-webkit-backdrop-filter:saturate(130%) blur(10px)}
     .rooms-grid,.stats-grid{grid-template-columns:1fr !important}
     .how-grid{grid-template-columns:1fr !important}
-    .section-title{font-size:34px !important}
+    .section-title{font-size:32px !important}
     .page-shell{padding-top:102px;padding-bottom:192px}
   }
 `

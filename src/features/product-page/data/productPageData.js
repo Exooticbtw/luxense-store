@@ -73,28 +73,23 @@ export const HERO_HIGHLIGHTS = [
 export const BENEFITS_DATA = [
   {
     Icon: Activity,
-    title: "Instant motion activation",
-    desc: "The light wakes up as you move and quietly steps back when the room is still.",
+    title: "Motion activated",
+    desc: "Automatic light exactly when you need it.",
   },
   {
     Icon: BatteryCharging,
-    title: "Recharge once, use for days",
-    desc: "USB charging keeps the setup clean and practical for everyday home use.",
+    title: "USB rechargeable",
+    desc: "Clean charging with no battery waste.",
   },
   {
     Icon: Gauge,
-    title: "Comfortable brightness control",
-    desc: "Dial illumination from a soft 10% up to a bright 100% depending on the space.",
+    title: "Soft ambient glow",
+    desc: "Warm, calm, and easy on the eyes.",
   },
   {
     Icon: Wrench,
-    title: "No wiring, no hassle",
-    desc: "A premium upgrade for shelves, closets, hallways, and under-cabinet spaces.",
-  },
-  {
-    Icon: Sparkles,
-    title: "Minimal design language",
-    desc: "A discreet profile that looks intentional in modern interiors.",
+    title: "Slim magnetic design",
+    desc: "A discreet profile that feels built in.",
   },
 ]
 
@@ -190,35 +185,50 @@ export const LIGHT_TONES = [
 
 export const USE_CASES = [
   {
-    title: "Closets",
-    desc: "See every item clearly without flooding the whole room with harsh overhead light.",
+    title: "Hallways",
+    desc: "Soft guidance for late-night movement.",
     Icon: Palette,
+    image: lifestyleImage,
   },
   {
-    title: "Hallways",
-    desc: "Add a soft welcome path that feels elegant instead of clinical.",
+    title: "Stairs",
+    desc: "Safer steps with a calmer glow.",
     Icon: WandSparkles,
+    image: heroImage,
   },
   {
     title: "Kitchens",
-    desc: "Under-cabinet lighting that creates depth, warmth, and better visibility.",
+    desc: "Under-cabinet light with a premium feel.",
     Icon: Blend,
+    image: chargerImage,
   },
   {
-    title: "Staircases",
-    desc: "Improve nighttime safety with a subtle, modern glow that activates on approach.",
+    title: "Closets",
+    desc: "See clearly without harsh overheads.",
     Icon: Bolt,
+    image: closetImage,
+  },
+  {
+    title: "Bedrooms",
+    desc: "Gentle light for quiet routines.",
+    Icon: Sparkles,
+    image: lifestyleImage,
+  },
+  {
+    title: "Bathrooms",
+    desc: "Calm nighttime visibility, instantly.",
+    Icon: Lightbulb,
+    image: heroImage,
   },
 ]
 
 export const COMPARISON_ROWS = [
   ["Wireless install", true, false],
-  ["USB rechargeable", true, false],
-  ["Motion detection", true, false],
-  ["3 light tones", true, false],
-  ["Adjustable brightness", true, false],
-  ["Premium minimalist finish", true, false],
-  ["No wiring required", true, false],
+  ["Rechargeable", true, false],
+  ["Slim design", true, false],
+  ["Soft light", true, false],
+  ["Premium look", true, false],
+  ["No wiring", true, false],
 ]
 
 export const TECH_SPECS = [
@@ -236,38 +246,38 @@ export const TECH_SPECS = [
 
 export const FAQS_DATA = [
   {
-    q: "How does Luxense MotionGlow turn on?",
-    a: "The built-in motion sensor detects movement within its 120\u00b0 angle and automatically lights the space without needing a switch.",
+    q: "How does it turn on?",
+    a: "It activates automatically when it detects movement.",
   },
   {
-    q: "How long does it stay on after motion stops?",
-    a: "It turns off automatically after approximately 15 seconds with no motion, which keeps the experience calm and energy-conscious.",
+    q: "How long does it stay on?",
+    a: "It turns off automatically after about 15 seconds with no motion.",
   },
   {
     q: "Is installation difficult?",
-    a: "Not at all. There is no wiring required, so you can mount it in minutes and move it when your layout changes.",
+    a: "No. It installs in minutes with no wiring required.",
   },
   {
     q: "What sizes and colors are available?",
-    a: "MotionGlow comes in White and Black, with size options of 20cm, 30cm, 40cm, and 50cm.",
+    a: "White or Black, in 20cm, 30cm, 40cm, and 50cm lengths.",
   },
   {
     q: "Is it rechargeable?",
-    a: "Yes. It charges through USB, so it is easy to top up and keep ready for daily use.",
+    a: "Yes. It charges through USB for simple daily use.",
   },
 ]
 
 export const GUARANTEE_POINTS = [
   "Secure checkout",
-  "Fast support if you need help",
-  "No wiring or technical install required",
-  "A clean, modern upgrade for everyday spaces",
+  "Fast support",
+  "No wiring required",
+  "30-day guarantee",
 ]
 
 export const FINAL_CTA_POINTS = [
   "Secure checkout",
+  "Free shipping",
   "30-day guarantee",
-  "Fast support",
 ]
 
 export const FEATURES_DATA = BENEFITS_DATA
@@ -315,9 +325,9 @@ export const REVIEWS_DATA = [
     name: "Alicia R.",
     country: "United States",
     rating: 5,
-    title: "Looks like built-in lighting",
+    title: "Looks built in",
     date: "2 weeks ago",
-    text: "The finish is elegant and the motion response feels immediate. It completely changed my hallway at night.",
+    text: "Elegant finish, immediate motion response, and it changed our hallway at night.",
     helpful: 211,
     variant: "White",
   },
@@ -327,7 +337,7 @@ export const REVIEWS_DATA = [
     rating: 5,
     title: "Perfect for closets and shelves",
     date: "1 month ago",
-    text: "The brightness control is a real bonus and the install took barely any time at all.",
+    text: "Great brightness control and a very fast install.",
     helpful: 164,
     variant: "Black",
   },
@@ -335,9 +345,9 @@ export const REVIEWS_DATA = [
     name: "Maya L.",
     country: "Canada",
     rating: 5,
-    title: "The design feels premium",
+    title: "Premium but practical",
     date: "5 days ago",
-    text: "I wanted something smart but not overly technical. MotionGlow feels like a luxury home detail.",
+    text: "Smart without feeling technical. It reads like a luxury detail.",
     helpful: 276,
     variant: "White",
   },
