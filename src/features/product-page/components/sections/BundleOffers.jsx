@@ -36,7 +36,7 @@ export default function BundleOffers({ onSelectBundle, onOpenCart, selectedBundl
               cursor: "pointer",
             }}
           >
-            Open cart <ArrowRight size={17} />
+            Get Yours Today <ArrowRight size={17} />
           </button>
         </div>
 

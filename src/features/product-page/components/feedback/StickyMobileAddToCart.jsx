@@ -67,7 +67,7 @@ export default function StickyMobileAddToCart({ selectedBundle, selectedBundleQu
           }}
         >
           <ShoppingBag size={16} />
-          Open cart
+          Get Yours Today
         </button>
       </div>
 

@@ -1,4 +1,4 @@
-import { Check } from "lucide-react"
+import { ArrowRight, Check } from "lucide-react"
 
 import { COLORS, SIZES } from "../../data/productPageData.js"
 
@@ -9,7 +9,7 @@ const SIZE_GUIDE = {
   "50cm": "Best for wider closets, larger cabinets, and larger spaces.",
 }
 
-export default function ProductOptions({ selectedColorIdx, onSelectColor, selectedSize, setSelectedSize }) {
+export default function ProductOptions({ selectedColorIdx, onSelectColor, selectedSize, setSelectedSize, onOpenCart }) {
   const selectedColor = COLORS[selectedColorIdx] || COLORS[0]
 
   return (
@@ -218,6 +218,29 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
             >
               White and Black are available in 20cm, 30cm, 40cm, and 50cm sizes so you can keep the lighting proportionate to the space.
             </p>
+
+            <button
+              type="button"
+              onClick={() => onOpenCart?.()}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                minHeight: 56,
+                borderRadius: 999,
+                border: "1px solid var(--cream)",
+                background: "var(--cream)",
+                color: "var(--fg)",
+                padding: "0 24px",
+                marginTop: 18,
+                fontSize: 15,
+                fontWeight: 900,
+                cursor: "pointer",
+              }}
+            >
+              Get Yours Today <ArrowRight size={17} />
+            </button>
           </article>
         </div>
       </div>

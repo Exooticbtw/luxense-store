@@ -89,8 +89,6 @@ export default function ProductLandingPage() {
     setIsCartOpen(true)
   }
 
-  const checkoutUrl = purchase.buildCheckoutUrl(purchase.qty)
-
   return (
     <div className="page-shell" id="top" style={themeVars}>
       <style>{PRODUCT_PAGE_STYLES}</style>
@@ -100,19 +98,16 @@ export default function ProductLandingPage() {
         <ProductSection
           shopData={shopData}
           purchase={purchase}
-          onNavigateSection={navigateHome}
           onOpenCart={handleOpenCart}
         />
-        <VideoDemonstration />
+        <VideoDemonstration onOpenCart={handleOpenCart} />
         <ProblemSection />
-        <SolutionSection />
+        <SolutionSection onOpenCart={handleOpenCart} />
         <ProductBenefits />
         <UseCases />
         <ProductFeatures />
         <ComparisonTable />
         <BundleOffers
-          checkoutUrl={checkoutUrl}
-          shopDomain={shopData?.shopDomain}
           onSelectBundle={handleSelectBundle}
           onOpenCart={handleOpenCart}
           selectedBundleQuantity={purchase.qty}
@@ -122,6 +117,7 @@ export default function ProductLandingPage() {
           onSelectColor={handleSelectColor}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
+          onOpenCart={handleOpenCart}
         />
         <CustomerReviews />
         <SocialProof />

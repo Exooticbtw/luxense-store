@@ -1,8 +1,8 @@
-import { Play } from "lucide-react"
+import { ArrowRight, Play } from "lucide-react"
 
 import lifestyleImage from "../../../../assets/product/hero-detail.png"
 
-export default function VideoDemonstration() {
+export default function VideoDemonstration({ onOpenCart }) {
   return (
     <section id="video-demo" style={{ padding: "0 24px 86px", background: "var(--bg)", scrollMarginTop: 110 }}>
       <div style={{ maxWidth: 1560, margin: "0 auto" }}>
@@ -75,6 +75,28 @@ export default function VideoDemonstration() {
               <p style={{ marginTop: 16, fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,.76)", maxWidth: 700, marginLeft: "auto", marginRight: "auto" }}>
                 The demo block keeps the page feeling editorial while still making the product benefit easy to understand in a few seconds.
               </p>
+              <button
+                type="button"
+                onClick={() => onOpenCart?.()}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 10,
+                  minHeight: 56,
+                  borderRadius: 999,
+                  border: "1px solid var(--cream)",
+                  background: "var(--cream)",
+                  color: "var(--fg)",
+                  padding: "0 24px",
+                  marginTop: 24,
+                  fontSize: 15,
+                  fontWeight: 900,
+                  cursor: "pointer",
+                }}
+              >
+                Get Yours Today <ArrowRight size={17} />
+              </button>
             </div>
           </div>
         </div>

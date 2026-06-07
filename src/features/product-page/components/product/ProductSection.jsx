@@ -184,7 +184,7 @@ export default function ProductSection({ shopData, purchase, onOpenCart }) {
                       boxShadow: "0 16px 34px rgba(17,17,17,.18)",
                     }}
                   >
-                    Open cart <ArrowRight size={18} />
+                    Shop MotionGlow™ <ArrowRight size={18} />
                   </a>
                 </div>
 

@@ -1,4 +1,4 @@
-import { BatteryCharging, Lightbulb, Wrench } from "lucide-react"
+import { ArrowRight, BatteryCharging, Lightbulb, Wrench } from "lucide-react"
 
 const SOLUTIONS = [
   {
@@ -18,7 +18,7 @@ const SOLUTIONS = [
   },
 ]
 
-export default function SolutionSection() {
+export default function SolutionSection({ onOpenCart }) {
   return (
     <section id="solution" style={{ padding: "0 24px 86px", background: "var(--sec)", scrollMarginTop: 110 }}>
       <div style={{ maxWidth: 1560, margin: "0 auto" }}>
@@ -51,6 +51,30 @@ export default function SolutionSection() {
               <p style={{ marginTop: 10, fontSize: 15, lineHeight: 1.7, color: index === 1 ? "rgba(255,255,255,.76)" : "var(--muted)" }}>{text}</p>
             </article>
           ))}
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 26 }}>
+          <button
+            type="button"
+            onClick={() => onOpenCart?.()}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              minHeight: 56,
+              borderRadius: 999,
+              border: "1px solid var(--fg)",
+              background: "var(--fg)",
+              color: "var(--cream)",
+              padding: "0 24px",
+              fontSize: 15,
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            Upgrade Your Home <ArrowRight size={17} />
+          </button>
         </div>
       </div>
 

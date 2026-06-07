@@ -83,7 +83,7 @@ export default function FinalCTA({ shopData, purchase, onOpenCart }) {
               cursor: "pointer",
             }}
           >
-            Open cart <ArrowRight size={18} />
+            Get MotionGlow Today <ArrowRight size={18} />
           </a>
         </div>
       </div>
