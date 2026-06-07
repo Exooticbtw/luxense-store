@@ -1,0 +1,29 @@
+<section class="luxense-basic" id="luxense-guarantee">
+  <div class="luxense-wrap">
+    <div class="luxense-guarantee">
+      <div>
+        <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.title }}</h2>
+        <p>{{ section.settings.text }}</p>
+      </div>
+      <div class="luxense-grid luxense-guarantee__points">
+        {% for block in section.blocks %}
+          <div class="luxense-card luxense-guarantee__point" {{ block.shopify_attributes }}>
+            {{ block.settings.text }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <style>
+    .luxense-guarantee{border-radius:28px;padding:24px;border:1px solid rgba(17,17,17,.08);background:rgba(255,255,255,.86);box-shadow:0 18px 44px rgba(17,17,17,.05)}
+    .luxense-guarantee h2{font-family:'Manrope','Inter',system-ui,sans-serif;font-size:58px;line-height:1.02;letter-spacing:-.04em;margin:0}
+    .luxense-guarantee p{margin:16px 0 0;font-size:18px;line-height:1.7;color:var(--muted)}
+    .luxense-guarantee__points{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:18px}
+    .luxense-guarantee__point{padding:18px;font-size:14px;font-weight:700;line-height:1.5;background:rgba(17,17,17,.04)}
+    @media (max-width:1040px){.luxense-guarantee__points{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:760px){.luxense-guarantee h2{font-size:40px}.luxense-guarantee__points{grid-template-columns:1fr}}
+  </style>
+</section>
+{% schema %}
+{"name":"Luxense guarantee section","tag":"section","class":"luxense-guarantee-section","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Secure checkout"},{"type":"textarea","id":"title","label":"Title","default":"Buy with confidence."},{"type":"textarea","id":"text","label":"Text","default":"Every order is protected by a clean checkout experience, practical support, and a guarantee that keeps the purchase low-risk."}],"blocks":[{"type":"point","name":"Point","settings":[{"type":"textarea","id":"text","label":"Text","default":"Premium secure checkout"}]}],"presets":[{"name":"Luxense guarantee section","blocks":[{"type":"point","settings":{"text":"Premium secure checkout"}},{"type":"point","settings":{"text":"Fast support if you need help"}},{"type":"point","settings":{"text":"No wiring or technical install required"}},{"type":"point","settings":{"text":"A clean, modern upgrade for everyday spaces"}}]}]}{% endschema %}

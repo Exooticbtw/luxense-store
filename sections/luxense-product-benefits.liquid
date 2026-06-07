@@ -1,0 +1,75 @@
+<section class="luxense-benefits" id="luxense-benefits">
+  <div class="luxense-wrap">
+    <div class="luxense-head">
+      <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+
+    <div class="luxense-grid luxense-benefits__grid">
+      {% for block in section.blocks %}
+        <article class="luxense-card luxense-benefits__card" {{ block.shopify_attributes }}>
+          <div class="luxense-trust__icon">{{ block.settings.icon_label }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    .luxense-benefits { padding: 86px 24px; background: var(--sec); }
+    .luxense-wrap { max-width:1560px; margin:0 auto; }
+    .luxense-head { max-width:700px; }
+    .luxense-eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:.24em; color:var(--accent); margin:0 0 10px; }
+    .luxense-head h2 { font-family:'Manrope','Inter',system-ui,sans-serif; font-size:64px; line-height:1.02; letter-spacing:-.04em; margin:0; }
+    .luxense-head p { margin:18px 0 0; font-size:18px; line-height:1.7; color:var(--muted); }
+    .luxense-grid { display:grid; gap:16px; }
+    .luxense-benefits__grid { grid-template-columns: repeat(3, minmax(0,1fr)); margin-top:38px; }
+    .luxense-benefits__card { padding:24px; }
+    .luxense-benefits__card h3 { margin:18px 0 0; font-size:24px; line-height:1.08; font-weight:800; }
+    .luxense-benefits__card p { margin:10px 0 0; font-size:15px; line-height:1.7; color:var(--muted); }
+    @media (max-width: 1040px) { .luxense-benefits__grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 760px) {
+      .luxense-benefits { padding: 64px 16px; }
+      .luxense-head h2 { font-size:40px; }
+      .luxense-benefits__grid { grid-template-columns: 1fr; margin-top:28px; }
+      .luxense-benefits__card { padding:22px; }
+      .luxense-benefits__card h3 { font-size:22px; }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Luxense product benefits",
+  "tag": "section",
+  "class": "luxense-product-benefits",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why people love it" },
+    { "type": "textarea", "id": "title", "label": "Title", "default": "Designed to feel effortless" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Every detail removes a little friction from daily life: no switches, no wiring, no compromise on how it looks." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "icon_label", "label": "Icon label", "default": "★" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Instant motion activation" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "The light wakes up as you move and quietly steps back when the room is still." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxense product benefits",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon_label": "★", "title": "Instant motion activation", "text": "The light wakes up as you move and quietly steps back when the room is still." } },
+        { "type": "benefit", "settings": { "icon_label": "USB", "title": "Recharge once, use for days", "text": "USB charging keeps the setup clean and practical for everyday home use." } },
+        { "type": "benefit", "settings": { "icon_label": "%", "title": "Comfortable brightness control", "text": "Dial illumination from a soft 10% up to a bright 100% depending on the space." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

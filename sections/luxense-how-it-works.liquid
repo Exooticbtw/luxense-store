@@ -1,0 +1,36 @@
+<section class="luxense-basic" id="luxense-how-it-works">
+  <div class="luxense-wrap">
+    <div class="luxense-head">
+      <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+    <div class="luxense-grid luxense-step-grid">
+      {% for block in section.blocks %}
+        <article class="luxense-card luxense-step" {{ block.shopify_attributes }}>
+          <span class="luxense-step__num">{{ block.settings.number }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+  <style>
+    .luxense-basic{padding:86px 24px;background:var(--bg)}
+    .luxense-wrap{max-width:1560px;margin:0 auto}
+    .luxense-head{max-width:700px}
+    .luxense-eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.24em;color:var(--accent);margin:0 0 10px}
+    .luxense-head h2{font-family:'Manrope','Inter',system-ui,sans-serif;font-size:64px;line-height:1.02;letter-spacing:-.04em;margin:0}
+    .luxense-head p{margin:18px 0 0;font-size:18px;line-height:1.7;color:var(--muted)}
+    .luxense-grid{display:grid;gap:16px}
+    .luxense-step-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:38px}
+    .luxense-step{padding:24px}
+    .luxense-step__num{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:18px;background:rgba(200,169,106,.12);font-weight:800}
+    .luxense-step h3{margin:18px 0 0;font-size:24px;line-height:1.08;font-weight:800}
+    .luxense-step p{margin:10px 0 0;font-size:15px;line-height:1.7;color:var(--muted)}
+    @media (max-width: 1040px){.luxense-step-grid{grid-template-columns:1fr}}
+    @media (max-width:760px){.luxense-basic{padding:64px 16px}.luxense-head h2{font-size:40px}.luxense-step-grid{margin-top:28px}.luxense-step{padding:22px}}
+  </style>
+</section>
+{% schema %}
+{"name":"Luxense how it works","tag":"section","class":"luxense-how-it-works","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"How it works"},{"type":"textarea","id":"title","label":"Title","default":"A premium result in three simple steps."},{"type":"textarea","id":"text","label":"Text","default":"Setup is designed to be quick, clean, and refreshingly low effort."}],"blocks":[{"type":"step","name":"Step","settings":[{"type":"text","id":"number","label":"Number","default":"01"},{"type":"text","id":"title","label":"Title","default":"Unbox and charge"},{"type":"textarea","id":"text","label":"Text","default":"Plug MotionGlow into USB power and give it a quick charge before first use."}]}],"presets":[{"name":"Luxense how it works","blocks":[{"type":"step","settings":{"number":"01","title":"Unbox and charge","text":"Plug MotionGlow into USB power and give it a quick charge before first use."}},{"type":"step","settings":{"number":"02","title":"Mount it anywhere","text":"Choose a clean flat surface and place the light where it can guide your space best."}},{"type":"step","settings":{"number":"03","title":"Let motion do the work","text":"It turns on when movement is detected and turns off again after about 15 seconds of stillness."}}]}]}{% endschema %}

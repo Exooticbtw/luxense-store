@@ -1,0 +1,28 @@
+<section class="luxense-basic" id="luxense-use-cases">
+  <div class="luxense-wrap">
+    <div class="luxense-head">
+      <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+    <div class="luxense-grid luxense-use-grid">
+      {% for block in section.blocks %}
+        <article class="luxense-card luxense-use" {{ block.shopify_attributes }}>
+          <div class="luxense-trust__icon">{{ block.settings.icon_label }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+  <style>
+    .luxense-use-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:38px}
+    .luxense-use{padding:24px}
+    .luxense-use h3{margin:18px 0 0;font-size:24px;line-height:1.08;font-weight:800}
+    .luxense-use p{margin:10px 0 0;font-size:15px;line-height:1.7;color:var(--muted)}
+    @media (max-width:1040px){.luxense-use-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:760px){.luxense-use-grid{grid-template-columns:1fr}}
+  </style>
+</section>
+{% schema %}
+{"name":"Luxense use cases","tag":"section","class":"luxense-use-cases","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Use cases"},{"type":"textarea","id":"title","label":"Title","default":"Built for the places where a little light makes a big difference."},{"type":"textarea","id":"text","label":"Text","default":"A subtle glow for the rooms and pathways you use most."}],"blocks":[{"type":"use_case","name":"Use case","settings":[{"type":"text","id":"icon_label","label":"Icon label","default":"◌"},{"type":"text","id":"title","label":"Title","default":"Closets"},{"type":"textarea","id":"text","label":"Text","default":"See every item clearly without flooding the whole room with harsh overhead light."}]}],"presets":[{"name":"Luxense use cases","blocks":[{"type":"use_case","settings":{"icon_label":"◌","title":"Closets","text":"See every item clearly without flooding the whole room with harsh overhead light."}},{"type":"use_case","settings":{"icon_label":"⋆","title":"Hallways","text":"Add a soft welcome path that feels elegant instead of clinical."}},{"type":"use_case","settings":{"icon_label":"▣","title":"Kitchens","text":"Under-cabinet lighting that creates depth, warmth, and better visibility."}},{"type":"use_case","settings":{"icon_label":"△","title":"Staircases","text":"Improve nighttime safety with a subtle, modern glow that activates on approach."}}]}]}{% endschema %}

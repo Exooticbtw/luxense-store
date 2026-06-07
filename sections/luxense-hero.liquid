@@ -1,0 +1,317 @@
+{% liquid
+  assign luxense_bg = section.settings.background_image
+  assign luxense_visual = section.settings.visual_image
+  assign luxense_product = section.settings.product
+  if luxense_visual == blank and luxense_product != blank and luxense_product.featured_image != blank
+    assign luxense_visual = luxense_product.featured_image
+  endif
+%}
+
+<section class="luxense-hero" id="luxense-hero">
+  <div class="luxense-hero__shell">
+    <div class="luxense-hero__left">
+      <div class="luxense-hero__overlay"></div>
+      <div class="luxense-hero__content">
+        <p class="luxense-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+        <h1 class="luxense-hero__title">{{ section.settings.title }}</h1>
+        <p class="luxense-hero__text">{{ section.settings.text }}</p>
+        <div class="luxense-hero__buttons">
+          <a class="luxense-btn luxense-btn--solid" href="{{ section.settings.primary_link | default: '#luxense-bundles' }}">{{ section.settings.primary_label }}</a>
+          <a class="luxense-btn luxense-btn--ghost" href="{{ section.settings.secondary_link | default: '#luxense-use-cases' }}">{{ section.settings.secondary_label }}</a>
+        </div>
+        <div class="luxense-hero__proof">
+          <span class="luxense-hero__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <strong>{{ section.settings.rating_text }}</strong>
+          <span>{{ section.settings.review_count }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="luxense-hero__right">
+      <div class="luxense-hero__panel">
+        <div class="luxense-hero__panel-header">
+          <span>LuxSense&trade; Smart Light Bar</span>
+          <span class="luxense-hero__panel-pill">Smart Lighting. Instantly.</span>
+        </div>
+        <div class="luxense-hero__panel-image">
+          {% if luxense_visual != blank %}
+            {{ luxense_visual | image_url: width: 1400 | image_tag: alt: section.settings.visual_alt, loading: 'eager' }}
+          {% else %}
+            <div class="luxense-hero__placeholder">
+              <strong>LuxSense&trade;</strong>
+              <span>Smart Light Bar</span>
+              <em>Smart Lighting. Instantly.</em>
+            </div>
+          {% endif %}
+        </div>
+        <div class="luxense-hero__stats">
+          <div><small>Wireless</small><span>No wiring</span></div>
+          <div><small>Rechargeable</small><span>USB power</span></div>
+          <div><small>Auto-off</small><span>About 15s</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .luxense-hero {
+      padding: 18px 18px 42px;
+      background: linear-gradient(180deg, #f5f5f3 0%, #ffffff 100%);
+      overflow: hidden;
+    }
+    .luxense-hero__shell {
+      max-width: 1600px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 34px;
+      overflow: hidden;
+      min-height: 820px;
+      border: 1px solid rgba(17,17,17,.08);
+      box-shadow: 0 30px 80px rgba(17,17,17,.10);
+      background: #ffffff;
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+    }
+    .luxense-hero__left {
+      position: relative;
+      background: {% if luxense_bg != blank %}linear-gradient(90deg, rgba(10,10,10,.84) 0%, rgba(10,10,10,.72) 58%, rgba(10,10,10,.42) 100%), url({{ luxense_bg | image_url: width: 2400 }}) center/cover no-repeat{% else %}linear-gradient(90deg, rgba(10,10,10,.84) 0%, rgba(10,10,10,.72) 58%, rgba(10,10,10,.42) 100%), linear-gradient(135deg, #2a2a2a, #111111){% endif %};
+      color: #ffffff;
+      overflow: hidden;
+    }
+    .luxense-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(200,169,106,.22), transparent 30%), linear-gradient(90deg, rgba(17,17,17,.28), rgba(17,17,17,.08));
+    }
+    .luxense-hero__content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 82px 56px 64px 64px;
+      max-width: 740px;
+    }
+    .luxense-hero__eyebrow {
+      margin: 8px 0 0;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+    .luxense-hero__title {
+      margin: 18px 0 0;
+      font-family: 'Manrope','Inter',system-ui,sans-serif;
+      font-size: 84px;
+      line-height: .96;
+      letter-spacing: -.055em;
+      font-weight: 700;
+      max-width: 680px;
+    }
+    .luxense-hero__text {
+      margin: 22px 0 0;
+      max-width: 620px;
+      font-size: 19px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.78);
+    }
+    .luxense-hero__buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+    .luxense-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60px;
+      padding: 0 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .luxense-btn--solid {
+      background: #ffffff;
+      color: #111111;
+      box-shadow: 0 16px 34px rgba(17,17,17,.18);
+    }
+    .luxense-btn--ghost {
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(12px);
+    }
+    .luxense-hero__proof {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 30px;
+      color: rgba(255,255,255,.88);
+    }
+    .luxense-hero__stars {
+      letter-spacing: .08em;
+      color: var(--accent);
+    }
+    .luxense-hero__right {
+      padding: 56px 56px 56px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #f7f5ef 0%, #ffffff 100%);
+    }
+    .luxense-hero__panel {
+      width: 100%;
+      max-width: 560px;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(17,17,17,.08);
+      background: rgba(255,255,255,.84);
+      box-shadow: 0 26px 70px rgba(17,17,17,.12);
+    }
+    .luxense-hero__panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 18px 0;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .luxense-hero__panel-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(200,169,106,.12);
+      color: var(--fg);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    .luxense-hero__panel-image { padding: 18px; }
+    .luxense-hero__panel-image img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 24px;
+      display: block;
+    }
+    .luxense-hero__placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      color: #ffffff;
+      background: linear-gradient(160deg, #171717, #2a2a2a 55%, #f5f5f3 55%, #ffffff 100%);
+    }
+    .luxense-hero__placeholder strong {
+      display: block;
+      font-size: 14px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.72);
+    }
+    .luxense-hero__placeholder span {
+      display: block;
+      margin-top: 12px;
+      font-family: 'Manrope','Inter',system-ui,sans-serif;
+      font-size: 40px;
+      line-height: 1;
+      font-weight: 700;
+    }
+    .luxense-hero__placeholder em {
+      display: block;
+      margin-top: 12px;
+      font-style: normal;
+      font-size: 16px;
+      color: rgba(255,255,255,.78);
+    }
+    .luxense-hero__stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 10px;
+      padding: 0 18px 18px;
+    }
+    .luxense-hero__stats > div {
+      border-radius: 18px;
+      background: rgba(17,17,17,.04);
+      border: 1px solid rgba(17,17,17,.06);
+      padding: 14px 12px;
+    }
+    .luxense-hero__stats small {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: var(--muted);
+    }
+    .luxense-hero__stats span {
+      display: block;
+      margin-top: 8px;
+      font-family: 'Manrope','Inter',system-ui,sans-serif;
+      font-size: 18px;
+      line-height: 1.05;
+      font-weight: 700;
+    }
+    @media (max-width: 1180px) {
+      .luxense-hero__content { padding: 72px 40px 56px 44px; }
+      .luxense-hero__title { font-size: 68px; }
+      .luxense-hero__right { padding: 42px 32px 42px 18px; }
+    }
+    @media (max-width: 900px) {
+      .luxense-hero__shell { grid-template-columns: 1fr; min-height: auto; }
+      .luxense-hero__right { display: none; }
+      .luxense-hero__content { padding: 72px 20px 28px; }
+    }
+    @media (max-width: 760px) {
+      .luxense-hero { padding: 10px 10px 24px; }
+      .luxense-hero__shell { border-radius: 28px; }
+      .luxense-hero__content { padding-top: 56px; padding-bottom: 18px; }
+      .luxense-hero__title { font-size: 38px; line-height: .98; }
+      .luxense-hero__text { font-size: 15px; line-height: 1.6; }
+      .luxense-hero__buttons { gap: 10px; }
+      .luxense-btn { flex: 1 1 160px; min-height: 52px; padding: 0 20px; font-size: 15px; }
+      .luxense-hero__proof { gap: 10px; margin-top: 24px; }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Luxense hero",
+  "tag": "section",
+  "class": "luxense-hero-section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "image_picker", "id": "background_image", "label": "Background image" },
+    { "type": "image_picker", "id": "visual_image", "label": "Right visual image" },
+    { "type": "text", "id": "visual_alt", "label": "Visual alt text", "default": "LuxSense Smart Light Bar product visual" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "WIRELESS MOTION-SENSOR LIGHTING" },
+    { "type": "textarea", "id": "title", "label": "Headline", "default": "Transform any space into a luxury environment" },
+    { "type": "textarea", "id": "text", "label": "Subheadline", "default": "Wireless, rechargeable lighting that senses your every move and disappears into the architecture of your home until you need it." },
+    { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Shop now" },
+    { "type": "url", "id": "primary_link", "label": "Primary button link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Learn more" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary button link" },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.9" },
+    { "type": "text", "id": "review_count", "label": "Review count", "default": "3,284 reviews" }
+  ],
+  "presets": [
+    { "name": "Luxense hero" }
+  ]
+}
+{% endschema %}

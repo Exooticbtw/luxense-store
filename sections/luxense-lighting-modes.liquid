@@ -1,0 +1,27 @@
+<section class="luxense-basic" id="luxense-lighting-modes">
+  <div class="luxense-wrap">
+    <div class="luxense-head">
+      <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+    <div class="luxense-grid luxense-mode-grid">
+      {% for block in section.blocks %}
+        <article class="luxense-card luxense-mode" {{ block.shopify_attributes }}>
+          <div class="luxense-trust__icon">{{ block.settings.icon_label }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+  <style>
+    .luxense-mode-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:38px}
+    .luxense-mode{padding:24px}
+    .luxense-mode h3{margin:18px 0 0;font-size:24px;line-height:1.08;font-weight:800}
+    .luxense-mode p{margin:10px 0 0;font-size:15px;line-height:1.7;color:var(--muted)}
+    @media (max-width:1040px){.luxense-mode-grid{grid-template-columns:1fr}}
+  </style>
+</section>
+{% schema %}
+{"name":"Luxense lighting modes","tag":"section","class":"luxense-lighting-modes","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Lighting modes"},{"type":"textarea","id":"title","label":"Title","default":"Three thoughtful ways to use motion light."},{"type":"textarea","id":"text","label":"Text","default":"Move through the house with the right amount of light, at the right moment."}],"blocks":[{"type":"mode","name":"Mode","settings":[{"type":"text","id":"icon_label","label":"Icon label","default":"M"},{"type":"text","id":"title","label":"Title","default":"Motion mode"},{"type":"textarea","id":"text","label":"Text","default":"Default smart-home behavior that activates only when someone enters the space."}]}],"presets":[{"name":"Luxense lighting modes","blocks":[{"type":"mode","settings":{"icon_label":"M","title":"Motion mode","text":"Default smart-home behavior that activates only when someone enters the space."}},{"type":"mode","settings":{"icon_label":"B","title":"Brightness mode","text":"Adjust output anywhere between 10% and 100% for the right level of ambient visibility."}},{"type":"mode","settings":{"icon_label":"A","title":"Auto-off mode","text":"The light automatically powers down after roughly 15 seconds without motion."}}]}]}{% endschema %}

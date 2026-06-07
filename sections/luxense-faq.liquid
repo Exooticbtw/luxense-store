@@ -1,0 +1,25 @@
+<section class="luxense-basic" id="luxense-faq">
+  <div class="luxense-wrap">
+    <div class="luxense-head">
+      <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+    </div>
+    <div class="luxense-grid luxense-faq-grid">
+      {% for block in section.blocks %}
+        <details class="luxense-card luxense-faq" {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }}</summary>
+          <div>{{ block.settings.answer }}</div>
+        </details>
+      {% endfor %}
+    </div>
+  </div>
+  <style>
+    .luxense-faq-grid{grid-template-columns:1fr; margin-top:38px}
+    .luxense-faq{padding:22px}
+    .luxense-faq summary{cursor:pointer;font-size:18px;font-weight:800;list-style:none}
+    .luxense-faq summary::-webkit-details-marker{display:none}
+    .luxense-faq div{margin-top:12px;font-size:15px;line-height:1.7;color:var(--muted)}
+  </style>
+</section>
+{% schema %}
+{"name":"Luxense FAQ","tag":"section","class":"luxense-faq","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Questions"},{"type":"textarea","id":"title","label":"Title","default":"Everything you need to know"}],"blocks":[{"type":"faq","name":"FAQ","settings":[{"type":"text","id":"question","label":"Question","default":"How does the motion sensor work?"},{"type":"textarea","id":"answer","label":"Answer","default":"It detects nearby movement and turns the light on automatically, then fades off after the space is quiet again."}]}],"presets":[{"name":"Luxense FAQ","blocks":[{"type":"faq","settings":{"question":"How does the motion sensor work?","answer":"It detects nearby movement and turns the light on automatically, then fades off after the space is quiet again."}},{"type":"faq","settings":{"question":"How long does the battery last?","answer":"Most homes get weeks of use per charge, depending on traffic and brightness settings."}},{"type":"faq","settings":{"question":"How do I install it?","answer":"Use the included magnetic mount. Place the adhesive base, snap the light on, and remove it anytime for charging."}},{"type":"faq","settings":{"question":"Is the light warm or cool?","answer":"It uses a warm ambient glow designed for bedrooms, closets, hallways, and kitchens."}},{"type":"faq","settings":{"question":"What's your guarantee?","answer":"Every order is backed by a 30-day love-it-or-return-it guarantee and a 2-year warranty. If anything isn't right, our support team responds within hours."}}]}]}{% endschema %}

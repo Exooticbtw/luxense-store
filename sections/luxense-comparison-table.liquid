@@ -1,0 +1,31 @@
+<section class="luxense-basic" id="luxense-comparison-table">
+  <div class="luxense-wrap">
+    <div class="luxense-head">
+      <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+    </div>
+    <div class="luxense-card luxense-compare">
+      <div class="luxense-compare__head">
+        <span>{{ section.settings.left_label }}</span>
+        <span>{{ section.settings.right_label }}</span>
+      </div>
+      {% for block in section.blocks %}
+        <div class="luxense-compare__row" {{ block.shopify_attributes }}>
+          <div>{{ block.settings.label }}</div>
+          <div>{{ block.settings.us }}</div>
+          <div>{{ block.settings.them }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <style>
+    .luxense-compare{margin-top:38px; overflow:hidden}
+    .luxense-compare__head,.luxense-compare__row{display:grid;grid-template-columns:1.3fr .85fr .85fr;gap:14px;padding:18px 20px;border-bottom:1px solid rgba(17,17,17,.08)}
+    .luxense-compare__head{background:rgba(17,17,17,.96);color:#fff;font-weight:800}
+    .luxense-compare__row:last-child{border-bottom:0}
+    .luxense-compare__row div:last-child{color:var(--muted)}
+    @media (max-width:760px){.luxense-compare__head,.luxense-compare__row{grid-template-columns:1fr;}.luxense-compare__head{display:none}.luxense-compare__row div:last-child{border-top:1px solid rgba(17,17,17,.08);padding-top:10px;margin-top:10px}}
+  </style>
+</section>
+{% schema %}
+{"name":"Luxense comparison table","tag":"section","class":"luxense-comparison-table","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Comparison"},{"type":"textarea","id":"title","label":"Title","default":"Why MotionGlow feels different."},{"type":"text","id":"left_label","label":"Left column label","default":"Luxense MotionGlow"},{"type":"text","id":"right_label","label":"Right column label","default":"Typical motion light"}],"blocks":[{"type":"row","name":"Row","settings":[{"type":"text","id":"label","label":"Label","default":"Wireless install"},{"type":"text","id":"us","label":"Our product","default":"Yes"},{"type":"text","id":"them","label":"Comparison product","default":"No"}]}],"presets":[{"name":"Luxense comparison table","blocks":[{"type":"row","settings":{"label":"Wireless install","us":"Yes","them":"No"}},{"type":"row","settings":{"label":"USB rechargeable","us":"Yes","them":"No"}},{"type":"row","settings":{"label":"Motion detection","us":"Yes","them":"Sometimes"}},{"type":"row","settings":{"label":"3 light tones","us":"Yes","them":"No"}},{"type":"row","settings":{"label":"Adjustable brightness","us":"Yes","them":"No"}},{"type":"row","settings":{"label":"Premium minimalist finish","us":"Yes","them":"No"}}]}]}{% endschema %}

@@ -1,0 +1,22 @@
+<section class="luxense-basic" id="luxense-payment-badges">
+  <div class="luxense-wrap">
+    <div class="luxense-head">
+      <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+    <div class="luxense-grid luxense-payment-grid">
+      {% for block in section.blocks %}
+        <div class="luxense-card luxense-payment__badge" {{ block.shopify_attributes }}>{{ block.settings.label }}</div>
+      {% endfor %}
+    </div>
+  </div>
+  <style>
+    .luxense-payment-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:38px}
+    .luxense-payment__badge{min-height:56px;display:flex;align-items:center;justify-content:center;padding:10px 14px;font-size:13px;font-weight:800;letter-spacing:-.01em;text-align:center;border-radius:16px;background:rgba(17,17,17,.03)}
+    @media (max-width:1040px){.luxense-payment-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:760px){.luxense-payment-grid{grid-template-columns:1fr}}
+  </style>
+</section>
+{% schema %}
+{"name":"Luxense payment badges","tag":"section","class":"luxense-payment-badges","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Payment methods"},{"type":"textarea","id":"title","label":"Title","default":"Trusted ways to pay."},{"type":"textarea","id":"text","label":"Text","default":"Show the payment icons or labels you'd like to surface in the store editor."}],"blocks":[{"type":"badge","name":"Badge","settings":[{"type":"text","id":"label","label":"Label","default":"Visa"}]}],"presets":[{"name":"Luxense payment badges","blocks":[{"type":"badge","settings":{"label":"Visa"}},{"type":"badge","settings":{"label":"Mastercard"}},{"type":"badge","settings":{"label":"American Express"}},{"type":"badge","settings":{"label":"Apple Pay"}},{"type":"badge","settings":{"label":"Google Pay"}},{"type":"badge","settings":{"label":"Shop Pay"}},{"type":"badge","settings":{"label":"PayPal"}}]}]}{% endschema %}

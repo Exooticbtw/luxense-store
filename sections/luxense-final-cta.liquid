@@ -1,0 +1,29 @@
+{% liquid
+  assign luxense_cta_bg = section.settings.background_image
+%}
+<section class="luxense-final-cta" id="luxense-final-cta">
+  <div class="luxense-wrap">
+    <div class="luxense-final-cta__shell">
+      <div class="luxense-final-cta__media" {% if luxense_cta_bg != blank %}style="background-image: linear-gradient(180deg, rgba(17,17,17,.58), rgba(17,17,17,.18)), url({{ luxense_cta_bg | image_url: width: 2400 }})"{% endif %}></div>
+      <div class="luxense-final-cta__content">
+        <p class="luxense-eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.title }}</h2>
+        <p>{{ section.settings.text }}</p>
+        <a class="luxense-btn luxense-btn--solid" href="{{ section.settings.button_link | default: '#top' }}">{{ section.settings.button_label }}</a>
+      </div>
+    </div>
+  </div>
+  <style>
+    .luxense-final-cta{padding:0 24px 86px;background:var(--bg)}
+    .luxense-final-cta__shell{max-width:1560px;margin:0 auto;border-radius:32px;overflow:hidden;border:1px solid rgba(17,17,17,.08);background:rgba(255,255,255,.86);display:grid;grid-template-columns:1fr 1fr;box-shadow:0 22px 60px rgba(17,17,17,.08)}
+    .luxense-final-cta__media{min-height:420px;background:#111 center/cover no-repeat}
+    .luxense-final-cta__content{padding:56px}
+    .luxense-final-cta__content h2{font-family:'Manrope','Inter',system-ui,sans-serif;font-size:58px;line-height:1.02;letter-spacing:-.04em;margin:0}
+    .luxense-final-cta__content p{margin:16px 0 0;font-size:18px;line-height:1.7;color:var(--muted)}
+    .luxense-final-cta__content .luxense-btn{margin-top:26px}
+    @media (max-width:1040px){.luxense-final-cta__shell{grid-template-columns:1fr}}
+    @media (max-width:760px){.luxense-final-cta{padding:0 16px 64px}.luxense-final-cta__media{min-height:280px}.luxense-final-cta__content{padding:24px}.luxense-final-cta__content h2{font-size:40px}}
+  </style>
+</section>
+{% schema %}
+{"name":"Luxense final CTA","tag":"section","class":"luxense-final-cta","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Final CTA"},{"type":"textarea","id":"title","label":"Title","default":"Bring your home to light"},{"type":"textarea","id":"text","label":"Text","default":"Free shipping, a 30-day guarantee, and a glow you'll wonder how you lived without."},{"type":"text","id":"button_label","label":"Button label","default":"Shop Now"},{"type":"url","id":"button_link","label":"Button link"},{"type":"image_picker","id":"background_image","label":"Background image"}],"presets":[{"name":"Luxense final CTA"}]}{% endschema %}

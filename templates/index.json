@@ -9,18 +9,64 @@
  */
 {
   "sections": {
-    "luxense_product_page_CeTgqM": {
-      "type": "luxense-product-page",
-      "name": "Luxense product page",
+    "announcement": {
+      "type": "luxense-announcement-bar",
+      "blocks": {
+        "message_1": { "type": "message", "settings": { "text": "Free shipping over $35" } },
+        "message_2": { "type": "message", "settings": { "text": "Secure checkout" } },
+        "message_3": { "type": "message", "settings": { "text": "30-day money-back guarantee" } },
+        "message_4": { "type": "message", "settings": { "text": "Fast human support" } }
+      },
+      "block_order": ["message_1", "message_2", "message_3", "message_4"],
+      "settings": {}
+    },
+    "navbar": {
+      "type": "luxense-navbar",
+      "blocks": {
+        "link_1": { "type": "link", "settings": { "label": "Shop", "link": "#luxense-bundles" } },
+        "link_2": { "type": "link", "settings": { "label": "Spaces", "link": "#luxense-use-cases" } },
+        "link_3": { "type": "link", "settings": { "label": "Reviews", "link": "#luxense-faq" } },
+        "link_4": { "type": "link", "settings": { "label": "Our Story", "link": "#luxense-guarantee" } }
+      },
+      "block_order": ["link_1", "link_2", "link_3", "link_4"],
       "settings": {
-        "product": "motion-sensor-light-led-sensor-lamp-wireless-ultra-thin-usb-led-for-kitchen-cabinet-bedroom-wardrobe-indoor-lighting-night-light",
-        "target_product_id": "8290980200492",
-        "default_variant_id": "",
-        "gallery_image_1": "{{ section.settings.product.featured_image }}"
+        "logo_text": "LUXENSE",
+        "cart_link": "/cart"
       }
-    }
+    },
+    "hero": { "type": "luxense-hero", "settings": {} },
+    "trust": { "type": "luxense-trust-badges", "settings": {} },
+    "benefits": { "type": "luxense-product-benefits", "settings": {} },
+    "bundles": { "type": "luxense-bundle-offers", "settings": {} },
+    "options": { "type": "luxense-product-options", "settings": {} },
+    "how": { "type": "luxense-how-it-works", "settings": {} },
+    "modes": { "type": "luxense-lighting-modes", "settings": {} },
+    "tones": { "type": "luxense-light-tones", "settings": {} },
+    "use_cases": { "type": "luxense-use-cases", "settings": {} },
+    "compare": { "type": "luxense-comparison-table", "settings": {} },
+    "specs": { "type": "luxense-technical-specifications", "settings": {} },
+    "faq": { "type": "luxense-faq", "settings": {} },
+    "guarantee": { "type": "luxense-guarantee-section", "settings": {} },
+    "final_cta": { "type": "luxense-final-cta", "settings": {} },
+    "payments": { "type": "luxense-payment-badges", "settings": {} }
   },
   "order": [
-    "luxense_product_page_CeTgqM"
+    "announcement",
+    "navbar",
+    "hero",
+    "trust",
+    "benefits",
+    "bundles",
+    "options",
+    "how",
+    "modes",
+    "tones",
+    "use_cases",
+    "compare",
+    "specs",
+    "faq",
+    "guarantee",
+    "final_cta",
+    "payments"
   ]
 }

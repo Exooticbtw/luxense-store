@@ -1,0 +1,72 @@
+<section class="luxense-trust" id="luxense-trust">
+  <div class="luxense-wrap">
+    <div class="luxense-grid luxense-trust__grid">
+      {% for block in section.blocks %}
+        <article class="luxense-card luxense-trust__card" {{ block.shopify_attributes }}>
+          <div class="luxense-trust__icon">{{ block.settings.icon_label }}</div>
+          <div>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    .luxense-trust { padding: 86px 24px; background: var(--bg); }
+    .luxense-wrap { max-width: 1560px; margin: 0 auto; }
+    .luxense-grid { display:grid; gap:16px; }
+    .luxense-trust__grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .luxense-card {
+      border-radius: 24px;
+      border: 1px solid rgba(17,17,17,.08);
+      background: rgba(255,255,255,.84);
+      box-shadow: 0 22px 60px rgba(17,17,17,.08);
+    }
+    .luxense-trust__card { display:flex; gap:16px; align-items:flex-start; padding:22px; }
+    .luxense-trust__icon {
+      width:46px;height:46px;border-radius:16px;display:grid;place-items:center;flex-shrink:0;
+      background: rgba(200,169,106,.12); color: var(--fg); font-weight:800; font-size:12px;
+    }
+    .luxense-trust__card h3 { font-size: 17px; line-height: 1.2; margin:0; font-weight:800; }
+    .luxense-trust__card p { margin:6px 0 0; font-size:14px; line-height:1.55; color:var(--muted); }
+    @media (max-width: 1040px) { .luxense-trust__grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 760px) {
+      .luxense-trust { padding: 64px 16px; }
+      .luxense-trust__grid { grid-template-columns: 1fr; }
+      .luxense-trust__card { padding:20px; }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Luxense trust badges",
+  "tag": "section",
+  "class": "luxense-trust-badges",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        { "type": "text", "id": "icon_label", "label": "Icon label", "default": "✓" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Secure checkout" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Encrypted payment and trusted order processing." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxense trust badges",
+      "blocks": [
+        { "type": "badge", "settings": { "icon_label": "✓", "title": "Secure checkout", "text": "Encrypted payment and trusted order processing." } },
+        { "type": "badge", "settings": { "icon_label": "USB", "title": "USB rechargeable", "text": "Convenient charging with no disposable batteries." } },
+        { "type": "badge", "settings": { "icon_label": "15s", "title": "Auto off", "text": "Turns off after about 15 seconds without motion." } },
+        { "type": "badge", "settings": { "icon_label": "N/W", "title": "No wiring", "text": "Install in minutes without drilling or an electrician." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
