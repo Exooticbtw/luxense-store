@@ -80,6 +80,26 @@ export default function StickyMobileAddToCart({ shopData, purchase, selectedBund
         @media (max-width: 760px) {
           .sticky-mobile-atc {
             display: block !important;
+            padding: 10px 12px 12px !important;
+          }
+          .sticky-mobile-atc > div {
+            grid-template-columns: 1fr auto !important;
+            gap: 10px !important;
+            padding: 12px !important;
+            border-radius: 20px !important;
+          }
+          .sticky-mobile-atc > div > div:nth-child(2) {
+            display: none !important;
+          }
+          .sticky-mobile-atc > div > div:first-child {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 2px !important;
+          }
+          .sticky-mobile-atc > div > a {
+            min-height: 52px !important;
+            padding: 0 14px !important;
+            font-size: 15px !important;
           }
         }
       `}</style>

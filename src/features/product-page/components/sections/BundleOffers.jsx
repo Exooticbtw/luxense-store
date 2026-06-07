@@ -50,88 +50,120 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
         >
           {BUNDLE_OPTIONS.map((bundle) => {
             const selected = bundle.quantity === selectedBundleQuantity
+            const featured = bundle.badge === "Most popular"
+            const isActive = selected || featured
 
             return (
-            <article
-              key={bundle.label}
-              className="soft-card"
-              style={{
-                borderRadius: 28,
-                padding: 24,
-                background: selected || bundle.badge === "Most popular" ? "var(--fg)" : "rgba(255,255,255,.86)",
-                color: selected || bundle.badge === "Most popular" ? "var(--cream)" : "var(--fg)",
-                border:
-                  selected || bundle.badge === "Most popular"
-                    ? "1px solid rgba(17,17,17,.92)"
-                    : "1px solid rgba(17,17,17,.08)",
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start" }}>
-                <div>
-                  <p style={{ fontSize: 13, letterSpacing: "0.16em", textTransform: "uppercase", color: selected || bundle.badge === "Most popular" ? "rgba(255,255,255,.66)" : "var(--muted)" }}>
-                    {selected ? "Selected" : bundle.badge}
-                  </p>
-                  <h3 style={{ marginTop: 10, fontSize: 26, lineHeight: 1, fontWeight: 800 }}>{bundle.label}</h3>
-                </div>
-                <div
-                  style={{
-                    borderRadius: 999,
-                    padding: "7px 12px",
-                    background: selected || bundle.badge === "Most popular" ? "rgba(255,255,255,.1)" : "rgba(200,169,106,.12)",
-                    color: selected || bundle.badge === "Most popular" ? "var(--cream)" : "var(--fg)",
-                    fontSize: 13,
-                    fontWeight: 800,
-                  }}
-                >
-                  {bundle.savings}
-                </div>
-              </div>
-
-              <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 24 }}>
-                <span className="serif" style={{ fontSize: 46, lineHeight: 1, fontWeight: 600 }}>
-                  ${bundle.price.toFixed(2)}
-                </span>
-                <span style={{ color: selected || bundle.badge === "Most popular" ? "rgba(255,255,255,.66)" : "var(--muted)", textDecoration: "line-through", fontSize: 18 }}>
-                  ${bundle.compareAt.toFixed(2)}
-                </span>
-              </div>
-
-              <p style={{ marginTop: 12, fontSize: 15, lineHeight: 1.7, color: selected || bundle.badge === "Most popular" ? "rgba(255,255,255,.76)" : "var(--muted)" }}>
-                {bundle.caption}
-              </p>
-
-              <ul style={{ listStyle: "none", display: "grid", gap: 10, marginTop: 22 }}>
-                {[
-                  `Includes ${bundle.quantity} MotionGlow light${bundle.quantity > 1 ? "s" : ""}`,
-                  "Motion sensing and USB charging",
-                  "Premium finish for modern interiors",
-                ].map((item) => (
-                  <li key={item} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: selected || bundle.badge === "Most popular" ? "rgba(255,255,255,.86)" : "var(--fg)" }}>
-                    <Check size={15} style={{ color: "var(--accent)", flexShrink: 0 }} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                type="button"
-                onClick={() => onSelectBundle?.(bundle.quantity)}
+              <article
+                key={bundle.label}
+                className="soft-card"
                 style={{
-                  width: "100%",
-                  minHeight: 56,
-                  marginTop: 24,
-                  borderRadius: 999,
-                  border: "1px solid rgba(17,17,17,.08)",
-                  background: selected || bundle.badge === "Most popular" ? "var(--cream)" : "var(--fg)",
-                  color: selected || bundle.badge === "Most popular" ? "var(--fg)" : "var(--cream)",
-                  fontSize: 15,
-                  fontWeight: 800,
-                  cursor: "pointer",
+                  borderRadius: 28,
+                  padding: 24,
+                  background: isActive ? "var(--fg)" : "rgba(255,255,255,.86)",
+                  color: isActive ? "var(--cream)" : "var(--fg)",
+                  border: isActive ? "1px solid rgba(17,17,17,.92)" : "1px solid rgba(17,17,17,.08)",
+                  boxShadow: isActive ? "0 22px 44px rgba(17,17,17,.14)" : "var(--shadow)",
+                  transform: isActive ? "translateY(-2px)" : "translateY(0)",
                 }}
               >
-                {selected ? "Selected bundle" : "Choose this bundle"}
-              </button>
-            </article>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
+                  <div>
+                    <p
+                      style={{
+                        fontSize: 13,
+                        letterSpacing: "0.16em",
+                        textTransform: "uppercase",
+                        color: isActive ? "rgba(255,255,255,.66)" : "var(--muted)",
+                      }}
+                    >
+                      {selected ? "Selected bundle" : bundle.badge}
+                    </p>
+                    <h3 style={{ marginTop: 10, fontSize: 26, lineHeight: 1, fontWeight: 800 }}>{bundle.label}</h3>
+                  </div>
+                  <div
+                    style={{
+                      borderRadius: 999,
+                      padding: "7px 12px",
+                      background: isActive ? "rgba(255,255,255,.1)" : "rgba(200,169,106,.12)",
+                      color: isActive ? "var(--cream)" : "var(--fg)",
+                      fontSize: 13,
+                      fontWeight: 800,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {bundle.savings}
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 22, flexWrap: "wrap" }}>
+                  <span className="serif" style={{ fontSize: 46, lineHeight: 1, fontWeight: 600 }}>
+                    ${bundle.price.toFixed(2)}
+                  </span>
+                  <span
+                    style={{
+                      color: isActive ? "rgba(255,255,255,.66)" : "var(--muted)",
+                      textDecoration: "line-through",
+                      fontSize: 18,
+                    }}
+                  >
+                    ${bundle.compareAt.toFixed(2)}
+                  </span>
+                </div>
+
+                <p
+                  style={{
+                    marginTop: 12,
+                    fontSize: 15,
+                    lineHeight: 1.7,
+                    color: isActive ? "rgba(255,255,255,.76)" : "var(--muted)",
+                  }}
+                >
+                  {bundle.caption}
+                </p>
+
+                <ul style={{ listStyle: "none", display: "grid", gap: 10, marginTop: 22 }}>
+                  {[
+                    `Includes ${bundle.quantity} MotionGlow light${bundle.quantity > 1 ? "s" : ""}`,
+                    "Motion sensing and USB charging",
+                    "Premium finish for modern interiors",
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                        fontSize: 14,
+                        color: isActive ? "rgba(255,255,255,.86)" : "var(--fg)",
+                      }}
+                    >
+                      <Check size={15} style={{ color: "var(--accent)", flexShrink: 0 }} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  type="button"
+                  onClick={() => onSelectBundle?.(bundle.quantity)}
+                  style={{
+                    width: "100%",
+                    minHeight: 58,
+                    marginTop: 24,
+                    borderRadius: 999,
+                    border: "1px solid rgba(17,17,17,.08)",
+                    background: isActive ? "var(--cream)" : "var(--fg)",
+                    color: isActive ? "var(--fg)" : "var(--cream)",
+                    fontSize: 15,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    boxShadow: isActive ? "0 12px 26px rgba(255,255,255,.12)" : "none",
+                  }}
+                >
+                  {selected ? "Selected bundle" : "Choose this bundle"}
+                </button>
+              </article>
             )
           })}
         </div>
@@ -162,11 +194,33 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
           #bundles {
             padding: 64px 16px !important;
           }
+          #bundles > div > div:first-child {
+            align-items: flex-start !important;
+          }
+          #bundles > div > div:first-child > a {
+            width: 100% !important;
+          }
           #bundles > div > div:nth-of-type(2) {
             grid-template-columns: 1fr !important;
+            gap: 14px !important;
+            margin-top: 28px !important;
           }
           #bundles .section-title {
             font-size: 40px !important;
+          }
+          #bundles article {
+            padding: 20px !important;
+            border-radius: 24px !important;
+          }
+          #bundles article h3 {
+            font-size: 24px !important;
+          }
+          #bundles article .serif {
+            font-size: 40px !important;
+          }
+          #bundles article button {
+            min-height: 60px !important;
+            font-size: 16px !important;
           }
         }
       `}</style>

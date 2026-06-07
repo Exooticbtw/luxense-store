@@ -107,6 +107,6 @@ export const PRODUCT_PAGE_STYLES = `
     .rooms-grid,.stats-grid{grid-template-columns:1fr !important}
     .how-grid{grid-template-columns:1fr !important}
     .section-title{font-size:34px !important}
-    .page-shell{padding-top:106px;padding-bottom:96px}
+    .page-shell{padding-top:106px;padding-bottom:156px}
   }
 `

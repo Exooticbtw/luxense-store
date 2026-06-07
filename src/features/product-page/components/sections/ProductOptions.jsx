@@ -37,16 +37,17 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
                     onClick={() => onSelectColor?.(index)}
                     style={{
                       minWidth: 160,
-                      minHeight: 70,
+                      minHeight: 78,
                       borderRadius: 20,
-                      border: selected ? "1px solid var(--accent)" : "1px solid rgba(17,17,17,.08)",
-                      background: selected ? "rgba(200,169,106,.08)" : "rgba(255,255,255,.72)",
+                      border: selected ? "2px solid var(--accent)" : "1px solid rgba(17,17,17,.08)",
+                      background: selected ? "rgba(200,169,106,.1)" : "rgba(255,255,255,.72)",
                       display: "flex",
                       alignItems: "center",
                       gap: 14,
                       padding: "14px 16px",
                       cursor: "pointer",
                       textAlign: "left",
+                      boxShadow: selected ? "0 14px 28px rgba(200,169,106,.12)" : "none",
                     }}
                   >
                     <span
@@ -62,7 +63,9 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
                     />
                     <span>
                       <span style={{ display: "block", fontSize: 15, fontWeight: 800 }}>{color.name}</span>
-                      <span style={{ display: "block", fontSize: 13, color: "var(--muted)", marginTop: 2 }}>Premium matte finish</span>
+                      <span style={{ display: "block", fontSize: 13, color: "var(--muted)", marginTop: 2 }}>
+                        {selected ? "Selected finish" : "Premium matte finish"}
+                      </span>
                     </span>
                   </button>
                 )
@@ -82,14 +85,15 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
                     type="button"
                     onClick={() => setSelectedSize(size)}
                     style={{
-                      minHeight: 64,
+                      minHeight: 66,
                       borderRadius: 18,
-                      border: selected ? "1px solid rgba(255,255,255,.28)" : "1px solid rgba(255,255,255,.1)",
-                      background: selected ? "rgba(255,255,255,.12)" : "rgba(255,255,255,.04)",
+                      border: selected ? "2px solid rgba(255,255,255,.34)" : "1px solid rgba(255,255,255,.1)",
+                      background: selected ? "rgba(255,255,255,.14)" : "rgba(255,255,255,.04)",
                       color: "var(--cream)",
                       fontSize: 18,
                       fontWeight: 800,
                       cursor: "pointer",
+                      boxShadow: selected ? "0 10px 24px rgba(255,255,255,.08)" : "none",
                     }}
                   >
                     {size}
@@ -116,9 +120,29 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
           }
           #options > div > div:nth-of-type(2) {
             grid-template-columns: 1fr !important;
+            gap: 14px !important;
+            margin-top: 28px !important;
           }
           #options .section-title {
             font-size: 40px !important;
+          }
+          #options article {
+            padding: 20px !important;
+            border-radius: 24px !important;
+          }
+          #options article h3 {
+            font-size: 17px !important;
+          }
+          #options article button {
+            min-height: 60px !important;
+          }
+          #options article > div:first-of-type {
+            gap: 10px !important;
+          }
+          #options article > div:first-of-type > button {
+            min-width: 0 !important;
+            width: 100% !important;
+            flex: 1 1 100% !important;
           }
           #options article > div:last-child {
             grid-template-columns: 1fr !important;
