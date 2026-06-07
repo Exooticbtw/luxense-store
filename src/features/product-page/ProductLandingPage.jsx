@@ -78,6 +78,12 @@ export default function ProductLandingPage() {
     setIsCartOpen(true)
   }
 
+  const handlePreviewBundle = (quantity) => {
+    const nextBundle = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === quantity) || BUNDLE_OPTIONS[0]
+    setSelectedBundle(nextBundle)
+    setQty(quantity)
+  }
+
   const handleSelectColor = (index) => {
     const nextColor = COLORS[index] || COLORS[0]
     setSelectedColor(nextColor.name)
@@ -98,6 +104,12 @@ export default function ProductLandingPage() {
         <ProductSection
           shopData={shopData}
           purchase={purchase}
+          selectedBundle={selectedBundle}
+          selectedColor={selectedColor}
+          selectedSize={selectedSize}
+          setSelectedSize={setSelectedSize}
+          onPreviewBundle={handlePreviewBundle}
+          onSelectColor={handleSelectColor}
           onOpenCart={handleOpenCart}
         />
         <VideoDemonstration onOpenCart={handleOpenCart} />

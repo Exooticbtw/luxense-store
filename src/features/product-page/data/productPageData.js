@@ -20,7 +20,7 @@ import chargerImage from "../../../assets/product/cargador.png"
 import closetImage from "../../../assets/product/armario.png"
 import lifestyleImage from "../../../assets/product/hero-detail.png"
 
-export const PRODUCT_NAME = "Luxense MotionGlow™"
+export const PRODUCT_NAME = "Luxense MotionGlow\u2122"
 
 export const GALLERY_IMAGES = [
   { src: heroImage, label: "MotionGlow hero", alt: "Luxense MotionGlow in a modern home setting" },
@@ -50,10 +50,24 @@ export const TRUST_BADGES = [
 
 export const PAYMENT_BADGES = ["Visa", "Mastercard", "PayPal", "Apple Pay", "Shop Pay"]
 
+export const HERO_KEY_BENEFITS = [
+  "Motion Activated",
+  "USB Rechargeable",
+  "Adjustable Brightness",
+  "Easy Installation",
+]
+
+export const HERO_TRUST_BADGES = [
+  "4.9/5 Rating",
+  "3,000+ Happy Customers",
+  "Free Shipping",
+  "30-Day Guarantee",
+]
+
 export const HERO_HIGHLIGHTS = [
   "120\u00b0 motion detection",
-  "3 brightness-friendly tones",
-  "Adjustable brightness from 10% to 100%",
+  "USB rechargeable",
+  "Adjustable brightness",
 ]
 
 export const BENEFITS_DATA = [

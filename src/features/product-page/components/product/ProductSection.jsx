@@ -1,27 +1,30 @@
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react"
 
-import Stars from "../common/Stars.jsx"
-import { HERO_HIGHLIGHTS, PRODUCT_NAME } from "../../data/productPageData.js"
+import { BUNDLE_OPTIONS, COLORS, HERO_KEY_BENEFITS, PAYMENT_BADGES, PRODUCT_NAME } from "../../data/productPageData.js"
 import lifestyleImage from "../../../../assets/product/hero-detail.png"
 
-export default function ProductSection({ shopData, purchase, onOpenCart }) {
-  const theme = shopData?.theme || {}
-  const media = shopData?.media || {}
-  const productImages = shopData?.product?.images || []
-  const heroVisualImage =
-    purchase?.images?.[purchase?.activeImage] ||
-    media.heroImage ||
-    media.productImage ||
-    productImages[0] ||
-    productImages[1] ||
-    null
-  const heroBackdropImage = lifestyleImage
-  const priceLabel = formatPrice(purchase?.price, theme?.productPrice || "$29.99")
-  const compareAtLabel = formatPrice(purchase?.origPrice, theme?.productCompareAt || "$49.48")
-  const selectedColorName = purchase?.colors?.[purchase?.colorIdx]?.name || "White"
-  const heroImageAlt = heroVisualImage
-    ? `Luxense MotionGlow motion sensor light in ${selectedColorName.toLowerCase()} finish, styled in a premium home interior`
-    : "Luxense MotionGlow smart light bar placeholder"
+export default function ProductSection({
+  purchase,
+  selectedBundle,
+  selectedColor,
+  selectedSize,
+  setSelectedSize,
+  onPreviewBundle,
+  onSelectColor,
+  onOpenCart,
+}) {
+  const heroVisualImage = purchase?.images?.[purchase?.activeImage] || lifestyleImage
+  const priceLabel = formatPrice(purchase?.price, "$29.99")
+  const compareAtLabel = formatPrice(purchase?.origPrice, "$49.48")
+  const bundle = selectedBundle || BUNDLE_OPTIONS.find((item) => item.quantity === purchase?.qty) || BUNDLE_OPTIONS[1]
+  const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
+
+  const summaryRows = [
+    ["Bundle", bundle?.label || "Buy 2"],
+    ["Color", selectedColorName],
+    ["Size", selectedSize || "30cm"],
+    ["Price", priceLabel],
+  ]
 
   return (
     <section
@@ -37,387 +40,467 @@ export default function ProductSection({ shopData, purchase, onOpenCart }) {
       <div style={{ maxWidth: 1600, margin: "0 auto" }}>
         <div
           style={{
-            position: "relative",
             borderRadius: 34,
             overflow: "hidden",
-            minHeight: 780,
-            boxShadow: "0 30px 80px rgba(17,17,17,.10)",
             border: "1px solid rgba(17,17,17,.08)",
-            background: "var(--cream)",
+            background: "linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,245,239,.98))",
+            boxShadow: "0 30px 80px rgba(17,17,17,.10)",
           }}
         >
           <div
             style={{
-              position: "absolute",
-              inset: 0,
               display: "grid",
               gridTemplateColumns: "1.08fr .92fr",
+              gap: 0,
+              alignItems: "stretch",
             }}
           >
             <div
               style={{
-                position: "relative",
-                overflow: "hidden",
-                background: heroBackdropImage
-                  ? `linear-gradient(90deg, rgba(10,10,10,.84) 0%, rgba(10,10,10,.72) 58%, rgba(10,10,10,.42) 100%), url(${heroBackdropImage}) center/cover no-repeat`
-                  : "linear-gradient(135deg, rgba(17,17,17,.98), rgba(40,40,40,.94))",
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "radial-gradient(circle at 20% 20%, rgba(200,169,106,.22), transparent 30%), linear-gradient(90deg, rgba(17,17,17,.28), rgba(17,17,17,.08))",
-                }}
-              />
-            </div>
-            <div style={{ background: "linear-gradient(180deg, #f7f5ef 0%, #ffffff 100%)" }} />
-          </div>
-
-          <div
-            style={{
-              position: "relative",
-              zIndex: 1,
-              display: "grid",
-              gridTemplateColumns: "1.02fr .98fr",
-              minHeight: 780,
-            }}
-          >
-            <div
-              style={{
-                padding: "80px 56px 56px 64px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
+                minHeight: 780,
+                padding: 28,
+                background:
+                  "radial-gradient(circle at top left, rgba(200,169,106,.14), transparent 26%), linear-gradient(180deg, rgba(17,17,17,.96), rgba(17,17,17,.88))",
                 color: "white",
               }}
             >
-              <div style={{ maxWidth: 740 }}>
-                <p
-                  style={{
-                    marginTop: 8,
-                    fontSize: 12,
-                    fontWeight: 700,
-                    letterSpacing: "0.28em",
-                    textTransform: "uppercase",
-                    color: "var(--accent)",
-                  }}
-                >
-                  {theme.heroEyebrow || PRODUCT_NAME}
-                </p>
-
-                <h1
-                  className="serif hero-title"
-                  style={{
-                    marginTop: 18,
-                    fontSize: 80,
-                    lineHeight: 0.96,
-                    letterSpacing: "-0.055em",
-                    textWrap: "balance",
-                    fontWeight: 700,
-                    color: "white",
-                    maxWidth: 700,
-                  }}
-                >
-                  {theme.heroTitle || "Premium Motion Lighting For Modern Homes"}
-                </h1>
-
-                <p
-                  style={{
-                    marginTop: 22,
-                    maxWidth: 620,
-                    fontSize: 19,
-                    lineHeight: 1.7,
-                    color: "rgba(255,255,255,.78)",
-                  }}
-                >
-                  {theme.heroText ||
-                    "USB rechargeable, motion activated, and available in White or Black with three light tones and adjustable brightness."}
-                </p>
-
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 26 }}>
-                  {HERO_HIGHLIGHTS.map((item) => (
-                    <span
-                      key={item}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 8,
-                        borderRadius: 999,
-                        padding: "9px 13px",
-                        background: "rgba(255,255,255,.06)",
-                        border: "1px solid rgba(255,255,255,.12)",
-                        color: "rgba(255,255,255,.86)",
-                        fontSize: 12,
-                        fontWeight: 700,
-                        letterSpacing: "0.04em",
-                      }}
-                    >
-                      <Sparkles size={13} color="var(--accent)" />
-                      {item}
-                    </span>
-                  ))}
-                </div>
-
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 32 }}>
-                  <a
-                    href="#bundles"
-                    onClick={(event) => {
-                      event.preventDefault()
-                      onOpenCart?.()
-                    }}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 10,
-                      minHeight: 60,
-                      borderRadius: 999,
-                      border: "1px solid var(--cream)",
-                      background: "var(--cream)",
-                      color: "var(--fg)",
-                      padding: "0 28px",
-                      fontSize: 16,
-                      fontWeight: 800,
-                      textDecoration: "none",
-                      boxShadow: "0 16px 34px rgba(17,17,17,.18)",
-                    }}
-                  >
-                    Shop MotionGlow™ <ArrowRight size={18} />
-                  </a>
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    gap: 14,
-                    marginTop: 28,
-                    color: "rgba(255,255,255,.88)",
-                  }}
-                >
-                  <Stars rating={5} size={17} />
-                  <span style={{ fontSize: 16, fontWeight: 800 }}>4.9</span>
-                  <span style={{ color: "rgba(255,255,255,.76)", fontSize: 16 }}>3,284 reviews</span>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      borderRadius: 999,
-                      background: "rgba(200,169,106,.16)",
-                      color: "white",
-                      padding: "7px 12px",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    <ShieldCheck size={14} />
-                    30-day guarantee
-                  </span>
-                </div>
-              </div>
-
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "flex-end",
-                  justifyContent: "space-between",
-                  gap: 18,
-                  flexWrap: "wrap",
-                  marginTop: 36,
-                  padding: "18px 20px",
-                  borderRadius: 24,
-                  background: "rgba(255,255,255,.08)",
-                  border: "1px solid rgba(255,255,255,.14)",
-                  backdropFilter: "blur(12px)",
-                }}
-              >
-                <div style={{ minWidth: 0 }}>
-                  <div
-                    style={{
-                      color: "rgba(255,255,255,.62)",
-                      fontSize: 10,
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.2em",
-                    }}
-                  >
-                    Starting from
-                  </div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
-                    <span
-                      className="serif"
-                      style={{ fontSize: 34, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em", color: "white" }}
-                    >
-                      {priceLabel}
-                    </span>
-                    <span
-                      style={{
-                        color: "rgba(255,255,255,.48)",
-                        textDecoration: "line-through",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        letterSpacing: "-0.01em",
-                      }}
-                    >
-                      {compareAtLabel}
-                    </span>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    color: "rgba(255,255,255,.78)",
-                    fontSize: 12,
-                    fontWeight: 500,
-                    lineHeight: 1.2,
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <ShieldCheck size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />
-                  Secure checkout and fast support
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                padding: "56px 56px 56px 22px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  maxWidth: 560,
-                  borderRadius: 32,
-                  background: "rgba(255,255,255,.84)",
-                  boxShadow: "0 26px 70px rgba(17,17,17,.12)",
-                  border: "1px solid rgba(17,17,17,.08)",
-                  overflow: "hidden",
+                  display: "grid",
+                  gap: 22,
+                  height: "100%",
                 }}
               >
                 <div
                   style={{
-                    padding: "18px 18px 0",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 12,
+                    borderRadius: 30,
+                    overflow: "hidden",
+                    minHeight: 360,
+                    background: "rgba(255,255,255,.04)",
+                    border: "1px solid rgba(255,255,255,.10)",
+                    boxShadow: "0 24px 70px rgba(0,0,0,.20)",
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: 11,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.18em",
-                      fontWeight: 700,
-                      color: "var(--muted)",
-                    }}
-                  >
-                    Luxense MotionGlow™
-                  </span>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      borderRadius: 999,
-                      padding: "7px 11px",
-                      background: "rgba(200,169,106,.12)",
-                      color: "var(--fg)",
-                      fontSize: 12,
-                      fontWeight: 700,
-                    }}
-                  >
-                    <Sparkles size={13} color="var(--accent)" />
-                    Smart lighting, instantly
-                  </span>
-                </div>
-
-                <div style={{ padding: 18 }}>
                   {heroVisualImage ? (
                     <img
                       src={heroVisualImage}
-                      alt={heroImageAlt}
+                      alt="Luxense MotionGlow premium lifestyle scene"
                       loading="eager"
                       style={{
                         width: "100%",
-                        aspectRatio: "4 / 5",
+                        height: "100%",
+                        minHeight: 360,
                         objectFit: "cover",
                         objectPosition: "center",
-                        borderRadius: 24,
                         display: "block",
                       }}
                     />
                   ) : (
                     <div
                       role="img"
-                      aria-label={heroImageAlt}
+                      aria-label="Luxense MotionGlow lifestyle visualization"
                       style={{
                         width: "100%",
-                        aspectRatio: "4 / 5",
-                        borderRadius: 24,
+                        minHeight: 360,
                         display: "grid",
                         placeItems: "center",
-                        background: "linear-gradient(160deg, #171717, #2a2a2a 55%, #f5f5f3 55%, #ffffff 100%)",
-                        color: "white",
-                        textAlign: "center",
                         padding: 24,
+                        textAlign: "center",
+                        background:
+                          "linear-gradient(160deg, rgba(23,23,23,.98), rgba(55,55,55,.92) 58%, rgba(245,245,243,.96) 58%, rgba(255,255,255,1) 100%)",
+                        color: "white",
                       }}
                     >
                       <div>
-                        <div style={{ fontSize: 14, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(255,255,255,.72)" }}>
-                          Luxense MotionGlow™
+                        <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.22em", color: "rgba(255,255,255,.72)" }}>
+                          {PRODUCT_NAME}
                         </div>
-                        <div className="serif" style={{ fontSize: 40, lineHeight: 1, marginTop: 12, fontWeight: 700 }}>
+                        <div className="serif" style={{ marginTop: 12, fontSize: 34, fontWeight: 700 }}>
                           MotionGlow
-                        </div>
-                        <div style={{ marginTop: 12, fontSize: 16, color: "rgba(255,255,255,.78)" }}>
-                          Premium motion lighting for modern interiors
                         </div>
                       </div>
                     </div>
                   )}
                 </div>
 
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                    gap: 10,
-                    padding: "0 18px 18px",
-                  }}
-                >
-                  {[
-                    ["Wireless", "No wiring required"],
-                    ["Rechargeable", "USB power"],
-                    ["Auto-off", "About 15s"],
-                  ].map(([title, value]) => (
-                    <div
-                      key={title}
+                <div style={{ display: "grid", gap: 10, maxWidth: 760 }}>
+                  <p
+                    style={{
+                      fontSize: 11,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.24em",
+                      color: "rgba(255,255,255,.66)",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {PRODUCT_NAME}
+                  </p>
+                  <h1
+                    className="serif hero-title"
+                    style={{
+                      fontSize: "clamp(44px, 5vw, 76px)",
+                      lineHeight: 0.95,
+                      letterSpacing: "-0.06em",
+                      textWrap: "balance",
+                      fontWeight: 700,
+                      color: "white",
+                      maxWidth: 700,
+                    }}
+                  >
+                    Never Walk Into A Dark Room Again
+                  </h1>
+                  <p
+                    style={{
+                      maxWidth: 640,
+                      fontSize: 18,
+                      lineHeight: 1.72,
+                      color: "rgba(255,255,255,.80)",
+                    }}
+                  >
+                    Motion-activated lighting that instantly illuminates closets, kitchens, hallways, and stairways without wiring or complicated installation.
+                  </p>
+
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 4 }}>
+                    {HERO_KEY_BENEFITS.map((item) => (
+                      <span
+                        key={item}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 8,
+                          padding: "9px 12px",
+                          borderRadius: 999,
+                          background: "rgba(255,255,255,.08)",
+                          border: "1px solid rgba(255,255,255,.12)",
+                          fontSize: 12.5,
+                          fontWeight: 700,
+                          color: "rgba(255,255,255,.92)",
+                        }}
+                      >
+                        <Sparkles size={13} color="var(--accent)" />
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 10 }}>
+                    <button
+                      type="button"
+                      onClick={() => onOpenCart?.()}
                       style={{
-                        borderRadius: 18,
-                        background: "rgba(17,17,17,.04)",
-                        border: "1px solid rgba(17,17,17,.06)",
-                        padding: "14px 12px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                        minHeight: 56,
+                        borderRadius: 999,
+                        border: "1px solid var(--cream)",
+                        background: "var(--cream)",
+                        color: "var(--fg)",
+                        padding: "0 24px",
+                        fontSize: 15.5,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                        boxShadow: "0 16px 34px rgba(17,17,17,.18)",
                       }}
                     >
-                      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--muted)" }}>{title}</div>
-                      <div className="serif" style={{ marginTop: 8, fontSize: 18, lineHeight: 1.05, fontWeight: 700 }}>
-                        {value}
-                      </div>
+                      Shop MotionGlow™ <ArrowRight size={18} />
+                    </button>
+
+                    <a
+                      href="#video-demo"
+                      onClick={(event) => {
+                        event.preventDefault()
+                        document.getElementById("video-demo")?.scrollIntoView({ behavior: "smooth", block: "start" })
+                      }}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                        minHeight: 56,
+                        borderRadius: 999,
+                        border: "1px solid rgba(255,255,255,.18)",
+                        background: "rgba(255,255,255,.06)",
+                        color: "rgba(255,255,255,.96)",
+                        padding: "0 22px",
+                        fontSize: 15.5,
+                        fontWeight: 800,
+                        textDecoration: "none",
+                        backdropFilter: "blur(10px)",
+                      }}
+                    >
+                      See How It Works
+                    </a>
+                  </div>
+
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center", marginTop: 2 }}>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 12.5, fontWeight: 700, color: "rgba(255,255,255,.88)" }}>
+                      <ShieldCheck size={14} color="var(--accent)" />
+                      4.9 rating
+                    </span>
+                    <span style={{ color: "rgba(255,255,255,.34)" }}>·</span>
+                    <span style={{ fontSize: 12.5, fontWeight: 700, color: "rgba(255,255,255,.88)" }}>3,000+ happy customers</span>
+                    <span style={{ color: "rgba(255,255,255,.34)" }}>·</span>
+                    <span style={{ fontSize: 12.5, fontWeight: 700, color: "rgba(255,255,255,.88)" }}>30-day guarantee</span>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    marginTop: "auto",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 16,
+                    padding: "18px 20px",
+                    borderRadius: 24,
+                    background: "rgba(255,255,255,.07)",
+                    border: "1px solid rgba(255,255,255,.12)",
+                  }}
+                >
+                  <div>
+                    <div style={{ color: "rgba(255,255,255,.62)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.2em", fontWeight: 700 }}>
+                      Premium Motion Lighting For Modern Homes
                     </div>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
+                      <span className="serif" style={{ fontSize: 32, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
+                        {priceLabel}
+                      </span>
+                      <span style={{ color: "rgba(255,255,255,.48)", textDecoration: "line-through", fontSize: 14, fontWeight: 500 }}>
+                        {compareAtLabel}
+                      </span>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,.78)", fontWeight: 600 }}>
+                    Secure checkout and fast support
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: 20,
+                borderRadius: 0,
+                background: "rgba(255,255,255,.96)",
+                borderLeft: "1px solid rgba(17,17,17,.08)",
+                display: "grid",
+                gap: 16,
+                alignSelf: "stretch",
+              }}
+            >
+              <div>
+                <p
+                  style={{
+                    fontSize: 11,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.24em",
+                    color: "var(--muted)",
+                    fontWeight: 700,
+                  }}
+                >
+                  Purchase interface
+                </p>
+                <h2 className="serif" style={{ marginTop: 10, fontSize: 30, lineHeight: 1.02, letterSpacing: "-0.05em" }}>
+                  {PRODUCT_NAME}
+                </h2>
+                <p style={{ marginTop: 10, fontSize: 14.5, lineHeight: 1.65, color: "var(--muted)" }}>
+                  Premium Motion Lighting For Modern Homes
+                </p>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  justifyContent: "space-between",
+                  gap: 12,
+                  padding: "14px 16px",
+                  borderRadius: 20,
+                  background: "rgba(17,17,17,.04)",
+                  border: "1px solid rgba(17,17,17,.06)",
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--muted)", fontWeight: 700 }}>
+                    Starting price
+                  </div>
+                  <div className="serif" style={{ marginTop: 6, fontSize: 30, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
+                    {priceLabel}
+                  </div>
+                </div>
+                <div style={{ color: "var(--muted)", fontSize: 14, textDecoration: "line-through", fontWeight: 600 }}>
+                  {compareAtLabel}
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gap: 10 }}>
+                <SectionLabel text="Bundle" />
+                <div style={{ display: "grid", gap: 8 }}>
+                  {BUNDLE_OPTIONS.map((option) => {
+                    const active = option.quantity === bundle.quantity
+                    return (
+                      <button
+                        key={option.quantity}
+                        type="button"
+                        onClick={() => onPreviewBundle?.(option.quantity)}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: 14,
+                          padding: "12px 14px",
+                          borderRadius: 18,
+                          border: active ? "1px solid rgba(200,169,106,.55)" : "1px solid rgba(17,17,17,.08)",
+                          background: active ? "rgba(200,169,106,.08)" : "rgba(17,17,17,.03)",
+                          cursor: "pointer",
+                          textAlign: "left",
+                        }}
+                      >
+                        <div>
+                          <div style={{ fontSize: 14.5, fontWeight: 800, color: "var(--fg)" }}>
+                            {option.label}
+                            {option.savings ? ` - ${option.savings}` : ""}
+                          </div>
+                          <div style={{ marginTop: 4, fontSize: 12.5, color: "var(--muted)" }}>{option.badge}</div>
+                        </div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: "var(--fg)" }}>${option.price.toFixed(2)}</div>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gap: 10 }}>
+                <SectionLabel text="Color" />
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10 }}>
+                  {COLORS.map((color, index) => {
+                    const active = color.name === selectedColorName
+                    return (
+                      <button
+                        key={color.name}
+                        type="button"
+                        onClick={() => onSelectColor?.(index)}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 10,
+                          padding: "12px 14px",
+                          borderRadius: 18,
+                          border: active ? "1px solid rgba(200,169,106,.55)" : "1px solid rgba(17,17,17,.08)",
+                          background: active ? "rgba(200,169,106,.08)" : "rgba(17,17,17,.03)",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: 18,
+                            height: 18,
+                            borderRadius: "50%",
+                            background: color.hex,
+                            border: "1px solid rgba(17,17,17,.12)",
+                            flexShrink: 0,
+                          }}
+                        />
+                        <span style={{ fontSize: 14.5, fontWeight: 700 }}>{color.name}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gap: 10 }}>
+                <SectionLabel text="Size" />
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 8 }}>
+                  {["20cm", "30cm", "40cm", "50cm"].map((size) => {
+                    const active = size === (selectedSize || "30cm")
+                    return (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => setSelectedSize?.(size)}
+                        style={{
+                          minHeight: 44,
+                          borderRadius: 999,
+                          border: active ? "1px solid rgba(200,169,106,.55)" : "1px solid rgba(17,17,17,.08)",
+                          background: active ? "rgba(200,169,106,.08)" : "rgba(17,17,17,.03)",
+                          fontSize: 13.5,
+                          fontWeight: 700,
+                          cursor: "pointer",
+                        }}
+                      >
+                        {size}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div
+                style={{
+                  padding: 16,
+                  borderRadius: 20,
+                  background: "rgba(17,17,17,.04)",
+                  border: "1px solid rgba(17,17,17,.06)",
+                }}
+              >
+                <div style={{ display: "grid", gap: 8 }}>
+                  {summaryRows.map(([label, value]) => (
+                    <div key={label} style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center" }}>
+                      <span style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--muted)", fontWeight: 700 }}>
+                        {label}
+                      </span>
+                      <span style={{ fontSize: 14.5, fontWeight: 700, textAlign: "right" }}>{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => onOpenCart?.()}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 10,
+                  minHeight: 56,
+                  borderRadius: 999,
+                  border: "1px solid var(--fg)",
+                  background: "var(--fg)",
+                  color: "var(--cream)",
+                  padding: "0 22px",
+                  fontSize: 15.5,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                  boxShadow: "0 16px 34px rgba(17,17,17,.14)",
+                }}
+              >
+                Add to Cart <ArrowRight size={18} />
+              </button>
+
+              <div style={{ display: "grid", gap: 8 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "var(--muted)", fontWeight: 600 }}>
+                  <ShieldCheck size={14} color="var(--accent)" />
+                  Secure checkout
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {PAYMENT_BADGES.map((badge) => (
+                    <span
+                      key={badge}
+                      style={{
+                        padding: "7px 10px",
+                        borderRadius: 999,
+                        border: "1px solid rgba(17,17,17,.08)",
+                        background: "rgba(17,17,17,.03)",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        color: "var(--fg)",
+                      }}
+                    >
+                      {badge}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -427,37 +510,12 @@ export default function ProductSection({ shopData, purchase, onOpenCart }) {
       </div>
 
       <style>{`
-        @media (max-width: 1180px) {
-          #hero > div > div > div:nth-child(2) {
-            padding: 42px 32px 42px 18px !important;
-          }
-          #hero > div > div > div:first-child {
-            padding: 72px 40px 56px 44px !important;
-          }
-          #hero h1 {
-            font-size: 68px !important;
-          }
-        }
-        @media (max-width: 900px) {
-          #hero > div > div {
+        @media (max-width: 1080px) {
+          #hero > div > div > div {
             grid-template-columns: 1fr !important;
+          }
+          #hero > div > div > div > div:first-child {
             min-height: auto !important;
-          }
-          #hero > div > div > div:nth-child(2) {
-            display: none !important;
-          }
-          #hero > div > div > div:first-child,
-          #hero > div > div > div:nth-child(2) {
-            padding-left: 20px !important;
-            padding-right: 20px !important;
-          }
-          #hero > div > div > div:first-child {
-            padding-top: 72px !important;
-            padding-bottom: 28px !important;
-          }
-          #hero > div > div > div:nth-child(2) {
-            padding-top: 0 !important;
-            padding-bottom: 28px !important;
           }
         }
         @media (max-width: 760px) {
@@ -476,55 +534,43 @@ export default function ProductSection({ shopData, purchase, onOpenCart }) {
             line-height: 1.6 !important;
           }
           #hero > div > div > div:first-child {
-            padding-top: 56px !important;
-            padding-bottom: 18px !important;
+            padding: 18px !important;
           }
           #hero > div > div > div:first-child > div:first-child {
-            max-width: none !important;
+            gap: 14px !important;
           }
-          #hero > div > div > div:first-child > div:first-child > div {
-            gap: 10px !important;
-          }
-          #hero > div > div > div:first-child > div:first-child > div:nth-child(5) {
-            margin-top: 24px !important;
-            display: flex !important;
-            flex-wrap: wrap !important;
-            gap: 10px !important;
-          }
-          #hero > div > div > div:first-child > div:first-child > div:nth-child(5) a {
-            flex: 1 1 160px !important;
-            min-height: 52px !important;
-            font-size: 15px !important;
-            padding: 0 20px !important;
-          }
-          #hero > div > div > div:first-child > div:first-child > div:nth-child(6) {
-            margin-top: 24px !important;
-            gap: 10px !important;
+          #hero > div > div > div:first-child > div:first-child > div:first-child {
+            min-height: 280px !important;
           }
           #hero > div > div > div:first-child > div:last-child {
-            padding: 14px !important;
-            margin-top: 24px !important;
-            gap: 10px !important;
-            border-radius: 20px !important;
+            margin-top: 22px !important;
           }
-          #hero > div > div > div:first-child > div:last-child > div:last-child {
-            white-space: normal !important;
+          #hero > div > div > div:last-child {
+            padding: 18px !important;
+            border-left: none !important;
+            border-top: 1px solid rgba(17,17,17,.08) !important;
           }
-          #hero > div > div > div:first-child > div:last-child > div:first-child > div:first-child {
-            font-size: 9px !important;
+          #hero > div > div > div:last-child button {
+            min-height: 52px !important;
+            font-size: 15px !important;
           }
-          #hero > div > div > div:first-child > div:last-child > div:first-child > div:last-child {
-            font-size: 27px !important;
+          #hero > div > div > div:last-child > div:nth-of-type(4) > div {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
           }
-          #hero > div > div > div:first-child > div:last-child > div:last-child {
-            font-size: 11px !important;
-          }
-          #hero > div > div > div:first-child > div:last-child > div:first-child > span:last-child {
-            font-size: 12px !important;
+          #hero > div > div > div:last-child > div:nth-of-type(5) > div {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
           }
         }
       `}</style>
     </section>
+  )
+}
+
+function SectionLabel({ text }) {
+  return (
+    <div style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--muted)", fontWeight: 700 }}>
+      {text}
+    </div>
   )
 }
 
