@@ -73,7 +73,7 @@
         "footer_button": "Join",
         "bedroom_image": "shopify://shop_images/5a6114b44494521d07ca0c553d9c21a1.jpg",
         "closet_image": "shopify://shop_images/armario.png",
-        "kitchen_image": "shopify://shop_images/principal_d541195a-67ef-4d6b-8770-5edf74dc2229.png",
+        "kitchen_image": "shopify://shop_images/upscalemedia-transformed.png",
         "hallway_image": "shopify://shop_images/woman3.webp",
         "gallery_image_1": "{{ section.settings.product.featured_image }}"
       }
