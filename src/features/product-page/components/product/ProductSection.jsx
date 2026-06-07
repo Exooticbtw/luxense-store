@@ -18,8 +18,8 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, purchase?.qty || 1) || "#bundles"
   const priceLabel = formatPrice(purchase?.price, theme?.productPrice || "$29.99")
   const compareAtLabel = formatPrice(purchase?.origPrice, theme?.productCompareAt || "$39.99")
-  const primaryButtonLabel = theme?.heroPrimaryButton || "Shop bundles"
-  const secondaryButtonLabel = theme?.heroSecondaryButton || "Buy now"
+  const primaryButtonLabel = theme?.heroPrimaryButton || "Shop MotionGlow"
+  const secondaryButtonLabel = theme?.heroSecondaryButton || "Checkout"
 
   return (
     <section

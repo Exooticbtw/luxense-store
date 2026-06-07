@@ -69,7 +69,7 @@ export default function StickyMobileAddToCart({ shopData, purchase, selectedBund
           }}
         >
           <ShoppingBag size={16} />
-          Add to cart
+          Checkout
         </a>
       </div>
 

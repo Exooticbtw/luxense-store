@@ -67,6 +67,23 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
                         {selected ? "Selected finish" : "Premium matte finish"}
                       </span>
                     </span>
+                    {selected && (
+                      <span
+                        style={{
+                          marginLeft: "auto",
+                          borderRadius: 999,
+                          background: "var(--fg)",
+                          color: "var(--cream)",
+                          padding: "5px 9px",
+                          fontSize: 11,
+                          fontWeight: 800,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        Selected
+                      </span>
+                    )}
                   </button>
                 )
               })}
@@ -96,7 +113,24 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
                       boxShadow: selected ? "0 10px 24px rgba(255,255,255,.08)" : "none",
                     }}
                   >
-                    {size}
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                      {size}
+                      {selected && (
+                        <span
+                          style={{
+                            borderRadius: 999,
+                            background: "rgba(255,255,255,.16)",
+                            padding: "4px 8px",
+                            fontSize: 11,
+                            fontWeight: 800,
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Selected
+                        </span>
+                      )}
+                    </span>
                   </button>
                 )
               })}
@@ -135,6 +169,9 @@ export default function ProductOptions({ selectedColorIdx, onSelectColor, select
           }
           #options article button {
             min-height: 60px !important;
+          }
+          #options article button span {
+            line-height: 1.2 !important;
           }
           #options article > div:first-of-type {
             gap: 10px !important;

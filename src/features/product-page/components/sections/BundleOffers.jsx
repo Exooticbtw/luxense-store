@@ -36,7 +36,7 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
               textDecoration: "none",
             }}
           >
-            Secure checkout <ArrowRight size={17} />
+            Shop MotionGlow <ArrowRight size={17} />
           </a>
         </div>
 
@@ -52,6 +52,7 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
             const selected = bundle.quantity === selectedBundleQuantity
             const featured = bundle.badge === "Most popular"
             const isActive = selected || featured
+            const ctaLabel = selected ? "Selected bundle" : "Select bundle"
 
             return (
               <article
@@ -79,7 +80,9 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
                     >
                       {selected ? "Selected bundle" : bundle.badge}
                     </p>
-                    <h3 style={{ marginTop: 10, fontSize: 26, lineHeight: 1, fontWeight: 800 }}>{bundle.label}</h3>
+                    <h3 style={{ marginTop: 10, fontSize: 26, lineHeight: 1.08, fontWeight: 800 }}>
+                      {bundle.label} <span style={{ color: isActive ? "rgba(255,255,255,.78)" : "var(--muted)", fontWeight: 700 }}>— {bundle.savings}</span>
+                    </h3>
                   </div>
                   <div
                     style={{
@@ -122,6 +125,33 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
                   {bundle.caption}
                 </p>
 
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    flexWrap: "wrap",
+                    marginTop: 16,
+                    color: isActive ? "rgba(255,255,255,.7)" : "var(--muted)",
+                    fontSize: 13,
+                    fontWeight: 700,
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      borderRadius: 999,
+                      padding: "6px 10px",
+                      background: isActive ? "rgba(255,255,255,.1)" : "rgba(200,169,106,.12)",
+                    }}
+                  >
+                    {featured ? "Best choice" : selected ? "Selected" : "Easy compare"}
+                  </span>
+                  <span>{bundle.quantity === 1 ? "One space" : bundle.quantity === 2 ? "Recommended" : "Best savings"}</span>
+                </div>
+
                 <ul style={{ listStyle: "none", display: "grid", gap: 10, marginTop: 22 }}>
                   {[
                     `Includes ${bundle.quantity} MotionGlow light${bundle.quantity > 1 ? "s" : ""}`,
@@ -161,7 +191,7 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
                     boxShadow: isActive ? "0 12px 26px rgba(255,255,255,.12)" : "none",
                   }}
                 >
-                  {selected ? "Selected bundle" : "Choose this bundle"}
+                  {ctaLabel}
                 </button>
               </article>
             )
@@ -214,6 +244,7 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
           }
           #bundles article h3 {
             font-size: 24px !important;
+            line-height: 1.12 !important;
           }
           #bundles article .serif {
             font-size: 40px !important;
@@ -221,6 +252,11 @@ export default function BundleOffers({ checkoutUrl, shopDomain, onSelectBundle, 
           #bundles article button {
             min-height: 60px !important;
             font-size: 16px !important;
+          }
+          #bundles article p,
+          #bundles article li,
+          #bundles article span {
+            line-height: 1.55 !important;
           }
         }
       `}</style>
