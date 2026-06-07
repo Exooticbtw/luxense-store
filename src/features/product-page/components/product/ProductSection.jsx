@@ -20,6 +20,12 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
   const compareAtLabel = formatPrice(purchase?.origPrice, theme?.productCompareAt || "$39.99")
   const primaryButtonLabel = theme?.heroPrimaryButton || "Shop MotionGlow"
   const secondaryButtonLabel = theme?.heroSecondaryButton || "Checkout"
+  const selectedColorName = purchase?.colors?.[purchase?.colorIdx]?.name || "White"
+  const galleryThumbs = Array.isArray(purchase?.images) ? purchase.images.filter(Boolean) : []
+  const canShowThumbs = galleryThumbs.length > 1 && typeof purchase?.setActiveImage === "function"
+  const heroImageAlt = heroImage
+    ? `${PRODUCT_NAME} motion sensor light in ${selectedColorName.toLowerCase()} finish, photographed in a modern interior`
+    : `${PRODUCT_NAME} placeholder preview`
 
   return (
     <section
@@ -178,31 +184,128 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
               }}
             >
               <div style={{ padding: 22, display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
-                <span className="chip" style={{ background: "rgba(17,17,17,.04)" }}>
-                  <span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent)" }} />
-                  Motion sensor light
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    borderRadius: 999,
+                    border: "1px solid rgba(17,17,17,.08)",
+                    background: "rgba(17,17,17,.03)",
+                    padding: "8px 12px",
+                    color: "var(--muted)",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.12em",
+                  }}
+                >
+                  {selectedColorName}
                 </span>
-                <span style={{ color: "var(--muted)", fontSize: 14, fontWeight: 700 }}>White / Black</span>
+                <span style={{ color: "var(--muted)", fontSize: 13, fontWeight: 700 }}>Wireless LED motion light</span>
               </div>
 
               <div style={{ padding: "0 22px 22px" }}>
                 <div
                   style={{
-                    borderRadius: 26,
+                    position: "relative",
+                    borderRadius: 28,
                     overflow: "hidden",
                     background: "linear-gradient(160deg, rgba(17,17,17,.04), rgba(200,169,106,.1))",
+                    border: "1px solid rgba(17,17,17,.06)",
+                    boxShadow: "0 20px 50px rgba(17,17,17,.08)",
                   }}
                 >
-                  <img
-                    src={heroImage}
-                    alt={PRODUCT_NAME}
-                    style={{
-                      width: "100%",
-                      aspectRatio: "4 / 3",
-                      objectFit: "cover",
-                    }}
-                  />
+                  {heroImage ? (
+                    <img
+                      src={heroImage}
+                      alt={heroImageAlt}
+                      loading="eager"
+                      style={{
+                        width: "100%",
+                        aspectRatio: "1 / 1",
+                        minHeight: 430,
+                        objectFit: "cover",
+                        objectPosition: "center",
+                        display: "block",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      role="img"
+                      aria-label={heroImageAlt}
+                      style={{
+                        width: "100%",
+                        aspectRatio: "1 / 1",
+                        minHeight: 430,
+                        display: "grid",
+                        placeItems: "center",
+                        background: "linear-gradient(145deg, rgba(17,17,17,.04), rgba(200,169,106,.16))",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "min(62%, 320px)",
+                          aspectRatio: "5 / 1",
+                          borderRadius: 999,
+                          background: "rgba(255,255,255,.76)",
+                          border: "1px solid rgba(17,17,17,.08)",
+                          boxShadow: "0 18px 44px rgba(17,17,17,.08)",
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
+
+                {canShowThumbs && (
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(72px, 1fr))",
+                      gap: 10,
+                      marginTop: 14,
+                    }}
+                  >
+                    {galleryThumbs.slice(0, 4).map((src, index) => {
+                      const isActive = index === purchase.activeImage
+                      const thumbAlt = `${PRODUCT_NAME} image ${index + 1}, ${selectedColorName.toLowerCase()} finish`
+
+                      return (
+                        <button
+                          key={`${src}-${index}`}
+                          type="button"
+                          onClick={() => purchase.setActiveImage(index)}
+                          aria-label={`View product image ${index + 1}`}
+                          style={{
+                            aspectRatio: "1",
+                            borderRadius: 16,
+                            overflow: "hidden",
+                            padding: 0,
+                            background: "rgba(255,255,255,.86)",
+                            cursor: "pointer",
+                            border: isActive ? "2px solid var(--accent)" : "1px solid rgba(17,17,17,.08)",
+                            outline: isActive ? "2px solid rgba(200,169,106,.22)" : "none",
+                            outlineOffset: 2,
+                            boxShadow: isActive ? "0 14px 28px rgba(17,17,17,.08)" : "none",
+                          }}
+                        >
+                          <img
+                            src={src}
+                            alt={thumbAlt}
+                            loading="lazy"
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              objectPosition: "center",
+                              display: "block",
+                            }}
+                          />
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
 
                 <div
                   style={{
@@ -242,9 +345,9 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     justifyContent: "space-between",
                     gap: 16,
                     flexWrap: "wrap",
-                    marginTop: 18,
-                    padding: "18px 20px",
-                    borderRadius: 24,
+                    marginTop: 16,
+                    padding: "16px 18px",
+                    borderRadius: 22,
                     background: "rgba(17,17,17,.04)",
                   }}
                 >
@@ -252,24 +355,24 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     <div
                       style={{
                         color: "var(--muted)",
-                        fontSize: 11,
+                        fontSize: 10,
                         fontWeight: 700,
                         textTransform: "uppercase",
-                        letterSpacing: "0.18em",
+                        letterSpacing: "0.16em",
                       }}
                     >
                       Starting from
                     </div>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
-                      <span className="serif" style={{ fontSize: 30, lineHeight: 1, fontWeight: 600, letterSpacing: "-0.05em" }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 6, flexWrap: "wrap" }}>
+                      <span className="serif" style={{ fontSize: 34, lineHeight: 1, fontWeight: 600, letterSpacing: "-0.05em" }}>
                         {priceLabel}
                       </span>
                       <span
                         style={{
-                          color: "rgba(17,17,17,.45)",
+                          color: "rgba(17,17,17,.4)",
                           textDecoration: "line-through",
-                          fontSize: 15,
-                          fontWeight: 500,
+                          fontSize: 14,
+                          fontWeight: 400,
                           letterSpacing: "-0.01em",
                         }}
                       >
@@ -285,8 +388,9 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                       gap: 8,
                       color: "var(--muted)",
                       fontSize: 12,
-                      fontWeight: 600,
+                      fontWeight: 500,
                       letterSpacing: "-0.01em",
+                      lineHeight: 1.2,
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -326,6 +430,38 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
           }
           #hero > div > div > div:last-child > div:last-child > div:first-child {
             width: 100% !important;
+          }
+          #hero > div > div > div:last-child > div:last-child > div:last-child {
+            width: 100% !important;
+            justify-content: flex-start !important;
+          }
+          #hero > div > div > div:last-child > div:nth-child(2) {
+            padding: 0 16px 16px !important;
+          }
+          #hero > div > div > div:last-child > div:nth-child(2) img,
+          #hero > div > div > div:last-child > div:nth-child(2) [role="img"] {
+            min-height: 320px !important;
+          }
+          #hero > div > div > div:last-child > div:nth-child(2) > div:nth-child(2) {
+            gap: 8px !important;
+            margin-top: 12px !important;
+          }
+          #hero > div > div > div:last-child > div:nth-child(2) > div:nth-child(2) button {
+            border-radius: 14px !important;
+          }
+          #hero > div > div > div:last-child > div:last-child {
+            padding: 14px 16px !important;
+            border-radius: 20px !important;
+            align-items: flex-start !important;
+          }
+          #hero > div > div > div:last-child > div:last-child > div:first-child {
+            width: 100% !important;
+          }
+          #hero > div > div > div:last-child > div:last-child > div:first-child > div:first-child {
+            font-size: 10px !important;
+          }
+          #hero > div > div > div:last-child > div:last-child > div:first-child > div:last-child span.serif {
+            font-size: 30px !important;
           }
           #hero > div > div > div:last-child > div:last-child > div:last-child {
             width: 100% !important;
