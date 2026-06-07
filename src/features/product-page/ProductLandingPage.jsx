@@ -32,6 +32,7 @@ export default function ProductLandingPage() {
   const { shopData, loading } = useShopifyProductData()
   const { scrolled } = useScrollFlags()
   const purchase = useProductPurchaseState(shopData)
+  const { qty, setQty, setColorIdx, setActiveImage } = purchase
   const [selectedColor, setSelectedColor] = useState("White")
   const [selectedSize, setSelectedSize] = useState("30cm")
   const [selectedBundle, setSelectedBundle] = useState(BUNDLE_OPTIONS[1])
@@ -43,10 +44,10 @@ export default function ProductLandingPage() {
   )
 
   useEffect(() => {
-    if (purchase.qty !== selectedBundle.quantity) {
-      purchase.setQty(selectedBundle.quantity)
+    if (qty !== selectedBundle.quantity) {
+      setQty(selectedBundle.quantity)
     }
-  }, [purchase.qty, purchase.setQty, selectedBundle.quantity])
+  }, [qty, setQty, selectedBundle.quantity])
 
   const theme = shopData?.theme || {}
   const themeVars = {
@@ -74,15 +75,15 @@ export default function ProductLandingPage() {
   const handleSelectBundle = (quantity) => {
     const nextBundle = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === quantity) || BUNDLE_OPTIONS[0]
     setSelectedBundle(nextBundle)
-    purchase.setQty(quantity)
+    setQty(quantity)
     setIsCartOpen(true)
   }
 
   const handleSelectColor = (index) => {
     const nextColor = COLORS[index] || COLORS[0]
     setSelectedColor(nextColor.name)
-    purchase.setColorIdx(index)
-    purchase.setActiveImage(index)
+    setColorIdx(index)
+    setActiveImage(index)
   }
 
   const handleOpenCart = () => {
