@@ -10,13 +10,11 @@ import FAQ from "./components/sections/FAQ.jsx"
 import FinalCTA from "./components/sections/FinalCTA.jsx"
 import GuaranteeSection from "./components/sections/GuaranteeSection.jsx"
 import HowItWorks from "./components/sections/HowItWorks.jsx"
-import LightingModes from "./components/sections/LightingModes.jsx"
 import LightTones from "./components/sections/LightTones.jsx"
 import ProductBenefits from "./components/sections/ProductBenefits.jsx"
 import ProductOptions from "./components/sections/ProductOptions.jsx"
 import PurchaseSummary from "./components/sections/PurchaseSummary.jsx"
 import BundleOffers from "./components/sections/BundleOffers.jsx"
-import ComparisonTable from "./components/sections/ComparisonTable.jsx"
 import TechnicalSpecifications from "./components/sections/TechnicalSpecifications.jsx"
 import TrustBadges from "./components/sections/TrustBadges.jsx"
 import UseCases from "./components/sections/UseCases.jsx"
@@ -68,6 +66,7 @@ export default function ProductLandingPage() {
       <Navbar scrolled={scrolled} shopName={shopData?.shopName} onNavigateHome={navigateHome} />
       <main>
         <ProductSection shopData={shopData} purchase={purchase} onNavigateSection={navigateHome} />
+        <PurchaseSummary shopData={shopData} purchase={purchase} selectedSize={selectedSize} />
         <TrustBadges />
         <ProductBenefits />
         <BundleOffers
@@ -85,12 +84,9 @@ export default function ProductLandingPage() {
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
         />
-        <PurchaseSummary shopData={shopData} purchase={purchase} selectedSize={selectedSize} />
         <HowItWorks />
-        <LightingModes />
         <LightTones />
         <UseCases />
-        <ComparisonTable />
         <TechnicalSpecifications />
         <FAQ />
         <GuaranteeSection />

@@ -29,13 +29,13 @@ export default function FinalCTA({ shopData, purchase }) {
       >
         <div style={{ padding: "72px 28px", textAlign: "center", maxWidth: 820, margin: "0 auto" }}>
           <p className="eyebrow" style={{ color: "rgba(255,255,255,.62)" }}>
-            Guarantee / secure checkout
+            Final step
           </p>
           <h2 className="serif" style={{ fontSize: 72, lineHeight: 1, fontWeight: 600, textWrap: "balance" }}>
-            Bring premium motion lighting into the spaces you use every day.
+            Finish your MotionGlow order with confidence.
           </h2>
           <p style={{ marginTop: 22, fontSize: 19, lineHeight: 1.7, color: "rgba(255,255,255,.76)" }}>
-            Luxense MotionGlow is backed by a secure checkout flow, a 30-day guarantee, and a design that feels at home in modern interiors.
+            Secure checkout, a 30-day guarantee, and support if you need help after purchase.
           </p>
 
           <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", marginTop: 26 }}>
@@ -80,7 +80,7 @@ export default function FinalCTA({ shopData, purchase }) {
               textDecoration: "none",
             }}
           >
-            Shop MotionGlow <ArrowRight size={18} />
+            Continue to checkout <ArrowRight size={18} />
           </a>
         </div>
       </div>

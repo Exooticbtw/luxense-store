@@ -4,7 +4,7 @@ import { useState } from "react"
 const navLinks = [
   ["Shop", "#bundles"],
   ["Spaces", "#use-cases"],
-  ["Reviews", "#reviews"],
+  ["Options", "#options"],
   ["Our Story", "#guarantee"],
 ]
 

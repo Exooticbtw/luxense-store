@@ -3,15 +3,14 @@ import {
   BatteryCharging,
   Blend,
   Bolt,
-  Clock3,
   Gauge,
   LayoutGrid,
   Lightbulb,
   Palette,
   Package,
+  RotateCcw,
   ShieldCheck,
   Sparkles,
-  TimerReset,
   WandSparkles,
   Wrench,
 } from "lucide-react"
@@ -44,9 +43,9 @@ export const FALLBACK_VARIANTS = [
 
 export const TRUST_BADGES = [
   { Icon: ShieldCheck, title: "Secure checkout", text: "Encrypted payments and trusted order processing." },
-  { Icon: BatteryCharging, title: "USB rechargeable", text: "Convenient charging with no disposable batteries." },
-  { Icon: Wrench, title: "No wiring required", text: "Install in minutes without drilling or an electrician." },
-  { Icon: TimerReset, title: "Auto off in 15s", text: "Turns off after about 15 seconds without motion." },
+  { Icon: Package, title: "Fast dispatch", text: "Prepared for shipment with a smooth post-purchase flow." },
+  { Icon: RotateCcw, title: "30-day guarantee", text: "A low-risk purchase backed by a simple return window." },
+  { Icon: Activity, title: "Human support", text: "Helpful support when you need product or order help." },
 ]
 
 export const PAYMENT_BADGES = ["Visa", "Mastercard", "PayPal", "Apple Pay", "Shop Pay"]
@@ -83,11 +82,6 @@ export const BENEFITS_DATA = [
     title: "Minimal design language",
     desc: "A discreet profile that looks intentional in modern interiors.",
   },
-  {
-    Icon: Clock3,
-    title: "Calm auto-off timing",
-    desc: "Leaves on just long enough to guide you, then dims out after roughly 15 seconds.",
-  },
 ]
 
 export const BUNDLE_OPTIONS = [
@@ -98,7 +92,7 @@ export const BUNDLE_OPTIONS = [
     compareAt: 39.99,
     badge: "Best for one room",
     savings: "Save 0%",
-    caption: "Try MotionGlow in a closet, nightstand, or hallway.",
+    caption: "Best for a first install in a closet, shelf, or hallway.",
   },
   {
     label: "Buy 2",
@@ -107,7 +101,7 @@ export const BUNDLE_OPTIONS = [
     compareAt: 79.98,
     badge: "Most Popular",
     savings: "Save 15%",
-    caption: "Great for pairing a bedroom with a closet or corridor.",
+    caption: "A balanced set for two spaces that you use every day.",
   },
   {
     label: "Buy 4",
@@ -116,7 +110,7 @@ export const BUNDLE_OPTIONS = [
     compareAt: 159.96,
     badge: "Best Value",
     savings: "Save 25%",
-    caption: "Cover the full path through your home in one order.",
+    caption: "Ideal when you want a more complete lighting flow at home.",
   },
 ]
 
@@ -125,19 +119,19 @@ export const HOW_STEPS = [
     n: "01",
     Icon: Package,
     title: "Unbox and charge",
-    desc: "Plug MotionGlow into USB power and give it a quick charge before first use.",
+    desc: "Charge it through USB before first use so it's ready to install wherever you need light.",
   },
   {
     n: "02",
     Icon: LayoutGrid,
     title: "Mount it anywhere",
-    desc: "Choose a clean flat surface and place the light where it can guide your space best.",
+    desc: "Place the light on a clean flat surface and set the finish and length that fit the room.",
   },
   {
     n: "03",
     Icon: Lightbulb,
     title: "Let motion do the work",
-    desc: "It turns on when movement is detected and turns off again after about 15 seconds of stillness.",
+    desc: "It turns on automatically when movement is detected and fades out after the space is still.",
   },
 ]
 
@@ -153,7 +147,7 @@ export const LIGHTING_MODES = [
     desc: "Adjust output anywhere between 10% and 100% for the right level of ambient visibility.",
   },
   {
-    Icon: TimerReset,
+    Icon: RotateCcw,
     title: "Auto-off mode",
     desc: "The light automatically powers down after roughly 15 seconds without motion.",
   },
@@ -250,16 +244,16 @@ export const FAQS_DATA = [
 ]
 
 export const GUARANTEE_POINTS = [
-  "Premium secure checkout",
+  "Secure checkout",
   "Fast support if you need help",
   "No wiring or technical install required",
   "A clean, modern upgrade for everyday spaces",
 ]
 
 export const FINAL_CTA_POINTS = [
-  "Wireless and rechargeable",
-  "Motion activated with auto-off",
-  "Designed for premium home interiors",
+  "Secure checkout",
+  "30-day guarantee",
+  "Fast support",
 ]
 
 export const FEATURES_DATA = BENEFITS_DATA

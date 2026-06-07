@@ -1,6 +1,7 @@
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react"
 
 import Stars from "../common/Stars.jsx"
+import { HERO_HIGHLIGHTS, PRODUCT_NAME } from "../../data/productPageData.js"
 import lifestyleImage from "../../../../assets/product/hero-detail.png"
 
 export default function ProductSection({ shopData, purchase, onNavigateSection }) {
@@ -39,7 +40,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
             position: "relative",
             borderRadius: 34,
             overflow: "hidden",
-            minHeight: 820,
+            minHeight: 780,
             boxShadow: "0 30px 80px rgba(17,17,17,.10)",
             border: "1px solid rgba(17,17,17,.08)",
             background: "var(--cream)",
@@ -50,7 +51,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
               position: "absolute",
               inset: 0,
               display: "grid",
-              gridTemplateColumns: "1.12fr .88fr",
+              gridTemplateColumns: "1.08fr .92fr",
             }}
           >
             <div
@@ -80,12 +81,12 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
               zIndex: 1,
               display: "grid",
               gridTemplateColumns: "1.02fr .98fr",
-              minHeight: 820,
+              minHeight: 780,
             }}
           >
             <div
               style={{
-                padding: "82px 56px 64px 64px",
+                padding: "80px 56px 56px 64px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -103,23 +104,23 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     color: "var(--accent)",
                   }}
                 >
-                  {theme.heroEyebrow || "WIRELESS MOTION-SENSOR LIGHTING"}
+                  {theme.heroEyebrow || PRODUCT_NAME}
                 </p>
 
                 <h1
                   className="serif hero-title"
                   style={{
                     marginTop: 18,
-                    fontSize: 84,
+                    fontSize: 80,
                     lineHeight: 0.96,
                     letterSpacing: "-0.055em",
                     textWrap: "balance",
                     fontWeight: 700,
                     color: "white",
-                    maxWidth: 680,
+                    maxWidth: 700,
                   }}
                 >
-                  {theme.heroTitle || "Transform any space into a luxury environment"}
+                  {theme.heroTitle || "Premium motion lighting for modern interiors"}
                 </h1>
 
                 <p
@@ -132,8 +133,32 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                   }}
                 >
                   {theme.heroText ||
-                    "Wireless, rechargeable lighting that senses your every move and disappears into the architecture of your home until you need it."}
+                    "USB rechargeable, motion activated, and available in White or Black with three light tones and adjustable brightness."}
                 </p>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 26 }}>
+                  {HERO_HIGHLIGHTS.map((item) => (
+                    <span
+                      key={item}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 8,
+                        borderRadius: 999,
+                        padding: "9px 13px",
+                        background: "rgba(255,255,255,.06)",
+                        border: "1px solid rgba(255,255,255,.12)",
+                        color: "rgba(255,255,255,.86)",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      <Sparkles size={13} color="var(--accent)" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 32 }}>
                   <a
@@ -159,32 +184,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                       boxShadow: "0 16px 34px rgba(17,17,17,.18)",
                     }}
                   >
-                    Shop now <ArrowRight size={18} />
-                  </a>
-                  <a
-                    href="#use-cases"
-                    onClick={(event) => {
-                      event.preventDefault()
-                      onNavigateSection?.("use-cases")
-                    }}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 10,
-                      minHeight: 60,
-                      borderRadius: 999,
-                      border: "1px solid rgba(255,255,255,.22)",
-                      background: "rgba(255,255,255,.06)",
-                      color: "white",
-                      padding: "0 28px",
-                      fontSize: 16,
-                      fontWeight: 800,
-                      textDecoration: "none",
-                      backdropFilter: "blur(12px)",
-                    }}
-                  >
-                    Learn more <ArrowRight size={18} />
+                    Choose bundle <ArrowRight size={18} />
                   </a>
                 </div>
 
@@ -194,7 +194,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     flexWrap: "wrap",
                     alignItems: "center",
                     gap: 14,
-                    marginTop: 30,
+                    marginTop: 28,
                     color: "rgba(255,255,255,.88)",
                   }}
                 >
@@ -217,7 +217,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     }}
                   >
                     <ShieldCheck size={14} />
-                    Secure checkout
+                    30-day guarantee
                   </span>
                 </div>
               </div>
@@ -250,7 +250,10 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     Starting from
                   </div>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
-                    <span className="serif" style={{ fontSize: 34, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em", color: "white" }}>
+                    <span
+                      className="serif"
+                      style={{ fontSize: 34, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em", color: "white" }}
+                    >
                       {priceLabel}
                     </span>
                     <span
@@ -280,7 +283,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                   }}
                 >
                   <ShieldCheck size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />
-                  30-day guarantee included
+                  Secure checkout and fast support
                 </div>
               </div>
             </div>
@@ -322,7 +325,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                       color: "var(--muted)",
                     }}
                   >
-                    LuxSense™ Smart Light Bar
+                    Luxense MotionGlow™
                   </span>
                   <span
                     style={{
@@ -338,7 +341,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     }}
                   >
                     <Sparkles size={13} color="var(--accent)" />
-                    Smart Lighting. Instantly.
+                    Smart lighting, instantly
                   </span>
                 </div>
 
@@ -358,7 +361,6 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                       }}
                     />
                   ) : (
-                    // TODO: Replace this gradient fallback with a real product image if catalog media is unavailable.
                     <div
                       role="img"
                       aria-label={heroImageAlt}
@@ -376,13 +378,13 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     >
                       <div>
                         <div style={{ fontSize: 14, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(255,255,255,.72)" }}>
-                          LuxSense™
+                          Luxense MotionGlow™
                         </div>
                         <div className="serif" style={{ fontSize: 40, lineHeight: 1, marginTop: 12, fontWeight: 700 }}>
-                          Smart Light Bar
+                          MotionGlow
                         </div>
                         <div style={{ marginTop: 12, fontSize: 16, color: "rgba(255,255,255,.78)" }}>
-                          Smart Lighting. Instantly.
+                          Premium motion lighting for modern interiors
                         </div>
                       </div>
                     </div>
@@ -398,7 +400,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                   }}
                 >
                   {[
-                    ["Wireless", "No wiring"],
+                    ["Wireless", "No wiring required"],
                     ["Rechargeable", "USB power"],
                     ["Auto-off", "About 15s"],
                   ].map(([title, value]) => (
@@ -465,15 +467,6 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
           #hero > div > div {
             border-radius: 28px !important;
           }
-          #hero > div > div > div:first-child {
-            grid-template-columns: 1fr !important;
-          }
-          #hero > div > div > div:first-child > div:last-child {
-            display: none !important;
-          }
-          #hero > div > div > div:nth-child(2) {
-            display: none !important;
-          }
           #hero h1 {
             font-size: 38px !important;
             line-height: 0.98 !important;
@@ -492,19 +485,19 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
           #hero > div > div > div:first-child > div:first-child > div {
             gap: 10px !important;
           }
-          #hero > div > div > div:first-child > div:first-child > div:nth-child(4) {
+          #hero > div > div > div:first-child > div:first-child > div:nth-child(5) {
             margin-top: 24px !important;
             display: flex !important;
             flex-wrap: wrap !important;
             gap: 10px !important;
           }
-          #hero > div > div > div:first-child > div:first-child > div:nth-child(4) a {
+          #hero > div > div > div:first-child > div:first-child > div:nth-child(5) a {
             flex: 1 1 160px !important;
             min-height: 52px !important;
             font-size: 15px !important;
             padding: 0 20px !important;
           }
-          #hero > div > div > div:first-child > div:first-child > div:nth-child(5) {
+          #hero > div > div > div:first-child > div:first-child > div:nth-child(6) {
             margin-top: 24px !important;
             gap: 10px !important;
           }

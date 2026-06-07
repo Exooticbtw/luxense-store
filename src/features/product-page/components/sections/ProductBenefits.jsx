@@ -31,8 +31,8 @@ export default function ProductBenefits() {
               style={{
                 padding: 26,
                 borderRadius: 26,
-                background: index === 1 || index === 4 ? "rgba(17,17,17,.96)" : "rgba(255,255,255,.86)",
-                color: index === 1 || index === 4 ? "var(--cream)" : "var(--fg)",
+                background: index === 1 || index === 3 ? "rgba(17,17,17,.96)" : "rgba(255,255,255,.86)",
+                color: index === 1 || index === 3 ? "var(--cream)" : "var(--fg)",
                 minHeight: 220,
               }}
             >
@@ -43,14 +43,14 @@ export default function ProductBenefits() {
                   borderRadius: 18,
                   display: "grid",
                   placeItems: "center",
-                  background: index === 1 || index === 4 ? "rgba(255,255,255,.08)" : "rgba(200,169,106,.12)",
-                  color: index === 1 || index === 4 ? "var(--cream)" : "var(--fg)",
+                  background: index === 1 || index === 3 ? "rgba(255,255,255,.08)" : "rgba(200,169,106,.12)",
+                  color: index === 1 || index === 3 ? "var(--cream)" : "var(--fg)",
                 }}
               >
                 <Icon size={22} />
               </div>
               <h3 style={{ marginTop: 18, fontSize: 22, lineHeight: 1.15, fontWeight: 800 }}>{title}</h3>
-              <p style={{ marginTop: 10, fontSize: 15, lineHeight: 1.7, color: index === 1 || index === 4 ? "rgba(255,255,255,.76)" : "var(--muted)" }}>
+              <p style={{ marginTop: 10, fontSize: 15, lineHeight: 1.7, color: index === 1 || index === 3 ? "rgba(255,255,255,.76)" : "var(--muted)" }}>
                 {desc}
               </p>
             </article>

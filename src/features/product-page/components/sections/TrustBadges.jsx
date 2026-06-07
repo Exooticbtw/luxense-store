@@ -89,9 +89,7 @@ export default function TrustBadges() {
           <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <span style={{ color: "var(--muted)", fontSize: 14, fontWeight: 700 }}>We accept:</span>
             <PaymentIcons />
-            <span style={{ color: "var(--muted)", fontSize: 14, fontWeight: 700 }}>
-              {PAYMENT_BADGES.join(" • ")}
-            </span>
+            <span style={{ color: "var(--muted)", fontSize: 14, fontWeight: 700 }}>{PAYMENT_BADGES.join(" • ")}</span>
           </div>
         </div>
       </div>

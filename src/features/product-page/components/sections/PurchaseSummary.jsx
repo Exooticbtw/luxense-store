@@ -1,4 +1,4 @@
-import { ArrowRight, CreditCard, ShieldCheck } from "lucide-react"
+import { ArrowRight, Check, CreditCard, ShieldCheck } from "lucide-react"
 
 import { BUNDLE_OPTIONS, COLORS } from "../../data/productPageData.js"
 
@@ -24,18 +24,27 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: ".95fr 1.05fr",
+              gridTemplateColumns: ".98fr 1.02fr",
               gap: 0,
               alignItems: "stretch",
             }}
           >
-            <div style={{ padding: 28, background: "linear-gradient(180deg, rgba(17,17,17,.98), rgba(17,17,17,.92))", color: "var(--cream)" }}>
+            <div
+              style={{
+                padding: 28,
+                background: "linear-gradient(180deg, rgba(17,17,17,.98), rgba(17,17,17,.92))",
+                color: "var(--cream)",
+              }}
+            >
               <p className="eyebrow" style={{ color: "rgba(255,255,255,.62)" }}>
-                Purchase summary
+                Purchase area
               </p>
               <h3 className="serif" style={{ fontSize: 34, lineHeight: 1, fontWeight: 600 }}>
-                Ready to shop MotionGlow
+                Confirm your MotionGlow setup
               </h3>
+              <p style={{ marginTop: 16, fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,.72)", maxWidth: 520 }}>
+                Review the bundle, finish, and size before continuing to checkout.
+              </p>
 
               <div style={{ marginTop: 22, display: "grid", gap: 12 }}>
                 {[
@@ -73,22 +82,6 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                 ))}
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  marginTop: 22,
-                  color: "rgba(255,255,255,.76)",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  lineHeight: 1.4,
-                }}
-              >
-                <ShieldCheck size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />
-                Secure checkout - Encrypted payment - 30-day guarantee
-              </div>
-
               <a
                 href={checkoutUrl}
                 target={shopData?.shopDomain ? "_blank" : "_self"}
@@ -110,8 +103,24 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                   textDecoration: "none",
                 }}
               >
-                Shop MotionGlow <ArrowRight size={18} />
+                Continue to checkout <ArrowRight size={18} />
               </a>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginTop: 18,
+                  color: "rgba(255,255,255,.76)",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  lineHeight: 1.4,
+                }}
+              >
+                <ShieldCheck size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />
+                Your selection carries straight into the checkout flow.
+              </div>
             </div>
 
             <div style={{ padding: 28 }}>
@@ -123,32 +132,25 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                 }}
               >
                 {[
-                  { label: "Visa" },
-                  { label: "Mastercard" },
-                  { label: "American Express" },
-                  { label: "Apple Pay" },
-                  { label: "Google Pay" },
-                  { label: "Shop Pay" },
-                  { label: "PayPal" },
-                ].map((badge) => (
+                  { label: "White / Black", value: selectedColor?.name || "White" },
+                  { label: "Available sizes", value: "20cm to 50cm" },
+                  { label: "Light tones", value: "3 choices" },
+                  { label: "Brightness", value: "Adjustable" },
+                ].map((item) => (
                   <div
-                    key={badge.label}
+                    key={item.label}
                     style={{
-                      minHeight: 52,
-                      borderRadius: 16,
+                      minHeight: 86,
+                      borderRadius: 18,
                       border: "1px solid rgba(17,17,17,.08)",
                       background: "rgba(17,17,17,.03)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "10px 12px",
-                      fontSize: 12,
-                      fontWeight: 800,
-                      letterSpacing: "-0.01em",
-                      textAlign: "center",
+                      padding: "14px 14px",
                     }}
                   >
-                    {badge.label}
+                    <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--muted)", fontWeight: 700 }}>
+                      {item.label}
+                    </div>
+                    <div style={{ marginTop: 8, fontSize: 16, lineHeight: 1.35, fontWeight: 800 }}>{item.value}</div>
                   </div>
                 ))}
               </div>
@@ -164,10 +166,10 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 10, color: "var(--fg)", fontSize: 14, fontWeight: 800 }}>
                   <CreditCard size={16} style={{ color: "var(--accent)" }} />
-                  Payment options
+                  Ready for the next step
                 </div>
                 <p style={{ marginTop: 8, fontSize: 13, lineHeight: 1.65, color: "var(--muted)" }}>
-                  Secure checkout - Encrypted payment - 30-day guarantee
+                  Confirm the finish, bundle, and size above, then continue in the next section.
                 </p>
               </div>
             </div>
