@@ -79,6 +79,7 @@
         "wardrobe_image": "shopify://shop_images/Captura_de_pantalla_2026-06-06_190848.png",
         "review_image_1": "shopify://shop_images/Captura_de_pantalla_2026-06-06_190848.png",
         "review_image_2": "shopify://shop_images/upscalemedia-transformed.png",
+        "review_image_4": "shopify://shop_images/Captura_de_pantalla_2026-06-06_192045.png",
         "gallery_image_1": "{{ section.settings.product.featured_image }}"
       }
     }
