@@ -13,8 +13,8 @@ import SolutionSection from "./components/sections/SolutionSection.jsx"
 import FAQ from "./components/sections/FAQ.jsx"
 import FinalCTA from "./components/sections/FinalCTA.jsx"
 import GuaranteeSection from "./components/sections/GuaranteeSection.jsx"
-import ProductFeatures from "./components/sections/ProductFeatures.jsx"
 import ProductBenefits from "./components/sections/ProductBenefits.jsx"
+import LightTones from "./components/sections/LightTones.jsx"
 import BundleOffers from "./components/sections/BundleOffers.jsx"
 import CustomerReviews from "./components/sections/CustomerReviews.jsx"
 import SocialProof from "./components/sections/SocialProof.jsx"
@@ -111,7 +111,7 @@ export default function ProductLandingPage() {
         <SolutionSection onOpenCart={handleOpenCart} />
         <ProductBenefits />
         <UseCases />
-        <ProductFeatures />
+        <LightTones />
         <ComparisonTable />
         <BundleOffers
           onSelectBundle={handleSelectBundle}
