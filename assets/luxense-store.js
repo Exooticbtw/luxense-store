@@ -286,7 +286,7 @@ Error generating stack: `+e.message+`
           }
         }
       `})]}),e[4]=a):a=e[4],a}function Vt(e){let{title:t,desc:n,Icon:r}=e;return(0,g.jsxs)(`article`,{className:`soft-card`,style:{padding:24,borderRadius:26,background:`rgba(255,255,255,.86)`,minHeight:230},children:[(0,g.jsx)(`div`,{style:{width:50,height:50,borderRadius:18,background:`rgba(200,169,106,.12)`,display:`grid`,placeItems:`center`},children:(0,g.jsx)(r,{size:22})}),(0,g.jsx)(`h3`,{style:{marginTop:18,fontSize:24,lineHeight:1.08,fontWeight:800},children:t}),(0,g.jsx)(`p`,{style:{marginTop:10,fontSize:15,lineHeight:1.7,color:`var(--muted)`},children:n})]},t)}function Ht(){let e=(0,h.c)(5),[t,n]=(0,l.useState)(!1),[r,i]=(0,l.useState)(!1),a,o;e[0]===Symbol.for(`react.memo_cache_sentinel`)?(a=()=>{let e=()=>{n(window.scrollY>12),i(window.scrollY>900)};return e(),window.addEventListener(`scroll`,e,{passive:!0}),()=>window.removeEventListener(`scroll`,e)},o=[],e[0]=a,e[1]=o):(a=e[0],o=e[1]),(0,l.useEffect)(a,o);let s;return e[2]!==t||e[3]!==r?(s={scrolled:t,showSticky:r},e[2]=t,e[3]=r,e[4]=s):s=e[4],s}var Ut=[`__LUXENSE_SHOPIFY_DATA__`,`LUXENSE_SHOPIFY_DATA`,`SHOPIFY_PRODUCT_DATA`];async function Wt(){let e=Gt();return e?Ae(e,e):Kt()}function Gt(){if(typeof window>`u`)return null;for(let e of Ut)if(window[e])return window[e];return null}async function Kt(){if(typeof window>`u`)return null;try{let e=await fetch(`/products.json?limit=1`),t=e.headers.get(`content-type`)||``;return!e.ok||!t.includes(`application/json`)?null:Ae(await e.json(),{shopDomain:window.location.hostname,shopName:document.title?.split(`|`)[0]?.trim()||`LUXENSE`})}catch(e){return console.warn(`Unable to load Shopify product data.`,e),null}}function qt(){let e=(0,h.c)(5),[t,n]=(0,l.useState)(null),[r,i]=(0,l.useState)(!0),a,o;e[0]===Symbol.for(`react.memo_cache_sentinel`)?(a=()=>{let e=!0;return Wt().then(t=>{e&&t&&n(t)}).finally(()=>{e&&i(!1)}),()=>{e=!1}},o=[],e[0]=a,e[1]=o):(a=e[0],o=e[1]),(0,l.useEffect)(a,o);let s;return e[2]!==r||e[3]!==t?(s={shopData:t,loading:r},e[2]=r,e[3]=t,e[4]=s):s=e[4],s}function Jt(e){let t=Number.parseFloat(e);return Number.isFinite(t)?t.toFixed(2):`0.00`}var Yt=[];function Xt(e){let[t,n]=(0,l.useState)(null),[r,i]=(0,l.useState)(null),[a,o]=(0,l.useState)(0),[s,c]=(0,l.useState)(1),[u,d]=(0,l.useState)(!1),[f]=(0,l.useState)(37),[p,m]=(0,l.useState)(!1),h=e?.product?.variants||Yt,g=h.length>0?h:et,_=e?.product?.images||Yt,v=(0,l.useMemo)(()=>{let e=h.map(e=>e.image).filter(Boolean),t=[..._,...e].filter((e,t,n)=>e&&n.indexOf(e)===t);return t.length>0?t:Ze.map(e=>e)},[_,h]),y=(0,l.useMemo)(()=>{let t=Ce(e?.preferredVariantId);if(!t||h.length===0)return null;let n=h.findIndex(e=>Ce(e.id)===t);return n>=0?n:null},[h,e?.preferredVariantId]),b=r??y??0,x=b<g.length?b:0,S=g[x]||g[0],C=S?.image?v.indexOf(S.image):-1,w=t??(C>=0?C:0),T=Oe(S?.price,49),E=Jt(T*s),D=Jt(T*1.65),O=Jt(T/4),ee=e=>{n(t=>typeof e==`function`?e(t??w):e)},te=e=>{i(e),n(null)},ne=(t=s)=>De(e?.shopDomain,S?.id,t)||`#buy`,re=e?.product?.title||`Light Exactly Where You Need It.`;return{activeImage:w,buildCheckoutUrl:ne,colorIdx:a,desc:e?.product?.description||`Elegant wireless lighting designed for modern living — motion activated, USB‑C rechargeable, ultra‑slim and effortlessly beautiful.`,images:v,installment:O,lightbox:p,origPrice:D,price:T,qty:s,setActiveImage:ee,setColorIdx:o,setLightbox:m,setQty:c,setVariantIdx:te,setWishlisted:d,stock:f,title:re,total:E,v:S,variantIdx:x,variants:g,wishlisted:u,colors:Qe}}var Zt=`
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
   :root {
     --bg: #f5f5f3;
     --cream: #ffffff;
@@ -308,10 +308,12 @@ Error generating stack: `+e.message+`
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;overflow-x:hidden;background:var(--bg)}
   body{
-    font-family:'Manrope',sans-serif;
+    font-family:'Inter',system-ui,sans-serif;
     background:var(--bg);
     color:var(--fg);
-    line-height:1.6;
+    line-height:1.65;
+    font-size:16px;
+    letter-spacing:-0.01em;
     overflow-x:hidden;
   }
   #root{min-height:100vh}
@@ -331,7 +333,16 @@ Error generating stack: `+e.message+`
     backdrop-filter:saturate(140%) blur(14px);
     -webkit-backdrop-filter:saturate(140%) blur(14px);
   }
-  .serif{font-family:'Cormorant Garamond',serif}
+  .serif{font-family:'Manrope','Inter',system-ui,sans-serif}
+  h1,h2,h3,h4,h5,h6,.section-title,.hero-title{
+    font-family:'Manrope','Inter',system-ui,sans-serif;
+    letter-spacing:-0.045em;
+    line-height:1.02;
+    font-weight:700;
+  }
+  h1{font-weight:800}
+  h2{font-weight:800}
+  h3{font-weight:700}
   .page-shell{min-height:100vh;background:var(--bg);padding-top:112px}
   .site-shell{position:relative;overflow:hidden}
   .section-shell{padding:84px 24px}

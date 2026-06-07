@@ -1,5 +1,5 @@
 export const PRODUCT_PAGE_STYLES = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
   :root {
     --bg: #f5f5f3;
     --cream: #ffffff;
@@ -21,10 +21,12 @@ export const PRODUCT_PAGE_STYLES = `
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;overflow-x:hidden;background:var(--bg)}
   body{
-    font-family:'Manrope',sans-serif;
+    font-family:'Inter',system-ui,sans-serif;
     background:var(--bg);
     color:var(--fg);
-    line-height:1.6;
+    line-height:1.65;
+    font-size:16px;
+    letter-spacing:-0.01em;
     overflow-x:hidden;
   }
   #root{min-height:100vh}
@@ -44,7 +46,16 @@ export const PRODUCT_PAGE_STYLES = `
     backdrop-filter:saturate(140%) blur(14px);
     -webkit-backdrop-filter:saturate(140%) blur(14px);
   }
-  .serif{font-family:'Cormorant Garamond',serif}
+  .serif{font-family:'Manrope','Inter',system-ui,sans-serif}
+  h1,h2,h3,h4,h5,h6,.section-title,.hero-title{
+    font-family:'Manrope','Inter',system-ui,sans-serif;
+    letter-spacing:-0.045em;
+    line-height:1.02;
+    font-weight:700;
+  }
+  h1{font-weight:800}
+  h2{font-weight:800}
+  h3{font-weight:700}
   .page-shell{min-height:100vh;background:var(--bg);padding-top:112px}
   .site-shell{position:relative;overflow:hidden}
   .section-shell{padding:84px 24px}
