@@ -132,7 +132,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                   }}
                 >
                   {theme.heroText ||
-                    "Wireless, rechargeable lighting that senses your every move and blends into your home until you need it."}
+                    "Wireless, rechargeable lighting that senses your every move and disappears into the architecture of your home until you need it."}
                 </p>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 32 }}>
@@ -322,7 +322,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                       color: "var(--muted)",
                     }}
                   >
-                    Luxense™ Smart Light Bar
+                    LuxSense™ Smart Light Bar
                   </span>
                   <span
                     style={{
@@ -376,7 +376,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     >
                       <div>
                         <div style={{ fontSize: 14, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(255,255,255,.72)" }}>
-                          Luxense™
+                          LuxSense™
                         </div>
                         <div className="serif" style={{ fontSize: 40, lineHeight: 1, marginTop: 12, fontWeight: 700 }}>
                           Smart Light Bar
@@ -442,7 +442,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
             min-height: auto !important;
           }
           #hero > div > div > div:nth-child(2) {
-            min-height: auto !important;
+            display: none !important;
           }
           #hero > div > div > div:first-child,
           #hero > div > div > div:nth-child(2) {
@@ -465,6 +465,15 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
           #hero > div > div {
             border-radius: 28px !important;
           }
+          #hero > div > div > div:first-child {
+            grid-template-columns: 1fr !important;
+          }
+          #hero > div > div > div:first-child > div:last-child {
+            display: none !important;
+          }
+          #hero > div > div > div:nth-child(2) {
+            display: none !important;
+          }
           #hero h1 {
             font-size: 38px !important;
             line-height: 0.98 !important;
@@ -483,17 +492,25 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
           #hero > div > div > div:first-child > div:first-child > div {
             gap: 10px !important;
           }
-          #hero > div > div > div:first-child > div:first-child > div:last-child {
+          #hero > div > div > div:first-child > div:first-child > div:nth-child(4) {
             margin-top: 24px !important;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 10px !important;
           }
-          #hero > div > div > div:first-child > div:first-child > div:last-child a {
+          #hero > div > div > div:first-child > div:first-child > div:nth-child(4) a {
+            flex: 1 1 160px !important;
             min-height: 52px !important;
             font-size: 15px !important;
             padding: 0 20px !important;
           }
-          #hero > div > div > div:first-child > div:last-child {
+          #hero > div > div > div:first-child > div:first-child > div:nth-child(5) {
             margin-top: 24px !important;
+            gap: 10px !important;
+          }
+          #hero > div > div > div:first-child > div:last-child {
             padding: 14px !important;
+            margin-top: 24px !important;
             gap: 10px !important;
             border-radius: 20px !important;
           }
@@ -511,45 +528,6 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
           }
           #hero > div > div > div:first-child > div:last-child > div:first-child > span:last-child {
             font-size: 12px !important;
-          }
-          #hero > div > div > div:nth-child(2) {
-            padding-top: 0 !important;
-            padding-bottom: 22px !important;
-          }
-          #hero > div > div > div:nth-child(2) > div {
-            max-width: none !important;
-          }
-          #hero > div > div > div:nth-child(2) > div > div:first-child {
-            padding: 14px 14px 0 !important;
-            align-items: flex-start !important;
-            gap: 8px !important;
-            flex-wrap: wrap !important;
-          }
-          #hero > div > div > div:nth-child(2) > div > div:first-child > span:first-child {
-            font-size: 10px !important;
-          }
-          #hero > div > div > div:nth-child(2) > div > div:first-child > span:last-child {
-            font-size: 11px !important;
-          }
-          #hero > div > div > div:nth-child(2) > div > div:nth-of-type(2) {
-            padding: 14px !important;
-          }
-          #hero > div > div > div:nth-child(2) > div > div:nth-of-type(2) img,
-          #hero > div > div > div:nth-child(2) > div > div:nth-of-type(2) [role="img"] {
-            aspect-ratio: 1 / 1 !important;
-            min-height: 0 !important;
-            border-radius: 22px !important;
-          }
-          #hero > div > div > div:nth-child(2) > div > div:last-child {
-            grid-template-columns: 1fr !important;
-            gap: 8px !important;
-          }
-          #hero > div > div > div:nth-child(2) > div > div:last-child > div {
-            padding: 12px 12px !important;
-            border-radius: 16px !important;
-          }
-          #hero > div > div > div:nth-child(2) > div > div:last-child > div .serif {
-            font-size: 16px !important;
           }
         }
       `}</style>
