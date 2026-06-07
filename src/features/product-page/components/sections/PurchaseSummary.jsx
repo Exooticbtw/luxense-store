@@ -1,4 +1,4 @@
-import { ArrowRight, Check, CreditCard, ShieldCheck } from "lucide-react"
+import { ArrowRight, CreditCard, ShieldCheck } from "lucide-react"
 
 import { BUNDLE_OPTIONS, COLORS } from "../../data/productPageData.js"
 

@@ -120,7 +120,7 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                     maxWidth: 700,
                   }}
                 >
-                  {theme.heroTitle || "Premium motion lighting for modern interiors"}
+                  {theme.heroTitle || "Premium Motion Lighting For Modern Homes"}
                 </h1>
 
                 <p

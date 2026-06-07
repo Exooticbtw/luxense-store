@@ -3,9 +3,9 @@ import { useState } from "react"
 
 const navLinks = [
   ["Shop", "#bundles"],
-  ["Spaces", "#use-cases"],
-  ["Options", "#options"],
-  ["Our Story", "#guarantee"],
+  ["Benefits", "#benefits"],
+  ["Reviews", "#reviews"],
+  ["FAQ", "#faq"],
 ]
 
 export default function Navbar({ scrolled, shopName, onNavigateHome }) {

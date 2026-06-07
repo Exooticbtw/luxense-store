@@ -1,22 +1,26 @@
 import { useState } from "react"
 
 import LoadingOverlay from "./components/feedback/LoadingOverlay.jsx"
+import CartDrawer from "./components/feedback/CartDrawer.jsx"
 import StickyMobileAddToCart from "./components/feedback/StickyMobileAddToCart.jsx"
 import AnnouncementBar from "./components/layout/AnnouncementBar.jsx"
 import Footer from "./components/layout/Footer.jsx"
 import Navbar from "./components/layout/Navbar.jsx"
 import ProductSection from "./components/product/ProductSection.jsx"
+import VideoDemonstration from "./components/sections/VideoDemonstration.jsx"
+import ProblemSection from "./components/sections/ProblemSection.jsx"
+import SolutionSection from "./components/sections/SolutionSection.jsx"
 import FAQ from "./components/sections/FAQ.jsx"
 import FinalCTA from "./components/sections/FinalCTA.jsx"
 import GuaranteeSection from "./components/sections/GuaranteeSection.jsx"
 import HowItWorks from "./components/sections/HowItWorks.jsx"
-import LightTones from "./components/sections/LightTones.jsx"
+import ProductFeatures from "./components/sections/ProductFeatures.jsx"
 import ProductBenefits from "./components/sections/ProductBenefits.jsx"
 import ProductOptions from "./components/sections/ProductOptions.jsx"
-import PurchaseSummary from "./components/sections/PurchaseSummary.jsx"
 import BundleOffers from "./components/sections/BundleOffers.jsx"
-import TechnicalSpecifications from "./components/sections/TechnicalSpecifications.jsx"
-import TrustBadges from "./components/sections/TrustBadges.jsx"
+import CustomerReviews from "./components/sections/CustomerReviews.jsx"
+import SocialProof from "./components/sections/SocialProof.jsx"
+import ComparisonTable from "./components/sections/ComparisonTable.jsx"
 import UseCases from "./components/sections/UseCases.jsx"
 import { useScrollFlags } from "./hooks/useScrollFlags.js"
 import { useShopifyProductData } from "./hooks/useShopifyProductData.js"
@@ -66,9 +70,13 @@ export default function ProductLandingPage() {
       <Navbar scrolled={scrolled} shopName={shopData?.shopName} onNavigateHome={navigateHome} />
       <main>
         <ProductSection shopData={shopData} purchase={purchase} onNavigateSection={navigateHome} />
-        <PurchaseSummary shopData={shopData} purchase={purchase} selectedSize={selectedSize} />
-        <TrustBadges />
+        <VideoDemonstration />
+        <ProblemSection />
+        <SolutionSection />
         <ProductBenefits />
+        <UseCases />
+        <ProductFeatures />
+        <ComparisonTable />
         <BundleOffers
           checkoutUrl={checkoutUrl}
           shopDomain={shopData?.shopDomain}
@@ -84,15 +92,15 @@ export default function ProductLandingPage() {
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
         />
+        <CustomerReviews />
+        <SocialProof />
         <HowItWorks />
-        <LightTones />
-        <UseCases />
-        <TechnicalSpecifications />
         <FAQ />
         <GuaranteeSection />
         <FinalCTA shopData={shopData} purchase={purchase} />
         <Footer shopName={shopData?.shopName} theme={theme} />
       </main>
+      <CartDrawer shopData={shopData} purchase={purchase} selectedSize={selectedSize} />
       <StickyMobileAddToCart shopData={shopData} purchase={purchase} selectedBundleQuantity={purchase.qty} />
       {loading && <LoadingOverlay />}
     </div>

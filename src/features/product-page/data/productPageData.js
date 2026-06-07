@@ -20,7 +20,7 @@ import chargerImage from "../../../assets/product/cargador.png"
 import closetImage from "../../../assets/product/armario.png"
 import lifestyleImage from "../../../assets/product/hero-detail.png"
 
-export const PRODUCT_NAME = "Luxense MotionGlow™"
+export const PRODUCT_NAME = "Luxense MotionGlow\u2122"
 
 export const GALLERY_IMAGES = [
   { src: heroImage, label: "MotionGlow hero", alt: "Luxense MotionGlow in a modern home setting" },
@@ -51,7 +51,7 @@ export const TRUST_BADGES = [
 export const PAYMENT_BADGES = ["Visa", "Mastercard", "PayPal", "Apple Pay", "Shop Pay"]
 
 export const HERO_HIGHLIGHTS = [
-  "120° motion detection",
+  "120\u00b0 motion detection",
   "3 brightness-friendly tones",
   "Adjustable brightness from 10% to 100%",
 ]
@@ -210,7 +210,7 @@ export const COMPARISON_ROWS = [
 export const TECH_SPECS = [
   ["Product name", PRODUCT_NAME],
   ["Type", "Wireless LED motion sensor night light"],
-  ["Motion detection angle", "120°"],
+  ["Motion detection angle", "120\u00b0"],
   ["Auto-off", "About 15 seconds without motion"],
   ["Brightness", "Adjustable from 10% to 100%"],
   ["Light tones", "Warm Light 3000K / Neutral Light 4000K / White Light 6000K"],
@@ -223,7 +223,7 @@ export const TECH_SPECS = [
 export const FAQS_DATA = [
   {
     q: "How does Luxense MotionGlow turn on?",
-    a: "The built-in motion sensor detects movement within its 120° angle and automatically lights the space without needing a switch.",
+    a: "The built-in motion sensor detects movement within its 120\u00b0 angle and automatically lights the space without needing a switch.",
   },
   {
     q: "How long does it stay on after motion stops?",
@@ -258,7 +258,7 @@ export const FINAL_CTA_POINTS = [
 
 export const FEATURES_DATA = BENEFITS_DATA
 export const STATS = [
-  { v: "120°", l: "Motion range" },
+  { v: "120\u00b0", l: "Motion range" },
   { v: "15s", l: "Auto-off" },
   { v: "5V", l: "USB power" },
   { v: "4 sizes", l: "Available lengths" },
