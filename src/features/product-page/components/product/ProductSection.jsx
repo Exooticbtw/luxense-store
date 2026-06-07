@@ -1,4 +1,4 @@
-import { ArrowRight, Check, ShieldCheck, Sparkles, Zap } from "lucide-react"
+import { ArrowRight, Check, ShieldCheck, Zap } from "lucide-react"
 
 import Stars from "../common/Stars.jsx"
 import { HERO_HIGHLIGHTS, PRODUCT_NAME } from "../../data/productPageData.js"
@@ -43,11 +43,6 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
           }}
         >
           <div style={{ maxWidth: 760 }}>
-            <span className="chip" style={{ background: "rgba(200,169,106,.12)", borderColor: "rgba(200,169,106,.24)" }}>
-              <Sparkles size={13} />
-              Premium smart-home lighting
-            </span>
-
             <p
               style={{
                 marginTop: 26,
@@ -243,30 +238,59 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "flex-end",
                     justifyContent: "space-between",
-                    gap: 14,
+                    gap: 16,
                     flexWrap: "wrap",
                     marginTop: 18,
-                    padding: "16px 18px",
-                    borderRadius: 22,
+                    padding: "18px 20px",
+                    borderRadius: 24,
                     background: "rgba(17,17,17,.04)",
                   }}
                 >
-                  <div>
-                    <div style={{ color: "var(--muted)", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" }}>
+                  <div style={{ minWidth: 0 }}>
+                    <div
+                      style={{
+                        color: "var(--muted)",
+                        fontSize: 11,
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.18em",
+                      }}
+                    >
                       Starting from
                     </div>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 6 }}>
-                      <span className="serif" style={{ fontSize: 34, lineHeight: 1, fontWeight: 600 }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
+                      <span className="serif" style={{ fontSize: 30, lineHeight: 1, fontWeight: 600, letterSpacing: "-0.05em" }}>
                         {priceLabel}
                       </span>
-                      <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 17 }}>{compareAtLabel}</span>
+                      <span
+                        style={{
+                          color: "rgba(17,17,17,.45)",
+                          textDecoration: "line-through",
+                          fontSize: 15,
+                          fontWeight: 500,
+                          letterSpacing: "-0.01em",
+                        }}
+                      >
+                        {compareAtLabel}
+                      </span>
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, color: "var(--muted)", fontSize: 14 }}>
-                    <ShieldCheck size={15} style={{ color: "var(--accent)" }} />
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      color: "var(--muted)",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      letterSpacing: "-0.01em",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <ShieldCheck size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />
                     30-day guarantee included
                   </div>
                 </div>
@@ -286,11 +310,29 @@ export default function ProductSection({ shopData, purchase, onNavigateSection }
           #hero {
             padding: 28px 16px 24px !important;
           }
+          #hero > div > div > div:first-child > p {
+            margin-top: 16px !important;
+          }
           #hero .hero-title {
             font-size: 44px !important;
           }
           #hero p {
             font-size: 16px !important;
+          }
+          #hero > div > div > div:last-child > div:last-child {
+            padding: 16px !important;
+            border-radius: 22px !important;
+            align-items: flex-start !important;
+          }
+          #hero > div > div > div:last-child > div:last-child > div:first-child {
+            width: 100% !important;
+          }
+          #hero > div > div > div:last-child > div:last-child > div:last-child {
+            width: 100% !important;
+            justify-content: flex-start !important;
+          }
+          #hero > div > div > div:last-child > div:last-child span.serif {
+            font-size: 28px !important;
           }
         }
       `}</style>
