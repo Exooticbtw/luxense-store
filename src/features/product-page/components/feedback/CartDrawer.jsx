@@ -1,31 +1,37 @@
 import { CreditCard, ShieldCheck, X } from "lucide-react"
 
-import { BUNDLE_OPTIONS, COLORS, PRODUCT_NAME } from "../../data/productPageData.js"
+import { COLORS, PRODUCT_NAME, getBundleOfferForQuantity } from "../../data/productPageData.js"
 import { buildCartUrl } from "../../utils/shopify.js"
 import PaymentIcons from "../common/PaymentIcons.jsx"
+import QuantityStepper from "../common/QuantityStepper.jsx"
 
 export default function CartDrawer({
   shopData,
   purchase,
   selectedColor,
   selectedSize,
-  selectedBundle,
+  bundleSummary,
+  quantity = 1,
   isCartOpen,
   onCloseCart,
+  onChangeQuantity,
 }) {
-  const bundle = selectedBundle || BUNDLE_OPTIONS[1]
+  const currentQuantity = Math.max(1, Math.floor(Number(quantity || purchase?.qty || 1)))
+  const summary = bundleSummary || getBundleOfferForQuantity(currentQuantity)
   const color = COLORS.find((item) => item.name === selectedColor) || COLORS[0]
-  const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, bundle.quantity) || "#top"
-  const priceText = `$${Number(bundle.price).toFixed(2)}`
-  const compareAtText = bundle.compareAt ? `$${Number(bundle.compareAt).toFixed(2)}` : null
+  const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, currentQuantity) || "#top"
+  const priceText = `$${Number(summary?.subtotal ?? summary?.price ?? 29.99).toFixed(2)}`
+  const compareAtText = summary?.compareAt ? `$${Number(summary.compareAt).toFixed(2)}` : null
+  const savingsLabel = summary?.savingsLabel || summary?.savings || "Save 0%"
 
   const summaryRows = [
     ["Product", PRODUCT_NAME],
     ["Color", color?.name || "White"],
     ["Size", selectedSize || "30cm"],
-    ["Quantity", String(bundle.quantity)],
-    ["Current price", priceText],
-    ["Savings", bundle.savings || "Save 0%"],
+    ["Quantity", String(currentQuantity)],
+    ["Bundle", summary?.summaryLabel || summary?.label || "Buy 1"],
+    ["Light tones", "Warm + Neutral + White included"],
+    ["Savings", savingsLabel],
   ]
 
   return (
@@ -65,6 +71,7 @@ export default function CartDrawer({
         }}
       >
         <div
+          className="cart-drawer-panel"
           style={{
             height: "100%",
             minHeight: 0,
@@ -79,6 +86,7 @@ export default function CartDrawer({
           }}
         >
           <div
+            className="cart-drawer-header"
             style={{
               padding: "16px 18px 14px",
               borderBottom: "1px solid rgba(255,255,255,.08)",
@@ -136,6 +144,7 @@ export default function CartDrawer({
           </div>
 
           <div
+            className="cart-drawer-body"
             style={{
               padding: 16,
               overflowY: "auto",
@@ -164,16 +173,30 @@ export default function CartDrawer({
                       fontWeight: 700,
                     }}
                   >
-                    Selected bundle
+                    Current total
+                  </div>
+                  <div className="serif" style={{ marginTop: 6, fontSize: 30, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.04em" }}>
+                    {priceText}
                   </div>
                   <div style={{ marginTop: 6, fontSize: 15, lineHeight: 1.35, fontWeight: 700 }}>
-                    {bundle.label}
-                    {bundle.savings ? ` · ${bundle.savings}` : ""}
+                    {summary?.summaryLabel || summary?.label || "Buy 1"}
                   </div>
                 </div>
-                <div className="serif" style={{ fontSize: 30, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.04em" }}>
-                  {priceText}
-                </div>
+                {compareAtText && compareAtText !== priceText && (
+                  <div
+                    style={{
+                      borderRadius: 999,
+                      padding: "7px 12px",
+                      background: "rgba(201,164,106,.14)",
+                      color: "var(--cream)",
+                      fontSize: 13,
+                      fontWeight: 800,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Was {compareAtText}
+                  </div>
+                )}
               </div>
 
               <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -189,24 +212,23 @@ export default function CartDrawer({
                     fontWeight: 700,
                   }}
                 >
-                  Qty {bundle.quantity}
+                  Qty {currentQuantity}
                 </span>
-                {compareAtText && (
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      borderRadius: 999,
-                      padding: "7px 10px",
-                      background: "rgba(200,169,106,.14)",
-                      fontSize: 12,
-                      fontWeight: 700,
-                    }}
-                  >
-                    Was {compareAtText}
-                  </span>
-                )}
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    borderRadius: 999,
+                    padding: "7px 10px",
+                    background: "rgba(143,174,138,.14)",
+                    color: "#cfe6cc",
+                    fontSize: 12,
+                    fontWeight: 700,
+                  }}
+                >
+                  {savingsLabel}
+                </span>
               </div>
             </div>
 
@@ -216,39 +238,67 @@ export default function CartDrawer({
                 padding: 14,
                 background: "rgba(255,255,255,.05)",
                 border: "1px solid rgba(255,255,255,.08)",
-                display: "grid",
-                gap: 0,
               }}
             >
-              {summaryRows.map(([label, value], index) => (
-                <div
-                  key={label}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 16,
-                    alignItems: "flex-start",
-                    padding: "8px 0",
-                    borderBottom: index === summaryRows.length - 1 ? "none" : "1px solid rgba(255,255,255,.08)",
-                  }}
-                >
-                  <span
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 12,
+                  alignItems: "flex-start",
+                  marginBottom: 12,
+                }}
+              >
+                <div>
+                  <div
                     style={{
                       fontSize: 10.5,
                       textTransform: "uppercase",
                       letterSpacing: "0.16em",
                       color: "rgba(255,255,255,.56)",
                       fontWeight: 700,
-                      lineHeight: 1.35,
                     }}
                   >
-                    {label}
-                  </span>
-                  <span style={{ fontSize: 14.5, lineHeight: 1.35, fontWeight: 600, textAlign: "right", maxWidth: "58%" }}>
-                    {value}
-                  </span>
+                    Quantity
+                  </div>
+                  <div style={{ marginTop: 6, fontSize: 14.5, lineHeight: 1.35, color: "rgba(255,255,255,.78)" }}>
+                    Adjust the quantity before checkout.
+                  </div>
                 </div>
-              ))}
+                <QuantityStepper value={currentQuantity} onChange={onChangeQuantity} compact />
+              </div>
+
+              <div style={{ display: "grid", gap: 0 }}>
+                {summaryRows.map(([label, value], index) => (
+                  <div
+                    key={label}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: 16,
+                      alignItems: "flex-start",
+                      padding: "8px 0",
+                      borderBottom: index === summaryRows.length - 1 ? "none" : "1px solid rgba(255,255,255,.08)",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: 10.5,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.16em",
+                        color: "rgba(255,255,255,.56)",
+                        fontWeight: 700,
+                        lineHeight: 1.35,
+                      }}
+                    >
+                      {label}
+                    </span>
+                    <span style={{ fontSize: 14.5, lineHeight: 1.35, fontWeight: 600, textAlign: "right", maxWidth: "58%" }}>
+                      {value}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div
@@ -268,6 +318,7 @@ export default function CartDrawer({
                   fontSize: 13,
                   fontWeight: 700,
                   lineHeight: 1.4,
+                  flexWrap: "wrap",
                 }}
               >
                 <ShieldCheck size={16} style={{ color: "var(--accent)", flexShrink: 0 }} />
@@ -300,7 +351,7 @@ export default function CartDrawer({
               <div style={{ marginTop: 10 }}>
                 <PaymentIcons />
               </div>
-              <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div className="payment-badges" style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {["Visa", "Mastercard", "PayPal", "Apple Pay", "Google Pay", "Shop Pay"].map((badge) => (
                   <span
                     key={badge}
@@ -321,6 +372,7 @@ export default function CartDrawer({
           </div>
 
           <div
+            className="cart-drawer-footer"
             style={{
               padding: 16,
               borderTop: "1px solid rgba(255,255,255,.08)",
@@ -367,18 +419,43 @@ export default function CartDrawer({
             padding-bottom: env(safe-area-inset-bottom) !important;
             transform: translateY(${isCartOpen ? "0" : "100%"}) !important;
           }
-          #cart-drawer > div {
+          #cart-drawer .cart-drawer-panel {
             border-radius: 24px 24px 0 0 !important;
             height: auto !important;
-            max-height: 86vh !important;
+            max-height: 88vh !important;
           }
-          #cart-drawer h3 {
-            font-size: 26px !important;
+          #cart-drawer .cart-drawer-header {
+            padding: 14px 14px 12px !important;
           }
-          #cart-drawer > div > div:nth-child(2) {
+          #cart-drawer .cart-drawer-header h3 {
+            font-size: 24px !important;
+            line-height: 1.06 !important;
+          }
+          #cart-drawer .cart-drawer-body {
             padding: 14px !important;
+            gap: 10px !important;
           }
-          #cart-drawer > div > div:last-child {
+          #cart-drawer .cart-drawer-body > div {
+            padding: 12px !important;
+            border-radius: 18px !important;
+          }
+          #cart-drawer .cart-drawer-body .purchase-quantity-row {
+            align-items: stretch !important;
+          }
+          #cart-drawer .cart-drawer-body .purchase-quantity-row > div:first-child {
+            min-width: 0 !important;
+          }
+          #cart-drawer .cart-drawer-body .purchase-quantity-row > div:last-child {
+            width: 100% !important;
+          }
+          #cart-drawer .cart-drawer-body .purchase-quantity-row button {
+            min-width: 38px !important;
+            min-height: 38px !important;
+          }
+          #cart-drawer .cart-drawer-body .payment-badges {
+            gap: 6px !important;
+          }
+          #cart-drawer .cart-drawer-footer {
             padding: 14px !important;
           }
         }

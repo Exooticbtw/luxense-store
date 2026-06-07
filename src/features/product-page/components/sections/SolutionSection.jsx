@@ -3,18 +3,18 @@ import { ArrowRight, BatteryCharging, Lightbulb, Wrench } from "lucide-react"
 const SOLUTIONS = [
   {
     Icon: Lightbulb,
-    title: "Motion activated by design",
-    text: "The light turns on automatically when it detects movement, then disappears back into the room when it is no longer needed.",
+    title: "Motion-ready",
+    text: "Turns on when you need it.",
   },
   {
     Icon: BatteryCharging,
-    title: "USB rechargeable and wireless",
-    text: "No wiring required, no battery waste, and no installation friction. It stays simple to own and use.",
+    title: "Rechargeable",
+    text: "No wires, no hassle.",
   },
   {
     Icon: Wrench,
-    title: "Sized for real homes",
-    text: "Available in White or Black, and in 20cm, 30cm, 40cm, and 50cm lengths so it feels built-in rather than improvised.",
+    title: "Sized to fit",
+    text: "Multiple lengths for every space.",
   },
 ]
 
@@ -26,29 +26,32 @@ export default function SolutionSection({ onOpenCart }) {
           <p className="eyebrow" style={{ color: "var(--accent)" }}>
             Solution
           </p>
-          <h2 className="serif section-title" style={{ fontSize: 64 }}>
-            MotionGlow gives you the practicality you need with the premium look you want.
+          <h2 className="serif section-title" style={{ fontSize: 58, maxWidth: 740 }}>
+            Designed for real homes.
           </h2>
+          <p style={{ marginTop: 14, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.7, maxWidth: 680 }}>
+            Smart utility with a cleaner, more elevated finish.
+          </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16, marginTop: 34 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16, marginTop: 30 }}>
           {SOLUTIONS.map(({ Icon, title, text }, index) => (
             <article
               key={title}
               className="soft-card"
               style={{
-                padding: 24,
-                borderRadius: 26,
+                padding: 22,
+                borderRadius: 28,
                 background: index === 1 ? "rgba(17,17,17,.96)" : "rgba(255,255,255,.88)",
                 color: index === 1 ? "var(--cream)" : "var(--fg)",
-                minHeight: 220,
+                minHeight: 196,
               }}
             >
               <div style={{ width: 48, height: 48, borderRadius: 16, display: "grid", placeItems: "center", background: index === 1 ? "rgba(255,255,255,.08)" : "rgba(200,169,106,.12)" }}>
                 <Icon size={20} />
               </div>
-              <h3 style={{ marginTop: 18, fontSize: 24, lineHeight: 1.1, fontWeight: 800 }}>{title}</h3>
-              <p style={{ marginTop: 10, fontSize: 15, lineHeight: 1.7, color: index === 1 ? "rgba(255,255,255,.76)" : "var(--muted)" }}>{text}</p>
+              <h3 style={{ marginTop: 16, fontSize: 21, lineHeight: 1.12, fontWeight: 800 }}>{title}</h3>
+              <p style={{ marginTop: 8, fontSize: 14.5, lineHeight: 1.55, color: index === 1 ? "rgba(255,255,255,.76)" : "var(--muted)" }}>{text}</p>
             </article>
           ))}
         </div>
@@ -90,9 +93,11 @@ export default function SolutionSection({ onOpenCart }) {
           }
           #solution > div > div:last-child {
             grid-template-columns: 1fr !important;
+            gap: 12px !important;
+            margin-top: 22px !important;
           }
           #solution .section-title {
-            font-size: 40px !important;
+            font-size: 34px !important;
           }
         }
       `}</style>

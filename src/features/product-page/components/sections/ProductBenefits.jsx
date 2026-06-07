@@ -9,10 +9,10 @@ export default function ProductBenefits() {
             Product benefits
           </p>
           <h2 className="serif section-title" style={{ fontSize: 58, maxWidth: 760 }}>
-            Practical details, presented like a premium object.
+            Small details. Big difference.
           </h2>
-          <p style={{ marginTop: 16, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.72, maxWidth: 700 }}>
-            Luxense MotionGlow\u2122 keeps the useful parts of smart lighting and removes the clutter, so the product feels calm, elegant, and easy to live with.
+          <p style={{ marginTop: 14, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.7, maxWidth: 680 }}>
+            Every feature is built to feel effortless.
           </p>
         </div>
 
@@ -31,13 +31,13 @@ export default function ProductBenefits() {
                 key={title}
                 className="soft-card"
                 style={{
-                  padding: 24,
+                  padding: 22,
                   borderRadius: 28,
                   background: featured
                     ? "linear-gradient(180deg, rgba(17,17,17,.97), rgba(31,31,31,.95))"
                     : "linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,244,236,.92))",
                   color: featured ? "var(--cream)" : "var(--fg)",
-                  minHeight: 210,
+                  minHeight: 196,
                   border: featured ? "1px solid rgba(17,17,17,.92)" : "1px solid rgba(18,18,18,.08)",
                   boxShadow: featured ? "0 22px 40px rgba(18,18,18,.12)" : "var(--shadow)",
                 }}
@@ -52,11 +52,11 @@ export default function ProductBenefits() {
                     background: featured ? "rgba(255,255,255,.08)" : "linear-gradient(180deg, rgba(201,164,106,.16), rgba(233,221,203,.18))",
                     color: featured ? "var(--cream)" : "var(--fg)",
                   }}
-                >
-                  <Icon size={22} />
-                </div>
-                <h3 style={{ marginTop: 18, fontSize: 21, lineHeight: 1.14, fontWeight: 800 }}>{title}</h3>
-                <p style={{ marginTop: 10, fontSize: 14.5, lineHeight: 1.68, color: featured ? "rgba(255,255,255,.76)" : "var(--muted)" }}>
+                  >
+                    <Icon size={22} />
+                  </div>
+                <h3 style={{ marginTop: 16, fontSize: 21, lineHeight: 1.12, fontWeight: 800 }}>{title}</h3>
+                <p style={{ marginTop: 8, fontSize: 14.5, lineHeight: 1.55, color: featured ? "rgba(255,255,255,.76)" : "var(--muted)" }}>
                   {desc}
                 </p>
               </article>

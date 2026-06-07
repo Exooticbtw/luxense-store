@@ -1,12 +1,15 @@
 import { ArrowRight, CreditCard, ShieldCheck } from "lucide-react"
 
-import { BUNDLE_OPTIONS, COLORS, PRODUCT_NAME } from "../../data/productPageData.js"
+import { COLORS, PRODUCT_NAME, getBundleOfferForQuantity } from "../../data/productPageData.js"
 
 export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
-  const checkoutUrl = purchase?.buildCheckoutUrl?.(purchase?.qty || 1) || "#top"
-  const selectedBundle = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === purchase?.qty) || BUNDLE_OPTIONS[0]
+  const quantity = Math.max(1, Math.floor(Number(purchase?.qty || 1)))
+  const checkoutUrl = purchase?.buildCheckoutUrl?.(quantity) || "#top"
+  const selectedBundle = getBundleOfferForQuantity(quantity)
   const selectedColor = COLORS[purchase?.colorIdx] || COLORS[0]
-  const startingPrice = purchase?.total || (purchase?.price ? `$${Number(purchase.price).toFixed(2)}` : "$29.99")
+  const startingPrice = selectedBundle?.subtotal
+    ? `$${Number(selectedBundle.subtotal).toFixed(2)}`
+    : purchase?.total || (purchase?.price ? `$${Number(purchase.price).toFixed(2)}` : "$29.99")
 
   return (
     <section id="purchase-summary" style={{ padding: "0 24px 86px", background: "var(--bg)" }}>
@@ -48,9 +51,11 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
 
               <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
                 {[
-                  ["Selected bundle", selectedBundle?.label || "Buy 1"],
+                  ["Selected bundle", selectedBundle?.summaryLabel || selectedBundle?.label || "Buy 1"],
                   ["Selected color", selectedColor?.name || "White"],
                   ["Selected size", selectedSize || "30cm"],
+                  ["Light tones", "Warm + Neutral + White included"],
+                  ["Quantity", String(quantity)],
                   ["Starting price", startingPrice],
                 ].map(([label, value]) => (
                   <div
@@ -136,7 +141,7 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
                 {[
                   { label: "White / Black", value: selectedColor?.name || "White" },
                   { label: "Available sizes", value: "20cm to 50cm" },
-                  { label: "Light tones", value: "3 choices" },
+                  { label: "Light tones", value: "Warm + Neutral + White included" },
                   { label: "Brightness", value: "Adjustable" },
                 ].map((item) => (
                   <div

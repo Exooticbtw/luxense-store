@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import LoadingOverlay from "./components/feedback/LoadingOverlay.jsx"
 import CartDrawer from "./components/feedback/CartDrawer.jsx"
@@ -8,22 +8,20 @@ import Footer from "./components/layout/Footer.jsx"
 import Navbar from "./components/layout/Navbar.jsx"
 import ProductSection from "./components/product/ProductSection.jsx"
 import VideoDemonstration from "./components/sections/VideoDemonstration.jsx"
-import ProblemSection from "./components/sections/ProblemSection.jsx"
-import SolutionSection from "./components/sections/SolutionSection.jsx"
 import FAQ from "./components/sections/FAQ.jsx"
 import FinalCTA from "./components/sections/FinalCTA.jsx"
 import GuaranteeSection from "./components/sections/GuaranteeSection.jsx"
-import ProductBenefits from "./components/sections/ProductBenefits.jsx"
 import LightTones from "./components/sections/LightTones.jsx"
 import BundleOffers from "./components/sections/BundleOffers.jsx"
 import CustomerReviews from "./components/sections/CustomerReviews.jsx"
 import SocialProof from "./components/sections/SocialProof.jsx"
 import ComparisonTable from "./components/sections/ComparisonTable.jsx"
 import UseCases from "./components/sections/UseCases.jsx"
+import StorySection from "./components/sections/StorySection.jsx"
 import { useScrollFlags } from "./hooks/useScrollFlags.js"
 import { useShopifyProductData } from "./hooks/useShopifyProductData.js"
 import { useProductPurchaseState } from "./hooks/useProductPurchaseState.js"
-import { BUNDLE_OPTIONS, COLORS } from "./data/productPageData.js"
+import { COLORS, getBundleOfferForQuantity } from "./data/productPageData.js"
 import { PRODUCT_PAGE_STYLES } from "./styles/productPageStyles.js"
 
 export default function ProductLandingPage() {
@@ -33,14 +31,8 @@ export default function ProductLandingPage() {
   const { qty, setQty, setColorIdx, setActiveImage } = purchase
   const [selectedColor, setSelectedColor] = useState("White")
   const [selectedSize, setSelectedSize] = useState("30cm")
-  const [selectedBundle, setSelectedBundle] = useState(BUNDLE_OPTIONS[1])
   const [isCartOpen, setIsCartOpen] = useState(false)
-
-  useEffect(() => {
-    if (qty !== selectedBundle.quantity) {
-      setQty(selectedBundle.quantity)
-    }
-  }, [qty, setQty, selectedBundle.quantity])
+  const bundleSummary = getBundleOfferForQuantity(qty)
 
   const theme = shopData?.theme || {}
   const themeVars = {
@@ -65,17 +57,18 @@ export default function ProductLandingPage() {
     })
   }
 
+  const handleSetQuantity = (quantity) => {
+    const nextQuantity = Math.max(1, Math.floor(Number(quantity) || 1))
+    setQty(nextQuantity)
+  }
+
   const handleSelectBundle = (quantity) => {
-    const nextBundle = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === quantity) || BUNDLE_OPTIONS[0]
-    setSelectedBundle(nextBundle)
-    setQty(quantity)
+    handleSetQuantity(quantity)
     setIsCartOpen(true)
   }
 
   const handlePreviewBundle = (quantity) => {
-    const nextBundle = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === quantity) || BUNDLE_OPTIONS[0]
-    setSelectedBundle(nextBundle)
-    setQty(quantity)
+    handleSetQuantity(quantity)
   }
 
   const handleSelectColor = (index) => {
@@ -98,25 +91,27 @@ export default function ProductLandingPage() {
         <ProductSection
           shopData={shopData}
           purchase={purchase}
-          selectedBundle={selectedBundle}
+          bundleSummary={bundleSummary}
           selectedColor={selectedColor}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
+          quantity={qty}
+          onChangeQuantity={handleSetQuantity}
           onPreviewBundle={handlePreviewBundle}
           onSelectColor={handleSelectColor}
           onOpenCart={handleOpenCart}
         />
         <VideoDemonstration onOpenCart={handleOpenCart} />
-        <ProblemSection />
-        <SolutionSection onOpenCart={handleOpenCart} />
-        <ProductBenefits />
+        <StorySection onOpenCart={handleOpenCart} />
         <UseCases />
         <LightTones />
         <ComparisonTable />
         <BundleOffers
           onSelectBundle={handleSelectBundle}
           onOpenCart={handleOpenCart}
-          selectedBundleQuantity={purchase.qty}
+          bundleSummary={bundleSummary}
+          quantity={qty}
+          onChangeQuantity={handleSetQuantity}
         />
         <CustomerReviews />
         <SocialProof />
@@ -130,13 +125,14 @@ export default function ProductLandingPage() {
         purchase={purchase}
         selectedColor={selectedColor}
         selectedSize={selectedSize}
-        selectedBundle={selectedBundle}
+        bundleSummary={bundleSummary}
         isCartOpen={isCartOpen}
+        onChangeQuantity={handleSetQuantity}
         onCloseCart={() => setIsCartOpen(false)}
       />
       <StickyMobileAddToCart
-        selectedBundle={selectedBundle}
-        selectedBundleQuantity={purchase.qty}
+        bundleSummary={bundleSummary}
+        quantity={qty}
         onOpenCart={handleOpenCart}
       />
       {loading && <LoadingOverlay />}

@@ -27,13 +27,13 @@ export default function LightTones() {
       <div style={{ maxWidth: 1560, margin: "0 auto" }}>
         <div style={{ maxWidth: 760 }}>
           <p className="eyebrow" style={{ color: "var(--accent)" }}>
-            Light tones
+            Built-in tones
           </p>
           <h2 className="serif section-title" style={{ fontSize: 58, maxWidth: 780 }}>
-            Three tones, presented as visual lifestyle choices.
+            One light. Three built-in tones.
           </h2>
           <p style={{ marginTop: 16, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.72, maxWidth: 720 }}>
-            Choose the glow that feels right for the room. Each tone has a different mood, but all keep the same premium MotionGlow look.
+            Every MotionGlow includes warm, neutral, and white light modes, so you can choose the glow that fits the moment. These tones are built into the product, not separate variants.
           </p>
         </div>
 
@@ -77,10 +77,10 @@ export default function LightTones() {
                       opacity: 0.9,
                     }}
                   />
-                  <div
-                    style={{
-                      position: "absolute",
-                      left: 18,
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: 18,
                       top: 18,
                       padding: "8px 12px",
                       borderRadius: 999,
@@ -93,29 +93,29 @@ export default function LightTones() {
                       textTransform: "uppercase",
                       backdropFilter: "blur(10px)",
                     }}
-                  >
+                    >
                     {visual.eyebrow}
-                  </div>
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: "auto 18px 18px 18px",
+                    </div>
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: "auto 18px 18px 18px",
                       display: "grid",
                       gap: 10,
                     }}
-                  >
-                    <div
-                      style={{
-                        width: "100%",
-                        height: 12,
-                        borderRadius: 999,
-                        background: tone.swatch,
-                        boxShadow: "0 10px 28px rgba(18,18,18,.18)",
-                      }}
-                    />
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,.84)" }}>{tone.tone}</span>
+                    >
+                      <div
+                        style={{
+                          width: "100%",
+                          height: 12,
+                          borderRadius: 999,
+                          background: tone.swatch,
+                          boxShadow: "0 10px 28px rgba(18,18,18,.18)",
+                        }}
+                      />
+                    <div style={{ display: "grid", gap: 4 }}>
                       <span style={{ fontSize: 13, fontWeight: 800, color: "white" }}>{tone.title}</span>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,.84)" }}>{tone.tone}</span>
                     </div>
                   </div>
 
@@ -124,7 +124,7 @@ export default function LightTones() {
 
                 <div style={{ padding: 24 }}>
                   <h3 style={{ fontSize: 24, lineHeight: 1.08, fontWeight: 800 }}>{tone.title}</h3>
-                  <p style={{ marginTop: 10, fontSize: 15, lineHeight: 1.7, color: "var(--muted)" }}>{visual.note}</p>
+                  <p style={{ marginTop: 8, fontSize: 15, lineHeight: 1.7, color: "var(--muted)" }}>{tone.desc}</p>
                 </div>
               </article>
             )

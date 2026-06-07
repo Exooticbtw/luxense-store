@@ -20,7 +20,8 @@ import chargerImage from "../../../assets/product/cargador.png"
 import closetImage from "../../../assets/product/armario.png"
 import lifestyleImage from "../../../assets/product/hero-detail.png"
 
-export const PRODUCT_NAME = "Luxense MotionGlow\u2122"
+export const PRODUCT_NAME = "Luxense MotionGlow™"
+export const UNIT_PRICE = 29.99
 
 export const GALLERY_IMAGES = [
   { src: heroImage, label: "MotionGlow hero", alt: "Luxense MotionGlow in a modern home setting" },
@@ -98,30 +99,124 @@ export const BUNDLE_OPTIONS = [
     label: "Buy 1",
     quantity: 1,
     price: 29.99,
-    compareAt: 39.99,
-    badge: "Best for one room",
+    compareAt: 29.99,
+    badge: null,
     savings: "Save 0%",
+    useCase: "Best for one room",
     caption: "Best for a first install in a closet, shelf, or hallway.",
   },
   {
     label: "Buy 2",
     quantity: 2,
     price: 49.99,
-    compareAt: 79.98,
+    compareAt: 59.98,
     badge: "Most Popular",
     savings: "Save 15%",
+    useCase: "Perfect for closet + hallway",
     caption: "A balanced set for two spaces that you use every day.",
   },
   {
     label: "Buy 4",
     quantity: 4,
     price: 89.99,
-    compareAt: 159.96,
+    compareAt: 119.96,
     badge: "Best Value",
     savings: "Save 25%",
+    useCase: "Light multiple spaces",
     caption: "Ideal when you want a more complete lighting flow at home.",
   },
 ]
+
+export function getBundleOfferForQuantity(quantity) {
+  const qty = Math.max(1, Math.floor(Number(quantity) || 1))
+  const exactOffer = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === qty)
+
+  if (exactOffer) {
+    const compareAt = Number(exactOffer.compareAt ?? exactOffer.price)
+    const savingsAmount = Math.max(0, compareAt - exactOffer.price)
+
+    return {
+      ...exactOffer,
+      quantity: qty,
+      label: exactOffer.label,
+      price: exactOffer.price,
+      compareAt,
+      subtotal: exactOffer.price,
+      savingsAmount,
+      savingsLabel: exactOffer.savings || "Save 0%",
+      unitPrice: exactOffer.price / qty,
+      useCase: exactOffer.useCase || exactOffer.caption,
+      isExact: true,
+      selectedBundleQuantity: qty,
+      selectedBundleLabel: exactOffer.label,
+      summaryLabel: exactOffer.label,
+    }
+  }
+
+  if (qty === 3) {
+    const subtotal = Number((qty * UNIT_PRICE).toFixed(2))
+    return {
+      label: "Custom quantity",
+      quantity: qty,
+      price: subtotal,
+      compareAt: subtotal,
+      subtotal,
+      savingsAmount: 0,
+      savingsLabel: "No bundle discount",
+      unitPrice: UNIT_PRICE,
+      badge: "Flexible quantity",
+      useCase: "Best for a mix of spaces",
+      caption: "A flexible three-unit setup without bundle pricing.",
+      isExact: false,
+      selectedBundleQuantity: null,
+      selectedBundleLabel: "Custom quantity",
+      summaryLabel: "Custom quantity",
+    }
+  }
+
+  if (qty > 4) {
+    const subtotal = Number((BUNDLE_OPTIONS[2].price + (qty - 4) * UNIT_PRICE).toFixed(2))
+    const compareAt = Number((qty * UNIT_PRICE).toFixed(2))
+    const savingsAmount = Math.max(0, compareAt - subtotal)
+
+    return {
+      label: qty === 4 ? "Buy 4" : `Buy 4 + ${qty - 4} extra${qty - 4 === 1 ? "" : "s"}`,
+      quantity: qty,
+      price: subtotal,
+      compareAt,
+      subtotal,
+      savingsAmount,
+      savingsLabel: savingsAmount > 0 ? `Save $${savingsAmount.toFixed(2)}` : "Save 0%",
+      unitPrice: UNIT_PRICE,
+      badge: "Best Value",
+      useCase: "Best value for multiple spaces",
+      caption: "Buy four, then add extra units safely at the regular unit price.",
+      isExact: false,
+      selectedBundleQuantity: 4,
+      selectedBundleLabel: "Buy 4",
+      summaryLabel: qty === 4 ? "Buy 4" : `Buy 4 + ${qty - 4} extra${qty - 4 === 1 ? "" : "s"}`,
+    }
+  }
+
+  const subtotal = Number((qty * UNIT_PRICE).toFixed(2))
+  return {
+    label: `Custom quantity`,
+    quantity: qty,
+    price: subtotal,
+    compareAt: subtotal,
+    subtotal,
+    savingsAmount: 0,
+    savingsLabel: "No bundle discount",
+    unitPrice: UNIT_PRICE,
+    badge: "Flexible quantity",
+    useCase: "Flexible quantity",
+    caption: "A custom quantity with clear unit pricing.",
+    isExact: false,
+    selectedBundleQuantity: null,
+    selectedBundleLabel: "Custom quantity",
+    summaryLabel: "Custom quantity",
+  }
+}
 
 export const HOW_STEPS = [
   {
@@ -166,19 +261,19 @@ export const LIGHT_TONES = [
   {
     title: "Warm Light 3000K",
     tone: "Soft / cozy",
-    desc: "Best for bedrooms, closets, and relaxing evening routines.",
+    desc: "Best for bedrooms, closets, and calm evening routines.",
     swatch: "linear-gradient(135deg, #f4d9aa, #c89a59)",
   },
   {
     title: "Neutral Light 4000K",
     tone: "Balanced / crisp",
-    desc: "A clean middle ground for kitchens, hallways, and general task lighting.",
+    desc: "Ideal for kitchens, hallways, and everyday visibility.",
     swatch: "linear-gradient(135deg, #f7f2e8, #d7c7a8)",
   },
   {
     title: "White Light 6000K",
     tone: "Bright / clear",
-    desc: "Ideal when you want maximum visibility for stairs, entryways, or utility spaces.",
+    desc: "Better for stairs, entryways, and spaces that need more clarity.",
     swatch: "linear-gradient(135deg, #ffffff, #d5d8e2)",
   },
 ]
@@ -237,7 +332,7 @@ export const TECH_SPECS = [
   ["Motion detection angle", "120\u00b0"],
   ["Auto-off", "About 15 seconds without motion"],
   ["Brightness", "Adjustable from 10% to 100%"],
-  ["Light tones", "Warm Light 3000K / Neutral Light 4000K / White Light 6000K"],
+  ["Light tones", "Warm + Neutral + White included"],
   ["Colors", "White / Black"],
   ["Sizes", "20cm / 30cm / 40cm / 50cm"],
   ["Material", "PVC"],

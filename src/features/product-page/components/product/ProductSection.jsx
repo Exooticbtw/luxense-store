@@ -1,17 +1,8 @@
-import { useState } from "react"
-
 import { ArrowRight, Check, ShieldCheck, Sparkles, Star } from "lucide-react"
 
-import {
-  BUNDLE_OPTIONS,
-  COLORS,
-  HERO_KEY_BENEFITS,
-  HERO_TRUST_BADGES,
-  LIGHT_TONES,
-  PAYMENT_BADGES,
-  PRODUCT_NAME,
-} from "../../data/productPageData.js"
+import { BUNDLE_OPTIONS, COLORS, HERO_KEY_BENEFITS, HERO_TRUST_BADGES, PRODUCT_NAME, getBundleOfferForQuantity } from "../../data/productPageData.js"
 import lifestyleImage from "../../../../assets/product/hero-detail.png"
+import QuantityStepper from "../common/QuantityStepper.jsx"
 
 const PRIMARY_COPY = "Premium motion lighting for a calmer, safer home."
 const SECONDARY_COPY =
@@ -19,27 +10,32 @@ const SECONDARY_COPY =
 
 export default function ProductSection({
   purchase,
-  selectedBundle,
+  bundleSummary,
   selectedColor,
   selectedSize,
   setSelectedSize,
+  quantity,
+  onChangeQuantity,
   onPreviewBundle,
   onSelectColor,
   onOpenCart,
 }) {
-  const [selectedTone, setSelectedTone] = useState(LIGHT_TONES[0]?.title || "Warm Light 3000K")
   const heroVisualImage = purchase?.images?.[purchase?.activeImage] || lifestyleImage
-  const priceLabel = formatPrice(purchase?.price, "$29.99")
-  const compareAtLabel = formatPrice(purchase?.origPrice, "$49.48")
-
-  const bundle = selectedBundle || BUNDLE_OPTIONS.find((item) => item.quantity === purchase?.qty) || BUNDLE_OPTIONS[1]
+  const currentQuantity = Math.max(1, Math.floor(Number(quantity || purchase?.qty || 1)))
+  const bundle = bundleSummary || getBundleOfferForQuantity(currentQuantity)
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
-
-  const summaryRows = [
-    ["Bundle", bundle?.label || "Buy 2"],
-    ["Color", selectedColorName],
-    ["Size", selectedSize || "30cm"],
-    ["Tone", selectedTone.replace(" Light", "")],
+  const priceLabel = formatPrice(bundle?.price ?? purchase?.price, "$29.99")
+  const compareAtLabel = formatPrice(bundle?.compareAt ?? purchase?.origPrice, "$49.48")
+  const subtotalLabel = formatPrice(bundle?.subtotal ?? bundle?.price ?? purchase?.price, "$29.99")
+  const unitPriceLabel = formatPrice(bundle?.unitPrice ?? purchase?.price, "$29.99")
+  const savingsLabel = bundle?.savingsLabel || bundle?.savings || "Save 0%"
+  const showCompareAt = compareAtLabel !== priceLabel
+  const activeBundleQuantity = bundle?.selectedBundleQuantity
+  const bundleSummaryRows = [
+    ["Quantity", String(currentQuantity)],
+    ["Selected bundle", bundle?.summaryLabel || bundle?.label || "Buy 1"],
+    ["Subtotal", subtotalLabel],
+    ["Savings", savingsLabel],
   ]
 
   return (
@@ -63,14 +59,9 @@ export default function ProductSection({
             boxShadow: "0 30px 80px rgba(18,18,18,.10)",
           }}
         >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.06fr .94fr",
-              alignItems: "stretch",
-            }}
-          >
+          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.06fr .94fr", alignItems: "stretch" }}>
             <div
+              className="hero-visual-column"
               style={{
                 minHeight: 760,
                 padding: 24,
@@ -81,6 +72,7 @@ export default function ProductSection({
             >
               <div style={{ display: "grid", gap: 18, height: "100%" }}>
                 <div
+                  className="hero-image-panel"
                   style={{
                     position: "relative",
                     borderRadius: 34,
@@ -116,6 +108,7 @@ export default function ProductSection({
                   />
 
                   <div
+                    className="hero-trust-row"
                     style={{
                       position: "absolute",
                       left: 18,
@@ -206,7 +199,7 @@ export default function ProductSection({
                     {SECONDARY_COPY}
                   </p>
 
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 2 }}>
+                  <div className="hero-benefit-row" style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 2 }}>
                     {HERO_KEY_BENEFITS.map((item) => (
                       <span
                         key={item}
@@ -229,7 +222,7 @@ export default function ProductSection({
                     ))}
                   </div>
 
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 4 }}>
+                  <div className="hero-actions" style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 4 }}>
                     <button
                       type="button"
                       className="hero-primary-cta"
@@ -296,7 +289,7 @@ export default function ProductSection({
                   >
                     {HERO_TRUST_BADGES.map((item, index) => (
                       <span key={item} style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
-                        {index > 0 && <span style={{ color: "rgba(255,255,255,.30)" }}>•</span>}
+                        {index > 0 && <span style={{ color: "rgba(255,255,255,.30)" }}>·</span>}
                         <span>{item}</span>
                       </span>
                     ))}
@@ -331,37 +324,38 @@ export default function ProductSection({
                       <span className="serif" style={{ fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
                         {priceLabel}
                       </span>
-                      <span style={{ color: "rgba(255,255,255,.48)", textDecoration: "line-through", fontSize: 14, fontWeight: 500 }}>
-                        {compareAtLabel}
-                      </span>
+                      {showCompareAt && (
+                        <span style={{ color: "rgba(255,255,255,.48)", textDecoration: "line-through", fontSize: 14, fontWeight: 500 }}>
+                          {compareAtLabel}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div style={{ alignSelf: "center", fontSize: 12, color: "rgba(255,255,255,.74)", fontWeight: 600 }}>
-                    Secure checkout and fast support
+                    {currentQuantity} selected
                   </div>
                 </div>
               </div>
             </div>
 
             <div
+              className="purchase-panel"
               style={{
                 padding: 28,
-                background:
-                  "linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(248,243,235,.98) 100%)",
+                background: "linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(248,243,235,.98) 100%)",
                 borderLeft: "1px solid rgba(18,18,18,.08)",
               }}
             >
               <div
-                className="soft-card"
+                className="soft-card purchase-card"
                 style={{
                   borderRadius: 30,
                   padding: 22,
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,247,240,.94))",
+                  background: "linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,247,240,.94))",
                   boxShadow: "0 20px 52px rgba(18,18,18,.08)",
                 }}
               >
-                <div style={{ display: "grid", gap: 10 }}>
+                <div style={{ display: "grid", gap: 12 }}>
                   <div>
                     <p
                       style={{
@@ -404,16 +398,26 @@ export default function ProductSection({
                     }}
                   >
                     <div>
-                      <div style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--muted)", fontWeight: 800 }}>
+                      <div
+                        style={{
+                          fontSize: 10.5,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.18em",
+                          color: "var(--muted)",
+                          fontWeight: 800,
+                        }}
+                      >
                         Starting price
                       </div>
                       <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 6, flexWrap: "wrap" }}>
                         <span className="serif" style={{ fontSize: 36, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
                           {priceLabel}
                         </span>
-                        <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 16, fontWeight: 600 }}>
-                          {compareAtLabel}
-                        </span>
+                        {showCompareAt && (
+                          <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 16, fontWeight: 600 }}>
+                            {compareAtLabel}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div
@@ -433,54 +437,98 @@ export default function ProductSection({
 
                   <div style={{ display: "grid", gap: 10, marginTop: 2 }}>
                     <SectionLabel text="Bundle" />
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10 }}>
+                    <div className="bundle-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10 }}>
                       {BUNDLE_OPTIONS.map((option) => {
-                        const active = option.quantity === bundle.quantity
+                        const isSelected = option.quantity === activeBundleQuantity
+                        const featured = option.quantity === 2 || option.quantity === 4
+                        const darkSelected = isSelected && option.quantity === 4
+
                         return (
                           <button
                             key={option.label}
                             type="button"
                             onClick={() => onPreviewBundle?.(option.quantity)}
-                            aria-pressed={active}
+                            aria-pressed={isSelected}
                             style={{
-                              minHeight: 96,
+                              minHeight: 126,
                               borderRadius: 22,
-                              border: active ? "1px solid rgba(201,164,106,.72)" : "1px solid rgba(18,18,18,.08)",
-                              background: active
-                                ? "linear-gradient(180deg, rgba(201,164,106,.14), rgba(255,255,255,.96))"
-                                : "rgba(255,255,255,.88)",
+                              border: isSelected
+                                ? "1px solid rgba(201,164,106,.80)"
+                                : featured
+                                  ? "1px solid rgba(201,164,106,.26)"
+                                  : "1px solid rgba(18,18,18,.08)",
+                              background: isSelected
+                                ? darkSelected
+                                  ? "linear-gradient(180deg, rgba(17,17,17,.98), rgba(33,31,27,.96))"
+                                  : "linear-gradient(180deg, rgba(201,164,106,.14), rgba(255,255,255,.96))"
+                                : featured
+                                  ? "linear-gradient(180deg, rgba(201,164,106,.08), rgba(255,255,255,.95))"
+                                  : "rgba(255,255,255,.88)",
                               padding: "14px 14px 12px",
                               textAlign: "left",
                               cursor: "pointer",
-                              boxShadow: active ? "0 16px 28px rgba(201,164,106,.10)" : "0 10px 22px rgba(18,18,18,.05)",
+                              boxShadow: isSelected
+                                ? darkSelected
+                                  ? "0 20px 34px rgba(17,17,17,.16)"
+                                  : "0 16px 28px rgba(201,164,106,.10)"
+                                : featured
+                                  ? "0 14px 24px rgba(201,164,106,.08)"
+                                  : "0 10px 22px rgba(18,18,18,.05)",
                             }}
                           >
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                              <span style={{ fontSize: 15, fontWeight: 800 }}>{option.label}</span>
-                              {active && (
+                            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+                              <div style={{ minWidth: 0 }}>
+                                <span style={{ display: "block", fontSize: 15, fontWeight: 800 }}>{option.label}</span>
+                                <span
+                                  style={{
+                                    display: "inline-flex",
+                                    marginTop: 6,
+                                    borderRadius: 999,
+                                    padding: "6px 10px",
+                                    background:
+                                      option.quantity === 2
+                                        ? "rgba(143,174,138,.14)"
+                                        : option.quantity === 4
+                                          ? "rgba(201,164,106,.14)"
+                                          : "rgba(18,18,18,.04)",
+                                    color:
+                                      option.quantity === 2
+                                        ? "#36563a"
+                                        : option.quantity === 4
+                                          ? "var(--fg)"
+                                          : "var(--muted)",
+                                    fontSize: 12,
+                                    fontWeight: 800,
+                                  }}
+                                >
+                                  {option.badge || "Single room"}
+                                </span>
+                              </div>
+                              {isSelected && (
                                 <span
                                   style={{
                                     width: 24,
                                     height: 24,
                                     borderRadius: "50%",
-                                    background: "var(--fg)",
-                                    color: "var(--cream)",
+                                    background: darkSelected ? "var(--accent)" : "var(--fg)",
+                                    color: darkSelected ? "var(--fg)" : "var(--cream)",
                                     display: "grid",
                                     placeItems: "center",
+                                    flexShrink: 0,
                                   }}
                                 >
                                   <Check size={14} />
                                 </span>
                               )}
                             </div>
-                            <div style={{ marginTop: 8, fontSize: 18, fontWeight: 700, letterSpacing: "-0.03em" }}>
+                            <div style={{ marginTop: 10, fontSize: 22, fontWeight: 700, letterSpacing: "-0.03em" }}>
                               ${option.price.toFixed(2)}
                             </div>
-                            <div style={{ marginTop: 4, fontSize: 12, color: active ? "rgba(18,18,18,.68)" : "var(--muted)", fontWeight: 700 }}>
+                            <div style={{ marginTop: 4, fontSize: 12, color: isSelected ? "rgba(18,18,18,.68)" : "var(--muted)", fontWeight: 700 }}>
                               {option.savings}
                             </div>
-                            <div style={{ marginTop: 6, fontSize: 12, color: active ? "rgba(18,18,18,.66)" : "var(--muted)", lineHeight: 1.45 }}>
-                              {option.badge}
+                            <div style={{ marginTop: 8, fontSize: 12.5, color: isSelected ? "rgba(18,18,18,.66)" : "var(--muted)", lineHeight: 1.45 }}>
+                              {option.useCase}
                             </div>
                           </button>
                         )
@@ -488,7 +536,35 @@ export default function ProductSection({
                     </div>
                   </div>
 
-                  <div style={{ display: "grid", gap: 14, gridTemplateColumns: "1fr 1fr", marginTop: 2 }}>
+                  <div
+                    className="purchase-quantity-row"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: 14,
+                      alignItems: "flex-start",
+                      flexWrap: "wrap",
+                      marginTop: 4,
+                    }}
+                  >
+                    <QuantityStepper value={currentQuantity} onChange={onChangeQuantity} />
+                    <div
+                      style={{
+                        padding: "10px 12px",
+                        borderRadius: 18,
+                        background: "rgba(143,174,138,.12)",
+                        color: "#36563a",
+                        fontSize: 12.5,
+                        fontWeight: 800,
+                        lineHeight: 1.4,
+                        maxWidth: 240,
+                      }}
+                    >
+                      3 units stay honest with regular unit pricing. 4+ uses the best-value bundle logic.
+                    </div>
+                  </div>
+
+                  <div className="purchase-option-grid" style={{ display: "grid", gap: 14, gridTemplateColumns: "1fr 1fr", marginTop: 2 }}>
                     <div style={{ display: "grid", gap: 10 }}>
                       <SectionLabel text="Color" />
                       <div style={{ display: "grid", gap: 10 }}>
@@ -569,45 +645,25 @@ export default function ProductSection({
                     </div>
                   </div>
 
-                  <div style={{ display: "grid", gap: 10, marginTop: 2 }}>
-                    <SectionLabel text="Light tone" />
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10 }}>
-                      {LIGHT_TONES.map((tone) => {
-                        const active = tone.title === selectedTone
-
-                        return (
-                          <button
-                            key={tone.title}
-                            type="button"
-                            onClick={() => setSelectedTone(tone.title)}
-                            aria-pressed={active}
-                            style={{
-                              minHeight: 86,
-                              borderRadius: 22,
-                              border: active ? "1px solid rgba(201,164,106,.72)" : "1px solid rgba(18,18,18,.08)",
-                              background: active ? "rgba(201,164,106,.08)" : "rgba(255,255,255,.88)",
-                              padding: "12px 12px 10px",
-                              textAlign: "left",
-                              cursor: "pointer",
-                              boxShadow: active ? "0 12px 24px rgba(201,164,106,.08)" : "0 8px 18px rgba(18,18,18,.05)",
-                            }}
-                          >
-                            <div
-                              style={{
-                                width: "100%",
-                                height: 8,
-                                borderRadius: 999,
-                                background: tone.swatch,
-                              }}
-                            />
-                            <div style={{ marginTop: 10, fontSize: 14.5, fontWeight: 800 }}>{tone.title}</div>
-                            <div style={{ marginTop: 4, fontSize: 12, color: "var(--muted)", lineHeight: 1.45 }}>{tone.tone}</div>
-                          </button>
-                        )
-                      })}
+                  <div
+                    style={{
+                      display: "grid",
+                      gap: 8,
+                      marginTop: 4,
+                      padding: 14,
+                      borderRadius: 22,
+                      background: "linear-gradient(180deg, rgba(255,255,255,.98), rgba(245,241,233,.94))",
+                      border: "1px solid rgba(18,18,18,.06)",
+                    }}
+                  >
+                    <div style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--muted)", fontWeight: 800 }}>
+                      Included tones
                     </div>
-                    <div style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.6 }}>
-                      {LIGHT_TONES.find((tone) => tone.title === selectedTone)?.desc || "Best fit for the room."}
+                    <div style={{ fontSize: 14.5, lineHeight: 1.55, color: "var(--fg)", fontWeight: 700 }}>
+                      Includes all 3 light tones: Warm, Neutral, and White.
+                    </div>
+                    <div style={{ fontSize: 12.5, lineHeight: 1.6, color: "var(--muted)" }}>
+                      Switch between built-in warm 3000K, neutral 4000K, and white 6000K modes anytime after setup.
                     </div>
                   </div>
 
@@ -620,7 +676,7 @@ export default function ProductSection({
                     }}
                   >
                     <div style={{ display: "grid", gap: 8 }}>
-                      {summaryRows.map(([label, value]) => (
+                      {bundleSummaryRows.map(([label, value]) => (
                         <div key={label} style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center" }}>
                           <span
                             style={{
@@ -651,7 +707,23 @@ export default function ProductSection({
                           Current price
                         </span>
                         <span className="serif" style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.04em" }}>
-                          {priceLabel}
+                          {subtotalLabel}
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center" }}>
+                        <span
+                          style={{
+                            fontSize: 10.5,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.16em",
+                            color: "rgba(18,18,18,.52)",
+                            fontWeight: 700,
+                          }}
+                        >
+                          Unit price
+                        </span>
+                        <span style={{ fontSize: 14.5, fontWeight: 700, textAlign: "right", color: "rgba(18,18,18,.92)" }}>
+                          {unitPriceLabel}
                         </span>
                       </div>
                     </div>
@@ -682,16 +754,16 @@ export default function ProductSection({
                   </button>
 
                   <div style={{ display: "grid", gap: 8 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(18,18,18,.62)", fontWeight: 600 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(18,18,18,.62)", fontWeight: 600, flexWrap: "wrap" }}>
                       <ShieldCheck size={14} color="#8fb58b" />
                       Secure checkout
-                      <span style={{ color: "rgba(18,18,18,.34)" }}>•</span>
+                      <span style={{ color: "rgba(18,18,18,.34)" }}>·</span>
                       Free shipping
-                      <span style={{ color: "rgba(18,18,18,.34)" }}>•</span>
+                      <span style={{ color: "rgba(18,18,18,.34)" }}>·</span>
                       30-day guarantee
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {PAYMENT_BADGES.map((badge) => (
+                      {["Visa", "Mastercard", "PayPal", "Apple Pay", "Google Pay", "Shop Pay"].map((badge) => (
                         <span
                           key={badge}
                           style={{
@@ -721,7 +793,8 @@ export default function ProductSection({
         #hero .hero-primary-cta,
         #hero .hero-secondary-cta,
         #hero .purchase-cta,
-        #hero .size-option {
+        #hero .size-option,
+        #hero .bundle-option {
           transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, filter .18s ease;
         }
         #hero .hero-primary-cta:hover,
@@ -747,10 +820,10 @@ export default function ProductSection({
           outline-offset: 2px;
         }
         @media (max-width: 1080px) {
-          #hero > div > div > div {
+          #hero .hero-grid {
             grid-template-columns: 1fr !important;
           }
-          #hero > div > div > div:last-child {
+          #hero .purchase-panel {
             border-left: none !important;
             border-top: 1px solid rgba(18,18,18,.08) !important;
           }
@@ -762,11 +835,11 @@ export default function ProductSection({
           #hero > div > div {
             border-radius: 28px !important;
           }
-          #hero > div > div > div:first-child {
+          #hero .hero-visual-column {
             padding: 16px !important;
             min-height: auto !important;
           }
-          #hero > div > div > div:first-child > div:first-child {
+          #hero .hero-image-panel {
             min-height: 240px !important;
           }
           #hero h1 {
@@ -777,38 +850,47 @@ export default function ProductSection({
             font-size: 14.5px !important;
             line-height: 1.58 !important;
           }
-          #hero > div > div > div:first-child > div:nth-child(2) > div:nth-child(5) {
+          #hero .hero-benefit-row {
             gap: 8px !important;
           }
-          #hero > div > div > div:first-child > div:nth-child(2) > div:nth-child(6) > button,
-          #hero > div > div > div:first-child > div:nth-child(2) > div:nth-child(6) > a {
+          #hero .hero-actions button,
+          #hero .hero-actions a {
             min-height: 52px !important;
             width: 100% !important;
             font-size: 15px !important;
             padding: 0 18px !important;
           }
-          #hero > div > div > div:first-child > div:last-child {
+          #hero .hero-trust-row {
             margin-top: 16px !important;
             gap: 12px !important;
             padding: 14px 16px !important;
-            grid-template-columns: 1fr !important;
+            left: 16px !important;
+            right: 16px !important;
           }
-          #hero > div > div > div:last-child {
+          #hero .purchase-panel {
             padding: 16px !important;
           }
-          #hero > div > div > div:last-child > div > div {
+          #hero .purchase-card {
             padding: 16px !important;
           }
-          #hero > div > div > div:last-child h2 {
+          #hero .purchase-card h2 {
             font-size: 24px !important;
           }
-          #hero > div > div > div:last-child > div > div > div:nth-child(4) > div,
-          #hero > div > div > div:last-child > div > div > div:nth-child(5) > div,
-          #hero > div > div > div:last-child > div > div > div:nth-child(6) > div {
+          #hero .bundle-grid,
+          #hero .purchase-option-grid {
             grid-template-columns: 1fr !important;
           }
-          #hero > div > div > div:last-child button {
+          #hero .purchase-card .bundle-grid button,
+          #hero .purchase-card .purchase-option-grid button,
+          #hero .purchase-card .purchase-cta {
             min-height: 52px !important;
+          }
+          #hero .purchase-quantity-row {
+            flex-direction: column !important;
+          }
+          #hero .purchase-quantity-row > div:last-child {
+            max-width: none !important;
+            width: 100% !important;
           }
         }
       `}</style>

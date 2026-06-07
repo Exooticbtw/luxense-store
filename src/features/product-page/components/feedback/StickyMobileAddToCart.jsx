@@ -1,7 +1,9 @@
 import { ShoppingBag } from "lucide-react"
 
-export default function StickyMobileAddToCart({ selectedBundle, selectedBundleQuantity = 1, onOpenCart }) {
-  const priceText = selectedBundle?.price ? `$${Number(selectedBundle.price).toFixed(2)}` : "$29.99"
+export default function StickyMobileAddToCart({ bundleSummary, quantity = 1, onOpenCart }) {
+  const currentQuantity = Math.max(1, Math.floor(Number(quantity) || 1))
+  const priceText = bundleSummary?.subtotal ? `$${Number(bundleSummary.subtotal).toFixed(2)}` : "$29.99"
+  const bundleLabel = bundleSummary?.summaryLabel || bundleSummary?.label || "Buy 1"
 
   return (
     <div
@@ -38,11 +40,13 @@ export default function StickyMobileAddToCart({ selectedBundle, selectedBundleQu
             MotionGlow
           </div>
           <div style={{ marginTop: 4, fontSize: 16, fontWeight: 800 }}>{priceText}</div>
-          <div style={{ marginTop: 2, fontSize: 12, color: "rgba(255,255,255,.58)" }}>Bundle x{selectedBundleQuantity}</div>
+          <div style={{ marginTop: 2, fontSize: 12, color: "rgba(255,255,255,.58)" }}>
+            {bundleLabel} · Qty {currentQuantity}
+          </div>
         </div>
 
         <div style={{ minWidth: 0, color: "rgba(255,255,255,.72)", fontSize: 13, lineHeight: 1.45 }}>
-          Tap to review your bundle, color, and size in the cart drawer.
+          Tap to review your bundle, quantity, color, and size in the cart drawer.
         </div>
 
         <button
