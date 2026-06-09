@@ -73,6 +73,7 @@ export default function ProductGallery({ images, active, setActive }) {
                 alt={activeImage.alt}
                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 loading="eager"
+                decoding="async"
               />
             ) : (
               <div style={{ width: "100%", height: "100%", background: "var(--sec)" }} />
@@ -201,7 +202,13 @@ export default function ProductGallery({ images, active, setActive }) {
             aria-label={`View ${image.label}`}
           >
             {image.src ? (
-              <img src={image.src} alt={image.alt} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                decoding="async"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
             ) : (
               <div style={{ width: "100%", height: "100%", background: "var(--sec)" }} />
             )}

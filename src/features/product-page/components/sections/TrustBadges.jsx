@@ -1,7 +1,7 @@
 import { CreditCard, ShieldCheck, Truck } from "lucide-react"
 
 import PaymentIcons from "../common/PaymentIcons.jsx"
-import { PAYMENT_BADGES, TRUST_BADGES } from "../../data/productPageData.js"
+import { TRUST_BADGES } from "../../data/productPageData.js"
 
 export default function TrustBadges() {
   return (
@@ -89,7 +89,6 @@ export default function TrustBadges() {
           <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <span style={{ color: "var(--muted)", fontSize: 14, fontWeight: 700 }}>We accept:</span>
             <PaymentIcons />
-            <span style={{ color: "var(--muted)", fontSize: 14, fontWeight: 700 }}>{PAYMENT_BADGES.join(" | ")}</span>
           </div>
         </div>
       </div>

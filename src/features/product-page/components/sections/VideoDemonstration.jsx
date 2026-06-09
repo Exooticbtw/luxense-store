@@ -1,6 +1,6 @@
 import { ArrowRight, Play } from "lucide-react"
 
-import lifestyleImage from "../../../../assets/product/hero-detail.png"
+import { IMAGE_ASSETS } from "../../data/productPageData.js"
 
 export default function VideoDemonstration({ onOpenCart }) {
   return (
@@ -27,7 +27,7 @@ export default function VideoDemonstration({ onOpenCart }) {
             borderRadius: 32,
             minHeight: 520,
             background:
-              "linear-gradient(140deg, rgba(17,17,17,.94), rgba(17,17,17,.72)), url(" + lifestyleImage + ") center/cover no-repeat",
+              "linear-gradient(140deg, rgba(17,17,17,.94), rgba(17,17,17,.72)), url(" + IMAGE_ASSETS.finalLifestyle.src + ") center/cover no-repeat",
             boxShadow: "0 26px 60px rgba(17,17,17,.10)",
           }}
         >

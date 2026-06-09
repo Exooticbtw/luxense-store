@@ -1,5 +1,6 @@
 import { ArrowRight, ShieldCheck } from "lucide-react"
 
+import { IMAGE_ASSETS } from "../../data/productPageData.js"
 import { buildCartUrl } from "../../utils/shopify.js"
 
 const TRUST_POINTS = ["Secure Checkout", "Free Shipping", "30-Day Guarantee"]
@@ -23,7 +24,9 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
           borderRadius: 34,
           overflow: "hidden",
           background:
-            "linear-gradient(135deg, rgba(17,17,17,.98) 0%, rgba(17,17,17,.94) 58%, rgba(201,164,106,.20) 140%)",
+            "linear-gradient(135deg, rgba(17,17,17,.98) 0%, rgba(17,17,17,.90) 58%, rgba(201,164,106,.22) 140%), url(" +
+            IMAGE_ASSETS.finalLifestyle.src +
+            ") center/cover no-repeat",
           color: "var(--cream)",
           boxShadow: "0 26px 64px rgba(17,17,17,.16)",
           border: "1px solid rgba(255,255,255,.08)",

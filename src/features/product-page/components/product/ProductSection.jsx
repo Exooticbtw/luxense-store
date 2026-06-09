@@ -1,7 +1,14 @@
 import { ArrowRight, Check, ShieldCheck, Sparkles, Star } from "lucide-react"
 
-import { BUNDLE_OPTIONS, COLORS, HERO_KEY_BENEFITS, HERO_TRUST_BADGES, PRODUCT_NAME, getBundleOfferForQuantity } from "../../data/productPageData.js"
-import lifestyleImage from "../../../../assets/product/hero-detail.png"
+import {
+  BUNDLE_OPTIONS,
+  COLORS,
+  HERO_KEY_BENEFITS,
+  HERO_TRUST_BADGES,
+  IMAGE_ASSETS,
+  PRODUCT_NAME,
+  getBundleOfferForQuantity,
+} from "../../data/productPageData.js"
 import QuantityStepper from "../common/QuantityStepper.jsx"
 
 const PRIMARY_COPY = "Premium motion lighting for a calmer, safer home."
@@ -20,7 +27,8 @@ export default function ProductSection({
   onSelectColor,
   onOpenCart,
 }) {
-  const heroVisualImage = purchase?.images?.[purchase?.activeImage] || lifestyleImage
+  const heroVisualImage = purchase?.images?.[purchase?.activeImage] || IMAGE_ASSETS.heroLifestyle.src
+  const heroVisualAlt = purchase?.images?.[purchase?.activeImage] ? "Luxense MotionGlow lifestyle scene in a modern home" : IMAGE_ASSETS.heroLifestyle.alt
   const currentQuantity = Math.max(1, Math.floor(Number(quantity || 1)))
   const bundle = bundleSummary || getBundleOfferForQuantity(currentQuantity)
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
@@ -83,12 +91,13 @@ export default function ProductSection({
                     boxShadow: "0 24px 70px rgba(0,0,0,.24)",
                   }}
                 >
-                  <img
-                    src={heroVisualImage}
-                    alt="Luxense MotionGlow lifestyle scene in a modern home"
+                    <img
+                      src={heroVisualImage}
+                    alt={heroVisualAlt}
                     loading="eager"
-                    style={{
-                      width: "100%",
+                    decoding="async"
+                      style={{
+                        width: "100%",
                       height: "100%",
                       minHeight: 380,
                       objectFit: "cover",

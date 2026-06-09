@@ -1,6 +1,6 @@
 import { BatteryCharging, Clock3, Lightbulb, MoonStar, ScanSearch, ShieldCheck, Sparkles, WandSparkles } from "lucide-react"
 
-import lifestyleImage from "../../../../assets/product/hero-detail.png"
+import { IMAGE_ASSETS } from "../../data/productPageData.js"
 
 const STORY_BLOCKS = [
   {
@@ -121,10 +121,12 @@ export default function StorySection({ onOpenCart }) {
                 boxShadow: "0 20px 50px rgba(18,18,18,.08)",
               }}
             >
+              {/* TODO: Replace with final lifestyle storytelling image when approved. */}
               <img
-                src={lifestyleImage}
-                alt="Lifestyle view of Luxense MotionGlow in a modern interior"
+                src={IMAGE_ASSETS.heroLifestyle.src}
+                alt={IMAGE_ASSETS.heroLifestyle.alt}
                 loading="lazy"
+                decoding="async"
                 style={{
                   width: "100%",
                   height: "100%",
@@ -197,20 +199,6 @@ export default function StorySection({ onOpenCart }) {
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    padding: "10px 12px",
-                    borderRadius: 999,
-                    background: "rgba(255,255,255,.12)",
-                    border: "1px solid rgba(255,255,255,.16)",
-                    color: "white",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    backdropFilter: "blur(12px)",
-                  }}
-                >
-                  TODO: Replace with dedicated lifestyle imagery when approved.
-                </div>
               </div>
             </div>
           </div>

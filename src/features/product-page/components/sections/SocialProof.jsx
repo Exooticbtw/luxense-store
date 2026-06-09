@@ -1,5 +1,4 @@
 import PaymentIcons from "../common/PaymentIcons.jsx"
-import { PAYMENT_BADGES } from "../../data/productPageData.js"
 
 const METRICS = [
   ["4.9/5", "Average rating"],
@@ -51,7 +50,6 @@ export default function SocialProof() {
               <span style={{ fontSize: 14, fontWeight: 800, color: "var(--fg)" }}>Trusted payment methods</span>
               <PaymentIcons />
             </div>
-            <div style={{ color: "var(--muted)", fontSize: 13, fontWeight: 700 }}>{PAYMENT_BADGES.join(" | ")}</div>
           </div>
         </div>
       </div>

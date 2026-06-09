@@ -1,39 +1,37 @@
-import armarioImage from "../../../../assets/product/armario.png"
-import heroDetailImage from "../../../../assets/product/hero-detail.png"
-import principalImage from "../../../../assets/product/principal.png"
+import { IMAGE_ASSETS } from "../../data/productPageData.js"
 
 export default function Rooms({ media, theme }) {
   const roomCards = [
     {
       title: "Bedroom",
       units: "1-2 units",
-      image: media?.bedroomImage || heroDetailImage,
+      image: media?.bedroomImage || IMAGE_ASSETS.hallwayLifestyle.src,
       featured: true,
     },
     {
       title: "Closet",
       units: "1-2 units",
-      image: media?.closetImage || armarioImage,
+      image: media?.closetImage || IMAGE_ASSETS.closetLifestyle.src,
     },
     {
       title: "Kitchen",
       units: "2-3 units",
-      image: media?.kitchenImage || principalImage,
+      image: media?.kitchenImage || IMAGE_ASSETS.kitchenLifestyle.src,
     },
     {
       title: "Hallway",
       units: "2 units",
-      image: media?.hallwayImage || heroDetailImage,
+      image: media?.hallwayImage || IMAGE_ASSETS.hallwayLifestyle.src,
     },
     {
       title: "Staircase",
       units: "3-4 units",
-      image: media?.staircaseImage || media?.heroImage || heroDetailImage,
+      image: media?.staircaseImage || media?.heroImage || IMAGE_ASSETS.stairLifestyle.src,
     },
     {
       title: "Wardrobe",
       units: "2-4 units",
-      image: media?.wardrobeImage || media?.productImage || armarioImage,
+      image: media?.wardrobeImage || media?.productImage || IMAGE_ASSETS.whiteProduct.src,
       wide: true,
     },
   ]
@@ -88,6 +86,8 @@ export default function Rooms({ media, theme }) {
               <img
                 src={room.image}
                 alt={`${room.title} lighting with Luxense Glow Bar`}
+                loading="lazy"
+                decoding="async"
                 style={{
                   width: "100%",
                   height: "100%",

@@ -23,28 +23,95 @@ import lifestyleImage from "../../../assets/product/hero-detail.png"
 export const PRODUCT_NAME = "Luxense MotionGlow™"
 export const UNIT_PRICE = 29.99
 
+export const IMAGE_ASSETS = {
+  // TODO: Replace with premium hero lifestyle image
+  heroLifestyle: {
+    src: lifestyleImage,
+    alt: "Luxense MotionGlow lifestyle scene in a modern home",
+    label: "MotionGlow hero",
+  },
+  // TODO: Replace with premium hallway lifestyle image
+  hallwayLifestyle: {
+    src: lifestyleImage,
+    alt: "Luxense MotionGlow in a softly lit hallway",
+    label: "Hallway lighting",
+  },
+  // TODO: Replace with under-cabinet kitchen image
+  kitchenLifestyle: {
+    src: heroImage,
+    alt: "Luxense MotionGlow under kitchen cabinetry",
+    label: "Kitchen lighting",
+  },
+  // TODO: Replace with closet lighting image
+  closetLifestyle: {
+    src: closetImage,
+    alt: "Luxense MotionGlow installed in a closet",
+    label: "Closet install",
+  },
+  // TODO: Replace with staircase lighting image
+  stairLifestyle: {
+    src: heroImage,
+    alt: "Luxense MotionGlow illuminating a staircase",
+    label: "Stairway lighting",
+  },
+  // TODO: Replace with white product close-up
+  whiteProduct: {
+    src: lifestyleImage,
+    alt: "White Luxense MotionGlow product close-up",
+    label: "White product close-up",
+  },
+  // TODO: Replace with black product close-up
+  blackProduct: {
+    src: heroImage,
+    alt: "Black Luxense MotionGlow product close-up",
+    label: "Black product close-up",
+  },
+  // TODO: Replace with USB charging detail
+  usbCharging: {
+    src: chargerImage,
+    alt: "USB charging detail for Luxense MotionGlow",
+    label: "USB charging detail",
+  },
+  // TODO: Replace with motion sensor detail
+  motionSensor: {
+    src: lifestyleImage,
+    alt: "Motion sensor detail for Luxense MotionGlow",
+    label: "Motion sensor detail",
+  },
+  // TODO: Replace with final lifestyle CTA image
+  finalLifestyle: {
+    src: lifestyleImage,
+    alt: "Luxense MotionGlow in a final lifestyle scene",
+    label: "Final CTA image",
+  },
+}
+
 function formatMoney(value) {
   const amount = Number(value)
   return Number.isFinite(amount) ? `$${amount.toFixed(2)}` : "$0.00"
 }
 
 export const GALLERY_IMAGES = [
-  { src: heroImage, label: "MotionGlow hero", alt: "Luxense MotionGlow in a modern home setting" },
-  { src: lifestyleImage, label: "Soft ambient glow", alt: "Wireless motion sensor light casting a warm glow under a shelf" },
-  { src: closetImage, label: "Closet install", alt: "Motion sensor light installed inside a closet" },
-  { src: chargerImage, label: "USB recharge", alt: "USB rechargeable wireless light bar and charging cable" },
+  IMAGE_ASSETS.heroLifestyle,
+  {
+    src: IMAGE_ASSETS.motionSensor.src,
+    label: "Soft ambient glow",
+    alt: "Wireless motion sensor light casting a warm glow under a shelf",
+  },
+  IMAGE_ASSETS.closetLifestyle,
+  IMAGE_ASSETS.usbCharging,
 ]
 
 export const COLORS = [
-  { name: "White", hex: "#F6F6F4", image: lifestyleImage },
-  { name: "Black", hex: "#171717", image: heroImage },
+  { name: "White", hex: "#F6F6F4", image: IMAGE_ASSETS.whiteProduct.src },
+  { name: "Black", hex: "#171717", image: IMAGE_ASSETS.blackProduct.src },
 ]
 
 export const SIZES = ["20cm", "30cm", "40cm", "50cm"]
 
 export const FALLBACK_VARIANTS = [
-  { id: null, title: "White", price: "29.99", available: true, image: lifestyleImage, options: ["White"] },
-  { id: null, title: "Black", price: "29.99", available: true, image: heroImage, options: ["Black"] },
+  { id: null, title: "White", price: "29.99", available: true, image: IMAGE_ASSETS.whiteProduct.src, options: ["White"] },
+  { id: null, title: "Black", price: "29.99", available: true, image: IMAGE_ASSETS.blackProduct.src, options: ["Black"] },
 ]
 
 export const TRUST_BADGES = [
@@ -332,37 +399,37 @@ export const USE_CASES = [
     title: "Hallways",
     desc: "Soft guidance for late-night movement.",
     Icon: Palette,
-    image: lifestyleImage,
+    image: IMAGE_ASSETS.hallwayLifestyle,
   },
   {
     title: "Stairs",
     desc: "Safer steps with a calmer glow.",
     Icon: WandSparkles,
-    image: heroImage,
+    image: IMAGE_ASSETS.stairLifestyle,
   },
   {
     title: "Kitchens",
     desc: "Under-cabinet light with a premium feel.",
     Icon: Blend,
-    image: chargerImage,
+    image: IMAGE_ASSETS.kitchenLifestyle,
   },
   {
     title: "Closets",
     desc: "See clearly without harsh overheads.",
     Icon: Bolt,
-    image: closetImage,
+    image: IMAGE_ASSETS.closetLifestyle,
   },
   {
     title: "Bedrooms",
     desc: "Gentle light for quiet routines.",
     Icon: Sparkles,
-    image: lifestyleImage,
+    image: IMAGE_ASSETS.whiteProduct,
   },
   {
     title: "Bathrooms",
     desc: "Calm nighttime visibility, instantly.",
     Icon: Lightbulb,
-    image: heroImage,
+    image: IMAGE_ASSETS.motionSensor,
   },
 ]
 

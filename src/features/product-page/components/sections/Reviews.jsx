@@ -1,33 +1,32 @@
 import { BadgeCheck } from "lucide-react"
 import Stars from "../common/Stars.jsx"
-import armarioImage from "../../../../assets/product/armario.png"
-import heroDetailImage from "../../../../assets/product/hero-detail.png"
+import { IMAGE_ASSETS } from "../../data/productPageData.js"
 
 export default function Reviews({ media }) {
   const reviewCards = [
     {
-      image: media?.reviewImage1 || media?.productImage || armarioImage,
+      image: media?.reviewImage1 || media?.productImage || IMAGE_ASSETS.whiteProduct.src,
       rating: 5,
       title: "Looks like it was professionally installed",
       text: "I expected a cheap stick-on light. Instead it feels like a designer fixture. The warm glow in my closet is unreal and guests always ask about it.",
       name: "Margaux L.",
     },
     {
-      image: media?.reviewImage2 || heroDetailImage,
+      image: media?.reviewImage2 || IMAGE_ASSETS.motionSensor.src,
       rating: 5,
       title: "Bought one, came back for four",
       text: "Started in the hallway, now they're on every staircase and under the kitchen cabinets. The motion sensor is genuinely instant.",
       name: "Daniel R.",
     },
     {
-      image: media?.reviewImage3 || media?.heroImage || heroDetailImage,
+      image: media?.reviewImage3 || media?.heroImage || IMAGE_ASSETS.finalLifestyle.src,
       rating: 5,
       title: "Battery life is no joke",
       text: "Charged it once over a month ago and still going strong. No more fumbling for switches at night.",
       name: "Priya S.",
     },
     {
-      image: media?.reviewImage4 || media?.bedroomImage || armarioImage,
+      image: media?.reviewImage4 || media?.bedroomImage || IMAGE_ASSETS.closetLifestyle.src,
       rating: 4,
       title: "Beautiful and so easy",
       text: "Magnet mount took about ten seconds. Wish I'd ordered the three-pack from the start.",
@@ -97,6 +96,8 @@ export default function Reviews({ media }) {
               <img
                 src={review.image}
                 alt={`${review.name} Luxense install`}
+                loading="lazy"
+                decoding="async"
                 style={{
                   width: 140,
                   height: 140,
