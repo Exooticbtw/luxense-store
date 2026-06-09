@@ -434,12 +434,55 @@ export const USE_CASES = [
 ]
 
 export const COMPARISON_ROWS = [
-  ["Wireless install", true, false],
-  ["Rechargeable", true, false],
-  ["Slim design", true, false],
-  ["Soft light", true, false],
-  ["Premium look", true, false],
-  ["No wiring", true, false],
+  {
+    feature: "Wireless installation",
+    luxense: "Yes",
+    standard: "Often limited or bulky",
+    luxenseTone: "positive",
+    standardTone: "muted",
+  },
+  {
+    feature: "Rechargeable design",
+    luxense: "USB rechargeable",
+    standard: "Often battery-dependent",
+    luxenseTone: "positive",
+    standardTone: "muted",
+  },
+  {
+    feature: "Slim profile",
+    luxense: "Minimal and discreet",
+    standard: "Often bulky",
+    luxenseTone: "positive",
+    standardTone: "muted",
+  },
+  {
+    feature: "Premium look",
+    luxense: "Designed for modern interiors",
+    standard: "Usually utilitarian",
+    luxenseTone: "positive",
+    standardTone: "muted",
+  },
+  {
+    feature: "Soft ambient glow",
+    luxense: "Warm, neutral, and white tones included",
+    standard: "Often harsh or single-tone",
+    luxenseTone: "positive",
+    standardTone: "muted",
+  },
+  {
+    feature: "No wiring needed",
+    luxense: "Installs without electrical work",
+    standard: "May require more setup",
+    luxenseTone: "positive",
+    standardTone: "muted",
+  },
+  {
+    feature: "Multiple home uses",
+    luxense: "Closets, stairs, kitchens, hallways, cabinets",
+    standard: "Limited placement flexibility",
+    luxenseTone: "positive",
+    standardTone: "muted",
+  },
 ]
 
 export const TECH_SPECS = [
@@ -533,33 +576,113 @@ export const ROOMS_DATA = [
 
 export const REVIEWS_DATA = [
   {
+    // TODO: Replace with customer hallway installation photo
     name: "Alicia R.",
+    location: "United States",
     country: "United States",
     rating: 5,
     title: "Looks built in",
+    time: "2 weeks ago",
     date: "2 weeks ago",
-    text: "Elegant finish, immediate motion response, and it changed our hallway at night.",
-    helpful: 211,
+    text: "Elegant finish, fast motion response, and it made our hallway feel more complete at night.",
     variant: "White",
+    featured: true,
+    visual: {
+      label: "Customer hallway installation photo",
+      caption: "Hallway install",
+      gradient:
+        "radial-gradient(circle at 18% 20%, rgba(201,164,106,.28), transparent 26%), radial-gradient(circle at 76% 24%, rgba(255,255,255,.14), transparent 22%), linear-gradient(160deg, #181818 0%, #323232 55%, #8b6a3f 140%)",
+    },
   },
   {
+    // TODO: Replace with customer closet installation photo
     name: "Daniel K.",
+    location: "Germany",
     country: "Germany",
     rating: 5,
     title: "Perfect for closets and shelves",
+    time: "1 month ago",
     date: "1 month ago",
-    text: "Great brightness control and a very fast install.",
-    helpful: 164,
+    text: "Great brightness control and a very quick install. It feels much more premium than expected.",
     variant: "Black",
+    visual: {
+      label: "Customer closet installation photo",
+      caption: "Closet install",
+      gradient:
+        "radial-gradient(circle at 20% 18%, rgba(255,255,255,.20), transparent 24%), radial-gradient(circle at 78% 30%, rgba(201,164,106,.16), transparent 22%), linear-gradient(160deg, #121212 0%, #2f2f2f 56%, #6d5a3d 140%)",
+    },
   },
   {
+    // TODO: Replace with customer shelf or cabinet photo
     name: "Maya L.",
+    location: "Canada",
     country: "Canada",
     rating: 5,
     title: "Premium but practical",
+    time: "5 days ago",
     date: "5 days ago",
-    text: "Smart without feeling technical. It reads like a luxury detail.",
-    helpful: 276,
+    text: "Smart without feeling technical. It reads like a luxury detail and works exactly as promised.",
     variant: "White",
+    featured: true,
+    visual: {
+      label: "Customer shelf or cabinet photo",
+      caption: "Shelf detail",
+      gradient:
+        "radial-gradient(circle at 18% 20%, rgba(201,164,106,.24), transparent 24%), radial-gradient(circle at 84% 24%, rgba(255,255,255,.18), transparent 20%), linear-gradient(160deg, #202020 0%, #444444 56%, #c9a46a 140%)",
+    },
+  },
+  {
+    // TODO: Replace with customer stairway lighting photo
+    name: "Joseph T.",
+    location: "United Kingdom",
+    country: "United Kingdom",
+    rating: 5,
+    title: "Easy to install",
+    time: "3 weeks ago",
+    date: "3 weeks ago",
+    text: "Took only a couple of minutes to set up, and the motion sensor works every time we pass by.",
+    variant: "Black",
+    visual: {
+      label: "Customer stairway lighting photo",
+      caption: "Stairway install",
+      gradient:
+        "radial-gradient(circle at 22% 22%, rgba(255,255,255,.16), transparent 22%), radial-gradient(circle at 80% 26%, rgba(201,164,106,.18), transparent 20%), linear-gradient(160deg, #151515 0%, #383838 54%, #7f6542 140%)",
+    },
+  },
+  {
+    // TODO: Replace with customer bedroom closet photo
+    name: "Nina P.",
+    location: "Australia",
+    country: "Australia",
+    rating: 5,
+    title: "Soft light at night",
+    time: "6 days ago",
+    date: "6 days ago",
+    text: "We use the warm tone in the bedroom closet and it feels calm, not harsh, when the room is dark.",
+    variant: "White",
+    visual: {
+      label: "Customer bedroom closet photo",
+      caption: "Bedroom closet",
+      gradient:
+        "radial-gradient(circle at 20% 18%, rgba(244,217,170,.32), transparent 24%), radial-gradient(circle at 78% 28%, rgba(255,255,255,.16), transparent 20%), linear-gradient(160deg, #312316 0%, #60452b 56%, #d9b87d 140%)",
+    },
+  },
+  {
+    // TODO: Replace with customer under-cabinet kitchen photo
+    name: "Omar S.",
+    location: "United States",
+    country: "United States",
+    rating: 5,
+    title: "Ordered more after the first one",
+    time: "2 months ago",
+    date: "2 months ago",
+    text: "We bought one for the kitchen, then came back for more. It’s one of those products you instantly want in other spaces.",
+    variant: "Black",
+    visual: {
+      label: "Customer under-cabinet kitchen photo",
+      caption: "Kitchen install",
+      gradient:
+        "radial-gradient(circle at 18% 20%, rgba(255,255,255,.16), transparent 22%), radial-gradient(circle at 76% 24%, rgba(201,164,106,.16), transparent 22%), linear-gradient(160deg, #111111 0%, #2f2f2f 52%, #8a6a43 140%)",
+    },
   },
 ]
