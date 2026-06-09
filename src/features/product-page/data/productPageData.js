@@ -23,6 +23,11 @@ import lifestyleImage from "../../../assets/product/hero-detail.png"
 export const PRODUCT_NAME = "Luxense MotionGlow™"
 export const UNIT_PRICE = 29.99
 
+function formatMoney(value) {
+  const amount = Number(value)
+  return Number.isFinite(amount) ? `$${amount.toFixed(2)}` : "$0.00"
+}
+
 export const GALLERY_IMAGES = [
   { src: heroImage, label: "MotionGlow hero", alt: "Luxense MotionGlow in a modern home setting" },
   { src: lifestyleImage, label: "Soft ambient glow", alt: "Wireless motion sensor light casting a warm glow under a shelf" },
@@ -127,97 +132,141 @@ export const BUNDLE_OPTIONS = [
   },
 ]
 
-export function getBundleOfferForQuantity(quantity) {
+export function getPriceSummary(quantity) {
   const qty = Math.max(1, Math.floor(Number(quantity) || 1))
-  const exactOffer = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === qty)
+  const unitPrice = UNIT_PRICE
+  const total = Number((qty * unitPrice).toFixed(2))
 
-  if (exactOffer) {
-    const compareAt = Number(exactOffer.compareAt ?? exactOffer.price)
-    const savingsAmount = Math.max(0, compareAt - exactOffer.price)
-
+  if (qty === 1) {
     return {
-      ...exactOffer,
       quantity: qty,
-      label: exactOffer.label,
-      price: exactOffer.price,
-      compareAt,
-      subtotal: exactOffer.price,
-      savingsAmount,
-      savingsLabel: exactOffer.savings || "Save 0%",
-      unitPrice: exactOffer.price / qty,
-      useCase: exactOffer.useCase || exactOffer.caption,
-      isExact: true,
-      selectedBundleQuantity: qty,
-      selectedBundleLabel: exactOffer.label,
-      summaryLabel: exactOffer.label,
-    }
-  }
-
-  if (qty === 3) {
-    const subtotal = Number((qty * UNIT_PRICE).toFixed(2))
-    return {
-      label: "Custom quantity",
-      quantity: qty,
-      price: subtotal,
-      compareAt: subtotal,
-      subtotal,
+      bundleLabel: "Buy 1",
+      total,
+      totalFormatted: formatMoney(total),
+      compareAt: total,
+      compareAtFormatted: formatMoney(total),
+      savings: 0,
+      savingsFormatted: formatMoney(0),
+      savingsText: "No bundle savings",
+      badge: null,
+      hasSavings: false,
+      unitPrice,
+      unitPriceFormatted: formatMoney(unitPrice),
+      selectedBundleQuantity: 1,
+      selectedBundleLabel: "Buy 1",
+      summaryLabel: "Buy 1",
+      label: "Buy 1",
+      price: total,
+      compareAtPrice: total,
       savingsAmount: 0,
-      savingsLabel: "No bundle discount",
-      unitPrice: UNIT_PRICE,
-      badge: "Flexible quantity",
-      useCase: "Best for a mix of spaces",
-      caption: "A flexible three-unit setup without bundle pricing.",
-      isExact: false,
-      selectedBundleQuantity: null,
-      selectedBundleLabel: "Custom quantity",
-      summaryLabel: "Custom quantity",
+      savingsLabel: "No bundle savings",
+      subtotal: total,
+      isExact: true,
+      useCase: "Best for one room",
+      caption: "Best for a first install in a closet, shelf, or hallway.",
     }
   }
 
-  if (qty > 4) {
-    const subtotal = Number((BUNDLE_OPTIONS[2].price + (qty - 4) * UNIT_PRICE).toFixed(2))
-    const compareAt = Number((qty * UNIT_PRICE).toFixed(2))
-    const savingsAmount = Math.max(0, compareAt - subtotal)
+  if (qty === 2) {
+    const totalExact = 49.99
+    const compareAt = Number((2 * unitPrice).toFixed(2))
+    const savings = Number((compareAt - totalExact).toFixed(2))
 
     return {
-      label: qty === 4 ? "Buy 4" : `Buy 4 + ${qty - 4} extra${qty - 4 === 1 ? "" : "s"}`,
       quantity: qty,
-      price: subtotal,
+      bundleLabel: "Buy 2 - Save 15%",
+      total: totalExact,
+      totalFormatted: formatMoney(totalExact),
       compareAt,
-      subtotal,
-      savingsAmount,
-      savingsLabel: savingsAmount > 0 ? `Save $${savingsAmount.toFixed(2)}` : "Save 0%",
-      unitPrice: UNIT_PRICE,
+      compareAtFormatted: formatMoney(compareAt),
+      savings,
+      savingsFormatted: formatMoney(savings),
+      savingsText: `You save ${formatMoney(savings)}`,
+      badge: "Most Popular",
+      hasSavings: savings > 0,
+      unitPrice: totalExact / 2,
+      unitPriceFormatted: formatMoney(totalExact / 2),
+      selectedBundleQuantity: 2,
+      selectedBundleLabel: "Buy 2",
+      summaryLabel: "Buy 2",
+      label: "Buy 2",
+      price: totalExact,
+      compareAtPrice: compareAt,
+      savingsAmount: savings,
+      savingsLabel: "Save 15%",
+      subtotal: totalExact,
+      isExact: true,
+      useCase: "Perfect for closet + hallway",
+      caption: "A balanced set for two spaces that you use every day.",
+    }
+  }
+
+  if (qty === 4) {
+    const totalExact = 89.99
+    const compareAt = Number((4 * unitPrice).toFixed(2))
+    const savings = Number((compareAt - totalExact).toFixed(2))
+
+    return {
+      quantity: qty,
+      bundleLabel: "Buy 4 - Save 25%",
+      total: totalExact,
+      totalFormatted: formatMoney(totalExact),
+      compareAt,
+      compareAtFormatted: formatMoney(compareAt),
+      savings,
+      savingsFormatted: formatMoney(savings),
+      savingsText: `You save ${formatMoney(savings)}`,
       badge: "Best Value",
-      useCase: "Best value for multiple spaces",
-      caption: "Buy four, then add extra units safely at the regular unit price.",
-      isExact: false,
+      hasSavings: savings > 0,
+      unitPrice: totalExact / 4,
+      unitPriceFormatted: formatMoney(totalExact / 4),
       selectedBundleQuantity: 4,
       selectedBundleLabel: "Buy 4",
-      summaryLabel: qty === 4 ? "Buy 4" : `Buy 4 + ${qty - 4} extra${qty - 4 === 1 ? "" : "s"}`,
+      summaryLabel: "Buy 4",
+      label: "Buy 4",
+      price: totalExact,
+      compareAtPrice: compareAt,
+      savingsAmount: savings,
+      savingsLabel: "Save 25%",
+      subtotal: totalExact,
+      isExact: true,
+      useCase: "Light multiple spaces",
+      caption: "Ideal when you want a more complete lighting flow at home.",
     }
   }
 
-  const subtotal = Number((qty * UNIT_PRICE).toFixed(2))
   return {
-    label: `Custom quantity`,
     quantity: qty,
-    price: subtotal,
-    compareAt: subtotal,
-    subtotal,
-    savingsAmount: 0,
-    savingsLabel: "No bundle discount",
-    unitPrice: UNIT_PRICE,
-    badge: "Flexible quantity",
-    useCase: "Flexible quantity",
-    caption: "A custom quantity with clear unit pricing.",
-    isExact: false,
+    bundleLabel: "Custom quantity",
+    total,
+    totalFormatted: formatMoney(total),
+    compareAt: total,
+    compareAtFormatted: formatMoney(total),
+    savings: 0,
+    savingsFormatted: formatMoney(0),
+    savingsText: "No bundle savings",
+    badge: null,
+    hasSavings: false,
+    unitPrice,
+    unitPriceFormatted: formatMoney(unitPrice),
     selectedBundleQuantity: null,
     selectedBundleLabel: "Custom quantity",
     summaryLabel: "Custom quantity",
+    label: "Custom quantity",
+    price: total,
+    compareAtPrice: total,
+    savingsAmount: 0,
+    savingsLabel: "No bundle savings",
+    subtotal: total,
+    isExact: false,
+    useCase: "Flexible quantity",
+    caption: "A custom quantity with clear unit pricing.",
   }
 }
 
+export function getBundleOfferForQuantity(quantity) {
+  return getPriceSummary(quantity)
+}
 export const HOW_STEPS = [
   {
     n: "01",

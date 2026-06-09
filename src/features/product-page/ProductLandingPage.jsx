@@ -22,18 +22,19 @@ import WhyHomeownersChooseLuxense from "./components/sections/WhyHomeownersChoos
 import { useScrollFlags } from "./hooks/useScrollFlags.js"
 import { useShopifyProductData } from "./hooks/useShopifyProductData.js"
 import { useProductPurchaseState } from "./hooks/useProductPurchaseState.js"
-import { COLORS, getBundleOfferForQuantity } from "./data/productPageData.js"
+import { COLORS, getPriceSummary } from "./data/productPageData.js"
 import { PRODUCT_PAGE_STYLES } from "./styles/productPageStyles.js"
 
 export default function ProductLandingPage() {
   const { shopData, loading } = useShopifyProductData()
   const { scrolled } = useScrollFlags()
   const purchase = useProductPurchaseState(shopData)
-  const { qty, setQty, setColorIdx, setActiveImage } = purchase
+  const { setQty, setColorIdx, setActiveImage } = purchase
   const [selectedColor, setSelectedColor] = useState("White")
   const [selectedSize, setSelectedSize] = useState("30cm")
+  const [quantity, setQuantity] = useState(1)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const bundleSummary = getBundleOfferForQuantity(qty)
+  const priceSummary = getPriceSummary(quantity)
 
   const theme = shopData?.theme || {}
   const themeVars = {
@@ -60,6 +61,7 @@ export default function ProductLandingPage() {
 
   const handleSetQuantity = (quantity) => {
     const nextQuantity = Math.max(1, Math.floor(Number(quantity) || 1))
+    setQuantity(nextQuantity)
     setQty(nextQuantity)
   }
 
@@ -87,16 +89,22 @@ export default function ProductLandingPage() {
     <div className="page-shell" id="top" style={themeVars}>
       <style>{PRODUCT_PAGE_STYLES}</style>
       <AnnouncementBar theme={theme} />
-      <Navbar scrolled={scrolled} shopName={shopData?.shopName} onNavigateHome={navigateHome} />
+      <Navbar
+        scrolled={scrolled}
+        shopName={shopData?.shopName}
+        onNavigateHome={navigateHome}
+        onOpenCart={handleOpenCart}
+        quantity={quantity}
+      />
       <main>
         <ProductSection
           shopData={shopData}
           purchase={purchase}
-          bundleSummary={bundleSummary}
+          bundleSummary={priceSummary}
           selectedColor={selectedColor}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
-          quantity={qty}
+          quantity={quantity}
           onChangeQuantity={handleSetQuantity}
           onPreviewBundle={handlePreviewBundle}
           onSelectColor={handleSelectColor}
@@ -110,8 +118,8 @@ export default function ProductLandingPage() {
         <BundleOffers
           onSelectBundle={handleSelectBundle}
           onOpenCart={handleOpenCart}
-          bundleSummary={bundleSummary}
-          quantity={qty}
+          bundleSummary={priceSummary}
+          quantity={quantity}
           onChangeQuantity={handleSetQuantity}
         />
         <CustomerReviews />
@@ -119,7 +127,7 @@ export default function ProductLandingPage() {
         <FAQ />
         <GuaranteeSection />
         <WhyHomeownersChooseLuxense />
-        <FinalCTA shopData={shopData} purchase={purchase} onOpenCart={handleOpenCart} />
+        <FinalCTA shopData={shopData} purchase={purchase} quantity={quantity} onOpenCart={handleOpenCart} />
         <Footer shopName={shopData?.shopName} theme={theme} />
       </main>
       <CartDrawer
@@ -127,14 +135,14 @@ export default function ProductLandingPage() {
         purchase={purchase}
         selectedColor={selectedColor}
         selectedSize={selectedSize}
-        bundleSummary={bundleSummary}
+        bundleSummary={priceSummary}
+        quantity={quantity}
         isCartOpen={isCartOpen}
-        onChangeQuantity={handleSetQuantity}
         onCloseCart={() => setIsCartOpen(false)}
       />
       <StickyMobileAddToCart
-        bundleSummary={bundleSummary}
-        quantity={qty}
+        bundleSummary={priceSummary}
+        quantity={quantity}
         onOpenCart={handleOpenCart}
       />
       {loading && <LoadingOverlay />}

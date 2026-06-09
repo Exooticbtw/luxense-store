@@ -1,17 +1,16 @@
 import { ArrowRight, CreditCard, ShieldCheck } from "lucide-react"
 
-import { COLORS, PRODUCT_NAME, getBundleOfferForQuantity } from "../../data/productPageData.js"
+import { COLORS, PRODUCT_NAME, getPriceSummary } from "../../data/productPageData.js"
 
-export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
-  const quantity = Math.max(1, Math.floor(Number(purchase?.qty || 1)))
+export default function PurchaseSummary({ shopData, purchase, selectedSize, quantity: quantityProp }) {
+  const quantity = Number.isFinite(Number(quantityProp ?? purchase?.qty)) && Number(quantityProp ?? purchase?.qty) > 0
+    ? Number(quantityProp ?? purchase?.qty)
+    : 1
   const checkoutUrl = purchase?.buildCheckoutUrl?.(quantity) || "#top"
-  const selectedBundle = getBundleOfferForQuantity(quantity)
+  const selectedBundle = getPriceSummary(quantity)
   const selectedColor = COLORS[purchase?.colorIdx] || COLORS[0]
-  const currentTotal = selectedBundle?.subtotal
-    ? `$${Number(selectedBundle.subtotal).toFixed(2)}`
-    : purchase?.total || (purchase?.price ? `$${Number(purchase.price).toFixed(2)}` : "$29.99")
-  const savingsAmount = Number(selectedBundle?.savingsAmount || 0)
-  const savingsText = savingsAmount > 0 ? `You save $${savingsAmount.toFixed(2)}` : "No bundle savings"
+  const currentTotal = selectedBundle?.totalFormatted || purchase?.total || (purchase?.price ? `$${Number(purchase.price).toFixed(2)}` : "$29.99")
+  const savingsText = selectedBundle?.savingsText || "No bundle savings"
 
   return (
     <section id="purchase-summary" style={{ padding: "0 24px 86px", background: "var(--bg)" }}>
@@ -42,24 +41,23 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
               }}
             >
               <p className="eyebrow" style={{ color: "rgba(255,255,255,.62)" }}>
-                Purchase area
+                Order summary
               </p>
               <h3 className="serif" style={{ fontSize: 30, lineHeight: 1.05, fontWeight: 600, letterSpacing: "-0.04em" }}>
-                Confirm your {PRODUCT_NAME} setup
+                Review your {PRODUCT_NAME} order
               </h3>
               <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.65, color: "rgba(255,255,255,.72)", maxWidth: 520 }}>
-                Review the bundle, finish, and size before continuing to checkout.
+                Review the total, finish, and size before continuing to checkout.
               </p>
 
               <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
                 {[
-                  ["Selected bundle", selectedBundle?.summaryLabel || selectedBundle?.label || "Buy 1"],
-                  ["Selected color", selectedColor?.name || "White"],
-                  ["Selected size", selectedSize || "30cm"],
-                  ["Light tones", "Warm + Neutral + White included"],
+                  ["Total", currentTotal],
                   ["Quantity", String(quantity)],
-                  ["Current total", currentTotal],
+                  ["Bundle", selectedBundle?.bundleLabel || selectedBundle?.summaryLabel || selectedBundle?.label || "Buy 1"],
                   ["Savings", savingsText],
+                  ["Color", selectedColor?.name || "White"],
+                  ["Size", selectedSize || "30cm"],
                 ].map(([label, value]) => (
                   <div
                     key={label}
@@ -118,14 +116,14 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize }) {
 
               <div
                 style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                marginTop: 14,
-                color: "rgba(255,255,255,.76)",
-                fontSize: 12,
-                fontWeight: 600,
-                lineHeight: 1.4,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginTop: 14,
+                  color: "rgba(255,255,255,.76)",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  lineHeight: 1.4,
                 }}
               >
                 <ShieldCheck size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />

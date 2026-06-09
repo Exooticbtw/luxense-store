@@ -21,7 +21,7 @@ export default function ProductSection({
   onOpenCart,
 }) {
   const heroVisualImage = purchase?.images?.[purchase?.activeImage] || lifestyleImage
-  const currentQuantity = Math.max(1, Math.floor(Number(quantity || purchase?.qty || 1)))
+  const currentQuantity = Math.max(1, Math.floor(Number(quantity || 1)))
   const bundle = bundleSummary || getBundleOfferForQuantity(currentQuantity)
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
   const priceLabel = formatPrice(bundle?.price ?? purchase?.price, "$29.99")
@@ -33,7 +33,7 @@ export default function ProductSection({
   const activeBundleQuantity = bundle?.selectedBundleQuantity
   const bundleSummaryRows = [
     ["Quantity", String(currentQuantity)],
-    ["Selected bundle", bundle?.summaryLabel || bundle?.label || "Buy 1"],
+    ["Selected bundle", bundle?.bundleLabel || bundle?.summaryLabel || bundle?.label || "Buy 1"],
     ["Subtotal", subtotalLabel],
     ["Savings", savingsLabel],
   ]

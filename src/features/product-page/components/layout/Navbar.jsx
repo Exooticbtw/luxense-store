@@ -2,13 +2,13 @@ import { Menu, ShoppingBag, X } from "lucide-react"
 import { useState } from "react"
 
 const navLinks = [
-  ["Shop", "#bundles"],
+  ["Shop", "#product-offer"],
   ["Benefits", "#benefits"],
   ["Reviews", "#reviews"],
   ["FAQ", "#faq"],
 ]
 
-export default function Navbar({ scrolled, shopName, onNavigateHome }) {
+export default function Navbar({ scrolled, shopName, onNavigateHome, onOpenCart, quantity = 1 }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const handleNavigate = (event, href) => {
@@ -18,6 +18,11 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
     const targetId = href.replace("#", "") || "top"
     setMenuOpen(false)
     onNavigateHome(targetId)
+  }
+
+  const handleOpenCart = () => {
+    setMenuOpen(false)
+    onOpenCart?.()
   }
 
   return (
@@ -126,11 +131,12 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
           </a>
 
           <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "flex-end" }}>
-            <a
-              href="#bundles"
-              onClick={(event) => handleNavigate(event, "#bundles")}
-              aria-label="Cart"
+            <button
+              type="button"
+              onClick={handleOpenCart}
+              aria-label="Open cart"
               style={{
+                position: "relative",
                 width: 42,
                 height: 42,
                 borderRadius: 14,
@@ -141,10 +147,31 @@ export default function Navbar({ scrolled, shopName, onNavigateHome }) {
                 placeItems: "center",
                 textDecoration: "none",
                 transition: "transform .2s ease, box-shadow .2s ease",
+                cursor: "pointer",
               }}
             >
               <ShoppingBag size={18} />
-            </a>
+              <span
+                style={{
+                  position: "absolute",
+                  top: -5,
+                  right: -5,
+                  minWidth: 18,
+                  height: 18,
+                  padding: "0 5px",
+                  borderRadius: 999,
+                  background: "var(--fg)",
+                  color: "var(--cream)",
+                  fontSize: 11,
+                  fontWeight: 800,
+                  display: "grid",
+                  placeItems: "center",
+                  boxShadow: "0 6px 12px rgba(17,17,17,.18)",
+                }}
+              >
+                {Math.max(1, Math.floor(Number(quantity) || 1))}
+              </span>
+            </button>
           </div>
         </div>
       </header>

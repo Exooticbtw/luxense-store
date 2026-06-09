@@ -4,8 +4,8 @@ import { buildCartUrl } from "../../utils/shopify.js"
 
 const TRUST_POINTS = ["Secure Checkout", "Free Shipping", "30-Day Guarantee"]
 
-export default function FinalCTA({ shopData, purchase, onOpenCart }) {
-  const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, purchase?.qty || 1) || "#top"
+export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart }) {
+  const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, quantity || 1) || "#top"
 
   return (
     <section

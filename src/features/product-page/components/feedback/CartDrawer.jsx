@@ -3,7 +3,6 @@ import { CreditCard, ShieldCheck, X } from "lucide-react"
 import { COLORS, PRODUCT_NAME, getBundleOfferForQuantity } from "../../data/productPageData.js"
 import { buildCartUrl } from "../../utils/shopify.js"
 import PaymentIcons from "../common/PaymentIcons.jsx"
-import QuantityStepper from "../common/QuantityStepper.jsx"
 
 export default function CartDrawer({
   shopData,
@@ -14,28 +13,24 @@ export default function CartDrawer({
   quantity = 1,
   isCartOpen,
   onCloseCart,
-  onChangeQuantity,
 }) {
-  const currentQuantity = Math.max(1, Math.floor(Number(quantity || purchase?.qty || 1)))
+  const currentQuantity = Number.isFinite(Number(quantity)) && Number(quantity) > 0 ? Number(quantity) : 1
   const summary = bundleSummary || getBundleOfferForQuantity(currentQuantity)
   const color = COLORS.find((item) => item.name === selectedColor) || COLORS[0]
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, currentQuantity) || "#top"
-  const priceText = `$${Number(summary?.subtotal ?? summary?.price ?? 29.99).toFixed(2)}`
-  const compareAtText = summary?.compareAt ? `$${Number(summary.compareAt).toFixed(2)}` : null
-  const savingsAmount = Number(summary?.savingsAmount || 0)
-  const savingsLabel = summary?.savingsLabel || summary?.savings || "Save 0%"
-  const selectedBundleLabel = summary?.summaryLabel || summary?.label || "Buy 1"
-  const selectedBundleTitle = summary?.isExact && currentQuantity > 1 ? `${selectedBundleLabel} - ${savingsLabel}` : selectedBundleLabel
-  const savingsText = savingsAmount > 0 ? `You save $${savingsAmount.toFixed(2)}` : "No bundle savings"
+  const totalText = summary?.totalFormatted || `$${Number(summary?.subtotal ?? summary?.price ?? 29.99).toFixed(2)}`
+  const compareAtText = summary?.compareAtFormatted || (summary?.compareAt ? `$${Number(summary.compareAt).toFixed(2)}` : null)
+  const savingsAmount = Number((summary?.savingsAmount ?? summary?.savings) || 0)
+  const savingsText = summary?.savingsText || (savingsAmount > 0 ? `You save $${savingsAmount.toFixed(2)}` : "No bundle savings")
+  const bundleText = summary?.bundleLabel || summary?.summaryLabel || summary?.label || "Buy 1"
 
   const summaryRows = [
     ["Product", PRODUCT_NAME],
     ["Color", color?.name || "White"],
     ["Size", selectedSize || "30cm"],
     ["Quantity", String(currentQuantity)],
-    ["Bundle", selectedBundleTitle],
-    ["Current total", priceText],
-    ["Light tones", "Warm + Neutral + White included"],
+    ["Bundle", bundleText],
+    ["Total", totalText],
     ["Savings", savingsText],
   ]
 
@@ -162,14 +157,18 @@ export default function CartDrawer({
             <div
               className="selected-bundle-card"
               style={{
-                borderRadius: 20,
-                padding: 14,
+                borderRadius: 22,
+                padding: 16,
                 background:
                   summary?.selectedBundleQuantity === 4
-                    ? "linear-gradient(180deg, rgba(17,17,17,.98), rgba(33,31,27,.96))"
+                    ? "linear-gradient(180deg, rgba(17,17,17,.99), rgba(26,24,21,.96))"
                     : "linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04))",
-                border: summary?.selectedBundleQuantity === 4 ? "1px solid rgba(201,164,106,.50)" : "1px solid rgba(255,255,255,.08)",
-                boxShadow: summary?.selectedBundleQuantity === 4 ? "0 18px 36px rgba(17,17,17,.22)" : "0 12px 26px rgba(17,17,17,.14)",
+                border:
+                  summary?.selectedBundleQuantity === 4
+                    ? "1px solid rgba(201,164,106,.50)"
+                    : "1px solid rgba(255,255,255,.08)",
+                boxShadow:
+                  summary?.selectedBundleQuantity === 4 ? "0 18px 36px rgba(17,17,17,.22)" : "0 12px 26px rgba(17,17,17,.14)",
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
@@ -178,16 +177,63 @@ export default function CartDrawer({
                     style={{
                       fontSize: 10.5,
                       textTransform: "uppercase",
-                      letterSpacing: "0.16em",
-                      color: summary?.selectedBundleQuantity === 4 ? "rgba(255,255,255,.56)" : "rgba(255,255,255,.62)",
+                      letterSpacing: "0.18em",
+                      color: "rgba(255,255,255,.58)",
                       fontWeight: 700,
                     }}
                   >
-                    Selected bundle
+                    Order summary
                   </div>
-                  <div style={{ marginTop: 6, fontSize: 18, lineHeight: 1.15, fontWeight: 800, letterSpacing: "-0.03em" }}>
-                    {selectedBundleTitle}
+                  <div style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.35, color: "rgba(255,255,255,.72)", fontWeight: 700 }}>
+                    Total
                   </div>
+                </div>
+
+                <div style={{ textAlign: "right", flexShrink: 0 }}>
+                  <div className="serif" style={{ fontSize: 32, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
+                    {totalText}
+                  </div>
+                  {compareAtText && compareAtText !== totalText && (
+                    <div
+                      style={{
+                        marginTop: 6,
+                        fontSize: 12.5,
+                        color: "rgba(255,255,255,.54)",
+                        textDecoration: "line-through",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {compareAtText}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div
+                style={{
+                  marginTop: 12,
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                  gap: 10,
+                }}
+              >
+                <div style={summaryChipStyle}>
+                  <div style={miniLabelStyle}>Qty</div>
+                  <div style={miniValueStyle}>{currentQuantity}</div>
+                </div>
+                <div
+                  style={{
+                    ...summaryChipStyle,
+                    background:
+                      summary?.selectedBundleQuantity === 4
+                        ? "rgba(201,164,106,.14)"
+                        : summary?.selectedBundleQuantity === 2
+                          ? "rgba(143,174,138,.14)"
+                          : "rgba(255,255,255,.08)",
+                  }}
+                >
+                  <div style={miniLabelStyle}>Bundle</div>
+                  <div style={{ ...miniValueStyle, wordBreak: "break-word" }}>{bundleText}</div>
                   {summary?.badge && (
                     <div
                       style={{
@@ -195,10 +241,10 @@ export default function CartDrawer({
                         display: "inline-flex",
                         alignItems: "center",
                         borderRadius: 999,
-                        padding: "6px 10px",
+                        padding: "5px 9px",
                         background: summary?.selectedBundleQuantity === 4 ? "rgba(201,164,106,.14)" : "rgba(143,174,138,.14)",
-                        color: summary?.selectedBundleQuantity === 4 ? "var(--cream)" : "#cfe6cc",
-                        fontSize: 12,
+                        color: summary?.selectedBundleQuantity === 4 ? "var(--cream)" : "#dff2d8",
+                        fontSize: 11.5,
                         fontWeight: 800,
                         width: "fit-content",
                       }}
@@ -206,81 +252,15 @@ export default function CartDrawer({
                       {summary.badge}
                     </div>
                   )}
-                  <div style={{ marginTop: 6, fontSize: 13.5, lineHeight: 1.35, color: "rgba(255,255,255,.74)", fontWeight: 600 }}>
-                    Qty {currentQuantity}
-                  </div>
                 </div>
-
-                <div style={{ textAlign: "right", flexShrink: 0 }}>
-                  <div
-                    style={{
-                      fontSize: 10.5,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.16em",
-                      color: summary?.selectedBundleQuantity === 4 ? "rgba(255,255,255,.56)" : "rgba(255,255,255,.62)",
-                      fontWeight: 700,
-                    }}
-                  >
-                    Total
-                  </div>
-                  <div className="serif" style={{ marginTop: 6, fontSize: 30, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.04em" }}>
-                    {priceText}
+                <div style={{ ...summaryChipStyle, background: "rgba(143,174,138,.14)" }}>
+                  <div style={miniLabelStyle}>Savings</div>
+                  <div style={{ ...miniValueStyle, color: savingsAmount > 0 ? "#dff2d8" : "rgba(255,255,255,.82)" }}>
+                    {savingsText}
                   </div>
                 </div>
               </div>
 
-              <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    borderRadius: 999,
-                    padding: "7px 10px",
-                    background: "rgba(255,255,255,.08)",
-                    fontSize: 12,
-                    fontWeight: 700,
-                  }}
-                >
-                  Qty {currentQuantity}
-                </span>
-                {compareAtText && compareAtText !== priceText && (
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      borderRadius: 999,
-                      padding: "7px 10px",
-                      background: "rgba(201,164,106,.14)",
-                      color: "var(--cream)",
-                      fontSize: 12,
-                      fontWeight: 800,
-                    }}
-                  >
-                    Compare at {compareAtText}
-                  </span>
-                )}
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    borderRadius: 999,
-                    padding: "7px 10px",
-                    background: "rgba(143,174,138,.14)",
-                    color: "#cfe6cc",
-                    fontSize: 12,
-                    fontWeight: 700,
-                  }}
-                >
-                  {savingsText}
-                </span>
-              </div>
-
-              <div style={{ marginTop: 12 }}>
-                <QuantityStepper value={currentQuantity} onChange={onChangeQuantity} compact />
-              </div>
             </div>
 
             <div
@@ -301,17 +281,7 @@ export default function CartDrawer({
                 }}
               >
                 <div>
-                  <div
-                    style={{
-                      fontSize: 10.5,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.16em",
-                      color: "rgba(255,255,255,.56)",
-                      fontWeight: 700,
-                    }}
-                  >
-                    Purchase summary
-                  </div>
+                  <div style={sectionLabelStyle}>Purchase summary</div>
                   <div style={{ marginTop: 6, fontSize: 14.5, lineHeight: 1.35, color: "rgba(255,255,255,.78)" }}>
                     Review the full breakdown before checkout.
                   </div>
@@ -331,23 +301,26 @@ export default function CartDrawer({
                       borderBottom: index === summaryRows.length - 1 ? "none" : "1px solid rgba(255,255,255,.08)",
                     }}
                   >
-                    <span
-                      style={{
-                        fontSize: 10.5,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.16em",
-                        color: "rgba(255,255,255,.56)",
-                        fontWeight: 700,
-                        lineHeight: 1.35,
-                      }}
-                    >
-                      {label}
-                    </span>
-                    <span style={{ fontSize: 14.5, lineHeight: 1.35, fontWeight: 600, textAlign: "right", maxWidth: "58%" }}>
-                      {value}
-                    </span>
+                    <span style={summaryLabelStyle}>{label}</span>
+                    <span style={summaryValueStyle}>{value}</span>
                   </div>
                 ))}
+              </div>
+
+              <div
+                style={{
+                  marginTop: 12,
+                  padding: "10px 12px",
+                  borderRadius: 16,
+                  background: "rgba(255,255,255,.06)",
+                  border: "1px solid rgba(255,255,255,.08)",
+                  color: "rgba(255,255,255,.78)",
+                  fontSize: 12.5,
+                  lineHeight: 1.55,
+                  fontWeight: 600,
+                }}
+              >
+                Light tones: Warm + Neutral + White included.
               </div>
             </div>
 
@@ -372,7 +345,7 @@ export default function CartDrawer({
                 }}
               >
                 <ShieldCheck size={16} style={{ color: "var(--accent)", flexShrink: 0 }} />
-                Secure Checkout · Free Shipping · 30-Day Guarantee
+                Secure Checkout | Free Shipping | 30-Day Guarantee
               </div>
               <p style={{ marginTop: 8, fontSize: 12.5, lineHeight: 1.6, color: "rgba(255,255,255,.68)" }}>
                 Payment is completed in Shopify checkout after you continue from this drawer.
@@ -472,16 +445,18 @@ export default function CartDrawer({
             padding: 12px !important;
             border-radius: 18px !important;
           }
-          #cart-drawer .cart-drawer-body .purchase-quantity-row {
+          #cart-drawer .selected-bundle-card > div:nth-child(2) {
+            grid-template-columns: 1fr !important;
+          }
+          #cart-drawer .selected-bundle-card > div:last-of-type {
+            flex-direction: column !important;
             align-items: stretch !important;
           }
-          #cart-drawer .cart-drawer-body .purchase-quantity-row > div:first-child {
-            min-width: 0 !important;
-          }
-          #cart-drawer .cart-drawer-body .purchase-quantity-row > div:last-child {
+          #cart-drawer .selected-bundle-card > div:last-of-type > div:last-child {
             width: 100% !important;
+            justify-content: center !important;
           }
-          #cart-drawer .cart-drawer-body .purchase-quantity-row button {
+          #cart-drawer .selected-bundle-card button {
             min-width: 38px !important;
             min-height: 38px !important;
           }
@@ -489,10 +464,60 @@ export default function CartDrawer({
             padding: 14px !important;
           }
           #cart-drawer .selected-bundle-card .serif {
-            font-size: 26px !important;
+            font-size: 28px !important;
           }
         }
       `}</style>
     </>
   )
+}
+
+const sectionLabelStyle = {
+  fontSize: 10.5,
+  textTransform: "uppercase",
+  letterSpacing: "0.16em",
+  color: "rgba(255,255,255,.56)",
+  fontWeight: 700,
+}
+
+const miniLabelStyle = {
+  fontSize: 10.5,
+  textTransform: "uppercase",
+  letterSpacing: "0.16em",
+  color: "rgba(255,255,255,.56)",
+  fontWeight: 700,
+  lineHeight: 1.35,
+}
+
+const miniValueStyle = {
+  marginTop: 6,
+  fontSize: 13.5,
+  lineHeight: 1.35,
+  fontWeight: 700,
+  color: "var(--cream)",
+}
+
+const summaryChipStyle = {
+  borderRadius: 16,
+  padding: "10px 12px",
+  background: "rgba(255,255,255,.08)",
+  border: "1px solid rgba(255,255,255,.08)",
+  minWidth: 0,
+}
+
+const summaryLabelStyle = {
+  fontSize: 10.5,
+  textTransform: "uppercase",
+  letterSpacing: "0.16em",
+  color: "rgba(255,255,255,.56)",
+  fontWeight: 700,
+  lineHeight: 1.35,
+}
+
+const summaryValueStyle = {
+  fontSize: 14.5,
+  lineHeight: 1.35,
+  fontWeight: 600,
+  textAlign: "right",
+  maxWidth: "58%",
 }
