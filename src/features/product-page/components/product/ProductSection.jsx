@@ -340,6 +340,7 @@ export default function ProductSection({
 
             <div
               className="purchase-panel"
+              id="product-offer"
               style={{
                 padding: 28,
                 background: "linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(248,243,235,.98) 100%)",

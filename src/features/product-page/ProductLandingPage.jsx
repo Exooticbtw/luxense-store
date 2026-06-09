@@ -18,6 +18,7 @@ import SocialProof from "./components/sections/SocialProof.jsx"
 import ComparisonTable from "./components/sections/ComparisonTable.jsx"
 import UseCases from "./components/sections/UseCases.jsx"
 import StorySection from "./components/sections/StorySection.jsx"
+import WhyHomeownersChooseLuxense from "./components/sections/WhyHomeownersChooseLuxense.jsx"
 import { useScrollFlags } from "./hooks/useScrollFlags.js"
 import { useShopifyProductData } from "./hooks/useShopifyProductData.js"
 import { useProductPurchaseState } from "./hooks/useProductPurchaseState.js"
@@ -117,6 +118,7 @@ export default function ProductLandingPage() {
         <SocialProof />
         <FAQ />
         <GuaranteeSection />
+        <WhyHomeownersChooseLuxense />
         <FinalCTA shopData={shopData} purchase={purchase} onOpenCart={handleOpenCart} />
         <Footer shopName={shopData?.shopName} theme={theme} />
       </main>

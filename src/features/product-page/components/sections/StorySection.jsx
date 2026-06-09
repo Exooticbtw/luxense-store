@@ -82,7 +82,7 @@ const STORY_BLOCKS = [
 
 export default function StorySection({ onOpenCart }) {
   return (
-    <section id="story" style={{ padding: "0 24px 96px", background: "var(--bg)", scrollMarginTop: 110 }}>
+    <section id="benefits" style={{ padding: "0 24px 96px", background: "var(--bg)", scrollMarginTop: 110 }}>
       <div
         style={{
           maxWidth: 1560,
@@ -323,37 +323,37 @@ export default function StorySection({ onOpenCart }) {
 
       <style>{`
         @media (max-width: 1080px) {
-          #story > div > div {
+          #benefits > div > div {
             grid-template-columns: 1fr !important;
           }
-          #story > div > div > div:first-child {
+          #benefits > div > div > div:first-child {
             min-height: 560px !important;
           }
-          #story > div > div > div:last-child > article > div:last-child {
+          #benefits > div > div > div:last-child > article > div:last-child {
             grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
           }
         }
         @media (max-width: 760px) {
-          #story {
+          #benefits {
             padding: 0 16px 72px !important;
           }
-          #story > div {
+          #benefits > div {
             border-radius: 28px !important;
           }
-          #story > div > div > div:first-child {
+          #benefits > div > div > div:first-child {
             padding: 14px !important;
           }
-          #story > div > div > div:first-child > div {
+          #benefits > div > div > div:first-child > div {
             min-height: 420px !important;
           }
-          #story > div > div > div:last-child {
+          #benefits > div > div > div:last-child {
             padding: 20px 16px !important;
             gap: 22px !important;
           }
-          #story .section-title {
+          #benefits .section-title {
             font-size: 30px !important;
           }
-          #story > div > div > div:last-child > article > div:last-child {
+          #benefits > div > div > div:last-child > article > div:last-child {
             grid-template-columns: 1fr !important;
           }
         }
