@@ -96,6 +96,7 @@
     },
     targetProductId: {{ section.settings.target_product_id | default: blank | json }},
     preferredVariantId: {{ luxense_default_variant_id | default: blank | json }},
+    productUrl: {% if luxense_product != blank %}{{ "/products/" | append: luxense_product.handle | json }}{% else %}null{% endif %},
     product: {% if luxense_product != blank %}
       {
         id: {{ luxense_product.id | json }},

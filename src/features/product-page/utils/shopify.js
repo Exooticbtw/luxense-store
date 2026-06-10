@@ -144,6 +144,7 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
     theme: normalizeTheme(meta.theme || payload?.theme || {}),
     targetProductId: meta.targetProductId || payload?.targetProductId || null,
     preferredVariantId: meta.preferredVariantId || payload?.preferredVariantId || null,
+    productUrl: meta.productUrl || payload?.productUrl || (product.handle ? `/products/${product.handle}` : null),
     product: {
       id: product.admin_graphql_api_id || product.id,
       handle: product.handle,
