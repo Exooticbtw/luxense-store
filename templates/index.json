@@ -1,4 +1,9 @@
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "main": {
+      "type": "luxense-product-page",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
 }
