@@ -1,86 +1,50 @@
 import { BatteryCharging, Clock3, Lightbulb, MoonStar, ScanSearch, ShieldCheck, Sparkles, WandSparkles } from "lucide-react"
 
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
+import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
-const STORY_BLOCKS = [
-  {
-    eyebrow: "PROBLEM",
-    headline: "Dark spaces should not feel inconvenient.",
-    subheadline:
-      "MotionGlow is designed for the moments when standard lighting feels too harsh, too late, or too far away.",
-    cards: [
-      {
-        Icon: MoonStar,
-        title: "Harsh overhead light",
-        text: "Avoid waking the whole room just to see at night.",
-      },
-      {
-        Icon: Clock3,
-        title: "Switches out of reach",
-        text: "Light appears before you need to search for it.",
-      },
-      {
-        Icon: ScanSearch,
-        title: "Unfinished spaces",
-        text: "Add a refined glow to corners that feel forgotten.",
-      },
-    ],
-  },
-  {
-    eyebrow: "SOLUTION",
-    headline: "Automatic light, designed to feel intentional.",
-    subheadline:
-      "A slim rechargeable light that adds comfort, safety, and polish exactly where your home needs it.",
-    cards: [
-      {
-        Icon: Lightbulb,
-        title: "Motion-aware",
-        text: "Turns on as you approach.",
-      },
-      {
-        Icon: WandSparkles,
-        title: "Automatic comfort",
-        text: "Turns on the moment you move, then disappears when you don't.",
-        featured: true,
-      },
-      {
-        Icon: ShieldCheck,
-        title: "Fits beautifully",
-        text: "Slim enough for closets, stairs, cabinets, and hallways.",
-      },
-    ],
-    ctaLabel: "Upgrade Your Home",
-  },
-  {
-    eyebrow: "PRODUCT BENEFITS",
-    headline: "Small details that make daily movement easier.",
-    subheadline: "Every feature is built to feel useful, calm, and effortless.",
-    cards: [
-      {
-        Icon: Sparkles,
-        title: "Soft ambient glow",
-        text: "Light that feels calm, not harsh.",
-      },
-      {
-        Icon: BatteryCharging,
-        title: "USB rechargeable",
-        text: "No wiring. No disposable batteries.",
-      },
-      {
-        Icon: Lightbulb,
-        title: "Three light tones",
-        text: "Choose the mood that fits your space.",
-      },
-      {
-        Icon: ShieldCheck,
-        title: "Minimal profile",
-        text: "A cleaner finish that blends in.",
-      },
-    ],
-  },
-]
+const ICONS = [MoonStar, Clock3, ScanSearch, Lightbulb, WandSparkles, ShieldCheck, Sparkles, BatteryCharging]
 
-export default function StorySection({ onOpenCart }) {
+export default function StorySection({ shopData, onOpenCart }) {
+  const content = getMotionGlowContent(shopData)
+  const story = content.story
+  const benefits = content.benefits
+  const storyImage = story.storyImage || IMAGE_ASSETS.heroLifestyle.src
+
+  const storyBlocks = [
+    {
+      eyebrow: "Problem",
+      headline: story.problemTitle,
+      subheadline: story.problemDescription,
+      cards: [
+        { Icon: MoonStar, title: "Harsh overhead light", text: "Avoid waking the whole room just to see at night." },
+        { Icon: Clock3, title: "Switches out of reach", text: "Light appears before you need to search for it." },
+        { Icon: ScanSearch, title: "Unfinished spaces", text: "Add a refined glow to corners that feel forgotten." },
+      ],
+    },
+    {
+      eyebrow: "Solution",
+      headline: story.solutionTitle,
+      subheadline: story.solutionDescription,
+      cards: [
+        { Icon: Lightbulb, title: "Motion-aware", text: "Turns on as you approach." },
+        { Icon: WandSparkles, title: "Automatic comfort", text: "Turns on the moment you move, then disappears when you don't.", featured: true },
+        { Icon: ShieldCheck, title: "Fits beautifully", text: "Slim enough for closets, stairs, cabinets, and hallways." },
+      ],
+      ctaLabel: story.storyButtonText,
+    },
+    {
+      eyebrow: "Product benefits",
+      headline: benefits.benefitsTitle,
+      subheadline: benefits.benefitsDescription,
+      cards: benefits.items.map((item, index) => ({
+        Icon: ICONS[index % ICONS.length],
+        title: item.title,
+        text: item.text,
+      })),
+    },
+  ]
+
   return (
     <section id="benefits" style={{ padding: "0 24px 96px", background: "var(--bg)", scrollMarginTop: 110 }}>
       <div
@@ -94,13 +58,7 @@ export default function StorySection({ onOpenCart }) {
           boxShadow: "0 26px 64px rgba(18,18,18,.08)",
         }}
       >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.02fr .98fr",
-            minHeight: 760,
-          }}
-        >
+        <div style={{ display: "grid", gridTemplateColumns: "1.02fr .98fr", minHeight: 760 }}>
           <div
             style={{
               position: "relative",
@@ -121,10 +79,9 @@ export default function StorySection({ onOpenCart }) {
                 boxShadow: "0 20px 50px rgba(18,18,18,.08)",
               }}
             >
-              {/* TODO: Replace with final lifestyle storytelling image when approved. */}
               <img
-                src={IMAGE_ASSETS.heroLifestyle.src}
-                alt={IMAGE_ASSETS.heroLifestyle.alt}
+                src={storyImage}
+                alt={story.storyTitle}
                 loading="lazy"
                 decoding="async"
                 style={{
@@ -192,27 +149,16 @@ export default function StorySection({ onOpenCart }) {
                   }}
                 >
                   <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.18em", opacity: 0.7, fontWeight: 800 }}>
-                    Visual story
+                    {story.storyEyebrow}
                   </div>
-                  <div style={{ marginTop: 8, fontSize: 16, lineHeight: 1.55, fontWeight: 700 }}>
-                    Soft automatic lighting that keeps your home calm and clear.
-                  </div>
+                  <div style={{ marginTop: 8, fontSize: 16, lineHeight: 1.55, fontWeight: 700 }}>{story.storyTitle}</div>
                 </div>
-
               </div>
             </div>
           </div>
 
-          <div
-            style={{
-              padding: 34,
-              display: "flex",
-              flexDirection: "column",
-              gap: 26,
-              overflow: "hidden",
-            }}
-          >
-            {STORY_BLOCKS.map((block, blockIndex) => (
+          <div style={{ padding: 34, display: "flex", flexDirection: "column", gap: 26, overflow: "hidden" }}>
+            {storyBlocks.map((block, blockIndex) => (
               <article
                 key={block.eyebrow}
                 style={{
@@ -237,8 +183,7 @@ export default function StorySection({ onOpenCart }) {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns:
-                      block.cards.length === 4 ? "repeat(2, minmax(0, 1fr))" : "repeat(3, minmax(0, 1fr))",
+                    gridTemplateColumns: block.cards.length === 4 ? "repeat(2, minmax(0, 1fr))" : "repeat(3, minmax(0, 1fr))",
                     gap: 14,
                   }}
                 >

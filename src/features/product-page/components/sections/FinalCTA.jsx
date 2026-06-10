@@ -2,21 +2,16 @@ import { ArrowRight, ShieldCheck } from "lucide-react"
 
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
 import { buildCartUrl } from "../../utils/shopify.js"
-
-const TRUST_POINTS = ["Secure Checkout", "Free Shipping", "30-Day Guarantee"]
+import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart }) {
+  const content = getMotionGlowContent(shopData)
+  const finalCta = content.finalCta
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, quantity || 1) || "#top"
+  const finalImage = finalCta.finalCtaImage || IMAGE_ASSETS.finalLifestyle.src
 
   return (
-    <section
-      id="final-cta"
-      style={{
-        padding: "22px 24px 86px",
-        background: "var(--bg)",
-        scrollMarginTop: 110,
-      }}
-    >
+    <section id="final-cta" style={{ padding: "22px 24px 86px", background: "var(--bg)", scrollMarginTop: 110 }}>
       <div
         style={{
           maxWidth: 1560,
@@ -25,7 +20,7 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
           overflow: "hidden",
           background:
             "linear-gradient(135deg, rgba(17,17,17,.98) 0%, rgba(17,17,17,.90) 58%, rgba(201,164,106,.22) 140%), url(" +
-            IMAGE_ASSETS.finalLifestyle.src +
+            finalImage +
             ") center/cover no-repeat",
           color: "var(--cream)",
           boxShadow: "0 26px 64px rgba(17,17,17,.16)",
@@ -34,31 +29,18 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
       >
         <div style={{ maxWidth: 920, margin: "0 auto", textAlign: "center", padding: "68px 28px" }}>
           <p className="eyebrow" style={{ color: "rgba(255,255,255,.62)" }}>
-            Final step
+            {finalCta.finalCtaEyebrow}
           </p>
           <h2 className="serif" style={{ fontSize: 68, lineHeight: 1, fontWeight: 700, textWrap: "balance" }}>
-            Ready To Upgrade Your Home?
+            {finalCta.finalCtaTitle}
           </h2>
           <p style={{ marginTop: 18, fontSize: 19, lineHeight: 1.7, color: "rgba(255,255,255,.76)", maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}>
-            MotionGlow brings effortless lighting to the spaces you use every day.
+            {finalCta.finalCtaText}
           </p>
 
           <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
-            {TRUST_POINTS.map((item) => (
-              <span
-                key={item}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  borderRadius: 999,
-                  border: "1px solid rgba(255,255,255,.14)",
-                  background: "rgba(255,255,255,.06)",
-                  padding: "8px 14px",
-                  fontSize: 13,
-                  fontWeight: 700,
-                }}
-              >
+            {(finalCta.trust || []).map((item) => (
+              <span key={item} style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 999, border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.06)", padding: "8px 14px", fontSize: 13, fontWeight: 700 }}>
                 <ShieldCheck size={13} />
                 {item}
               </span>
@@ -89,7 +71,7 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
               boxShadow: "0 14px 28px rgba(0,0,0,.12)",
             }}
           >
-            Get MotionGlow Today <ArrowRight size={18} />
+            {finalCta.finalCtaButton} <ArrowRight size={18} />
           </a>
         </div>
       </div>

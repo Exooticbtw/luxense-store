@@ -1,33 +1,37 @@
-import { USE_CASES } from "../../data/productPageData.js"
+import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
-export default function UseCases() {
+const IMAGE_MAP = {
+  hallways: "useCaseHallwayImage",
+  stairs: "useCaseStairsImage",
+  kitchens: "useCaseKitchenImage",
+  closets: "useCaseClosetImage",
+  bedrooms: "useCaseBedroomImage",
+  bathrooms: "useCaseBathroomImage",
+}
+
+export default function UseCases({ shopData }) {
+  const content = getMotionGlowContent(shopData)
+  const useCases = content.useCases
+
   return (
     <section id="use-cases" style={{ padding: "86px 24px", background: "var(--sec)", scrollMarginTop: 110 }}>
       <div style={{ maxWidth: 1560, margin: "0 auto" }}>
         <div style={{ maxWidth: 700 }}>
           <p className="eyebrow" style={{ color: "var(--accent)" }}>
-            Use cases
+            {useCases.useCasesEyebrow}
           </p>
           <h2 className="serif section-title" style={{ fontSize: 58, maxWidth: 760 }}>
-            Designed for the rooms where gentle light matters most.
+            {useCases.useCasesTitle}
           </h2>
           <p style={{ marginTop: 16, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.72, maxWidth: 680 }}>
-            Hallways, stairs, closets, kitchens, bedrooms, and bathrooms feel more usable when the lighting appears automatically and stays visually discreet.
+            {useCases.useCasesDescription}
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gap: 16,
-            marginTop: 38,
-          }}
-        >
-          {USE_CASES.map(({ title, desc, image, alt, label }) => {
-            const imageSrc = typeof image === "object" ? image?.src : image
-            const imageAlt = alt || (typeof image === "object" ? image?.alt : `${title} use case for Luxense MotionGlow`)
-            const imageLabel = label || (typeof image === "object" ? image?.label : title)
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16, marginTop: 38 }}>
+          {useCases.items.map(({ key, title, text, image }) => {
+            const imageKey = IMAGE_MAP[key]
+            const imageSrc = image || content.media?.[imageKey] || null
 
             return (
               <article
@@ -50,43 +54,12 @@ export default function UseCases() {
                   {imageSrc ? (
                     <img
                       src={imageSrc}
-                      alt={imageAlt}
+                      alt={title}
                       loading="lazy"
                       decoding="async"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        objectPosition: "center",
-                        display: "block",
-                      }}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
                     />
-                  ) : (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        background:
-                          "radial-gradient(circle at 24% 24%, rgba(201,164,106,.28), transparent 24%), linear-gradient(160deg, rgba(18,18,18,.96), rgba(72,72,72,.84))",
-                        display: "grid",
-                        placeItems: "center",
-                        color: "white",
-                        textAlign: "center",
-                        padding: 20,
-                      }}
-                    >
-                      <div>
-                        <div
-                          style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.18em", opacity: 0.72, fontWeight: 800 }}
-                        >
-                          {imageLabel}
-                        </div>
-                        <div style={{ marginTop: 10, fontSize: 14, lineHeight: 1.6, fontWeight: 700, maxWidth: 240 }}>
-                          TODO: Replace with final {title.toLowerCase()} image
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  ) : null}
                   <div
                     style={{
                       position: "absolute",
@@ -116,7 +89,7 @@ export default function UseCases() {
 
                 <div style={{ padding: 22 }}>
                   <h3 style={{ fontSize: 22, lineHeight: 1.12, fontWeight: 800 }}>{title}</h3>
-                  <p style={{ marginTop: 10, fontSize: 14.5, lineHeight: 1.7, color: "var(--muted)" }}>{desc}</p>
+                  <p style={{ marginTop: 10, fontSize: 14.5, lineHeight: 1.7, color: "var(--muted)" }}>{text}</p>
                 </div>
               </article>
             )

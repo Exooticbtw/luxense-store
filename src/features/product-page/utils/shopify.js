@@ -10,21 +10,69 @@ export function normalizeImageUrl(src) {
   return imageUrl.startsWith("//") ? `https:${imageUrl}` : imageUrl
 }
 
+export function normalizeList(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => (typeof item === "string" ? item.trim() : item)).filter(Boolean)
+  }
+
+  if (typeof value === "string") {
+    return value
+      .split("|")
+      .map((item) => item.trim())
+      .filter(Boolean)
+  }
+
+  return []
+}
+
+export function normalizeSectionObject(value = {}) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {}
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, entry]) => {
+      if (Array.isArray(entry)) {
+        return [key, entry.map((item) => (typeof item === "string" ? item.trim() : item)).filter(Boolean)]
+      }
+
+      if (entry && typeof entry === "object") {
+        return [key, normalizeSectionObject(entry)]
+      }
+
+      return [key, entry ?? null]
+    }),
+  )
+}
+
 export function normalizeMedia(media = {}) {
-  const galleryImages = Array.isArray(media.galleryImages)
-    ? media.galleryImages.map((image) => normalizeImageUrl(image)).filter(Boolean)
+  const gallerySource = media.galleryImages || media.productGalleryImages || []
+  const galleryImages = Array.isArray(gallerySource)
+    ? gallerySource.map((image) => normalizeImageUrl(image)).filter(Boolean)
     : []
 
   return {
     heroImage: normalizeImageUrl(media.heroImage),
+    heroLifestyleImage: normalizeImageUrl(media.heroLifestyleImage),
+    heroProductImage: normalizeImageUrl(media.heroProductImage),
     productImage: normalizeImageUrl(media.productImage),
+    storyImage: normalizeImageUrl(media.storyImage),
     bedroomImage: normalizeImageUrl(media.bedroomImage),
     closetImage: normalizeImageUrl(media.closetImage),
     kitchenImage: normalizeImageUrl(media.kitchenImage),
     hallwayImage: normalizeImageUrl(media.hallwayImage),
+    stairsImage: normalizeImageUrl(media.stairsImage),
     staircaseImage: normalizeImageUrl(media.staircaseImage),
     wardrobeImage: normalizeImageUrl(media.wardrobeImage),
+    useCaseHallwayImage: normalizeImageUrl(media.useCaseHallwayImage),
+    useCaseStairsImage: normalizeImageUrl(media.useCaseStairsImage),
+    useCaseKitchenImage: normalizeImageUrl(media.useCaseKitchenImage),
+    useCaseClosetImage: normalizeImageUrl(media.useCaseClosetImage),
+    useCaseBedroomImage: normalizeImageUrl(media.useCaseBedroomImage),
+    useCaseBathroomImage: normalizeImageUrl(media.useCaseBathroomImage),
+    warmToneImage: normalizeImageUrl(media.warmToneImage),
+    neutralToneImage: normalizeImageUrl(media.neutralToneImage),
+    whiteToneImage: normalizeImageUrl(media.whiteToneImage),
     finalCtaImage: normalizeImageUrl(media.finalCtaImage),
+    videoPosterImage: normalizeImageUrl(media.videoPosterImage),
     reviewImage1: normalizeImageUrl(media.reviewImage1),
     reviewImage2: normalizeImageUrl(media.reviewImage2),
     reviewImage3: normalizeImageUrl(media.reviewImage3),
@@ -35,61 +83,14 @@ export function normalizeMedia(media = {}) {
 
 export function normalizeTheme(theme = {}) {
   return {
-    bgColor: theme.bgColor || null,
-    creamColor: theme.creamColor || null,
-    warmWhiteColor: theme.warmWhiteColor || null,
-    textColor: theme.textColor || null,
-    mutedColor: theme.mutedColor || null,
-    accentColor: theme.accentColor || null,
-    borderColor: theme.borderColor || null,
-    announcementText: theme.announcementText || null,
-    heroEyebrow: theme.heroEyebrow || null,
-    heroTitle: theme.heroTitle || null,
-    heroText: theme.heroText || null,
-    heroPrimaryButton: theme.heroPrimaryButton || null,
-    heroSecondaryButton: theme.heroSecondaryButton || null,
-    featuresEyebrow: theme.featuresEyebrow || null,
-    featuresTitle: theme.featuresTitle || null,
-    featuresText: theme.featuresText || null,
-    productEyebrow: theme.productEyebrow || null,
-    productTitle: theme.productTitle || null,
-    productDescription: theme.productDescription || null,
-    productPrice: theme.productPrice || null,
-    productCompareAt: theme.productCompareAt || null,
-    productBadge: theme.productBadge || null,
-    productButton: theme.productButton || null,
-    detailPrice: theme.detailPrice || null,
-    detailCompareAt: theme.detailCompareAt || null,
-    detailBadge: theme.detailBadge || null,
-    singlePrice: theme.singlePrice || null,
-    singleCompareAt: theme.singleCompareAt || null,
-    duoPrice: theme.duoPrice || null,
-    duoCompareAt: theme.duoCompareAt || null,
-    trioPrice: theme.trioPrice || null,
-    trioCompareAt: theme.trioCompareAt || null,
-    addToCartButton: theme.addToCartButton || null,
-    buyNowButton: theme.buyNowButton || null,
-    roomsTitle: theme.roomsTitle || null,
-    plannerTitle: theme.plannerTitle || null,
-    plannerText: theme.plannerText || null,
-    faqEyebrow: theme.faqEyebrow || null,
-    faqTitle: theme.faqTitle || null,
-    faqQuestion1: theme.faqQuestion1 || null,
-    faqAnswer1: theme.faqAnswer1 || null,
-    faqQuestion2: theme.faqQuestion2 || null,
-    faqAnswer2: theme.faqAnswer2 || null,
-    faqQuestion3: theme.faqQuestion3 || null,
-    faqAnswer3: theme.faqAnswer3 || null,
-    faqQuestion4: theme.faqQuestion4 || null,
-    faqAnswer4: theme.faqAnswer4 || null,
-    faqQuestion5: theme.faqQuestion5 || null,
-    faqAnswer5: theme.faqAnswer5 || null,
-    finalCtaTitle: theme.finalCtaTitle || null,
-    finalCtaText: theme.finalCtaText || null,
-    finalCtaButton: theme.finalCtaButton || null,
-    footerText: theme.footerText || null,
-    footerEmailPlaceholder: theme.footerEmailPlaceholder || null,
-    footerButton: theme.footerButton || null,
+    pageBackground: theme.pageBackground || theme.bgColor || null,
+    creamText: theme.creamText || theme.creamColor || null,
+    warmWhite: theme.warmWhite || theme.warmWhiteColor || null,
+    mainText: theme.mainText || theme.textColor || null,
+    mutedText: theme.mutedText || theme.mutedColor || null,
+    accent: theme.accent || theme.accentColor || null,
+    borders: theme.borders || theme.borderColor || null,
+    darkBackground: theme.darkBackground || null,
   }
 }
 
@@ -142,8 +143,27 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
     currency: meta.currency || payload?.currency || "USD",
     media: normalizeMedia(meta.media || payload?.media || {}),
     theme: normalizeTheme(meta.theme || payload?.theme || {}),
+    announcement: normalizeSectionObject(meta.announcement || payload?.announcement || {}),
+    hero: normalizeSectionObject(meta.hero || payload?.hero || {}),
+    purchase: normalizeSectionObject(meta.purchase || payload?.purchase || {}),
+    bundles: normalizeSectionObject(meta.bundles || payload?.bundles || {}),
+    video: normalizeSectionObject(meta.video || payload?.video || {}),
+    story: normalizeSectionObject(meta.story || payload?.story || {}),
+    benefits: normalizeSectionObject(meta.benefits || payload?.benefits || {}),
+    useCases: normalizeSectionObject(meta.useCases || payload?.useCases || {}),
+    lightTones: normalizeSectionObject(meta.lightTones || payload?.lightTones || {}),
+    comparison: normalizeSectionObject(meta.comparison || payload?.comparison || {}),
+    metrics: normalizeSectionObject(meta.metrics || payload?.metrics || {}),
+    reviews: normalizeSectionObject(meta.reviews || payload?.reviews || {}),
+    faq: normalizeSectionObject(meta.faq || payload?.faq || {}),
+    guarantee: normalizeSectionObject(meta.guarantee || payload?.guarantee || {}),
+    whyChoose: normalizeSectionObject(meta.whyChoose || payload?.whyChoose || {}),
+    finalCta: normalizeSectionObject(meta.finalCta || payload?.finalCta || {}),
+    footer: normalizeSectionObject(meta.footer || payload?.footer || {}),
     targetProductId: meta.targetProductId || payload?.targetProductId || null,
-    preferredVariantId: meta.preferredVariantId || payload?.preferredVariantId || null,
+    defaultVariantId: meta.defaultVariantId || payload?.defaultVariantId || payload?.preferredVariantId || null,
+    preferredVariantId: meta.preferredVariantId || payload?.preferredVariantId || meta.defaultVariantId || payload?.defaultVariantId || null,
+    productHandle: meta.productHandle || payload?.productHandle || product.handle || null,
     productUrl: meta.productUrl || payload?.productUrl || (product.handle ? `/products/${product.handle}` : null),
     product: {
       id: product.admin_graphql_api_id || product.id,

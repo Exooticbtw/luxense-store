@@ -1,21 +1,16 @@
 import { ArrowRight, Check, ShieldCheck, Sparkles, Star } from "lucide-react"
 
 import {
-  BUNDLE_OPTIONS,
   COLORS,
   HERO_KEY_BENEFITS,
-  HERO_TRUST_BADGES,
   IMAGE_ASSETS,
-  PRODUCT_NAME,
   getBundleOfferForQuantity,
 } from "../../data/productPageData.js"
+import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 import QuantityStepper from "../common/QuantityStepper.jsx"
 
-const PRIMARY_COPY = "Premium motion lighting for a calmer, safer home."
-const SECONDARY_COPY =
-  "Luxense MotionGlow turns on automatically when you move, adding soft ambient light exactly where you need it."
-
 export default function ProductSection({
+  shopData,
   purchase,
   bundleSummary,
   selectedColor,
@@ -27,8 +22,11 @@ export default function ProductSection({
   onSelectColor,
   onOpenCart,
 }) {
-  const heroVisualImage = purchase?.images?.[purchase?.activeImage] || IMAGE_ASSETS.heroLifestyle.src
-  const heroVisualAlt = purchase?.images?.[purchase?.activeImage] ? "Luxense MotionGlow lifestyle scene in a modern home" : IMAGE_ASSETS.heroLifestyle.alt
+  const content = getMotionGlowContent(shopData)
+  const hero = content.hero
+  const purchaseContent = content.purchase
+  const heroVisualImage = hero.heroLifestyleImage || purchase?.images?.[purchase?.activeImage] || IMAGE_ASSETS.heroLifestyle.src
+  const heroVisualAlt = hero.heroTitle || (purchase?.images?.[purchase?.activeImage] ? "Luxense MotionGlow lifestyle scene in a modern home" : IMAGE_ASSETS.heroLifestyle.alt)
   const currentQuantity = Math.max(1, Math.floor(Number(quantity || 1)))
   const bundle = bundleSummary || getBundleOfferForQuantity(currentQuantity)
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
@@ -146,7 +144,7 @@ export default function ProductSection({
                       }}
                     >
                       <Star size={13} color="var(--accent)" />
-                      4.9/5 from happy customers
+                      {hero.heroRatingText}
                     </span>
                     <span
                       style={{
@@ -164,7 +162,7 @@ export default function ProductSection({
                       }}
                     >
                       <ShieldCheck size={13} color="#8fb58b" />
-                      30-day guarantee
+                      {hero.heroGuaranteeText}
                     </span>
                   </div>
                 </div>
@@ -179,7 +177,7 @@ export default function ProductSection({
                       fontWeight: 700,
                     }}
                   >
-                    {PRODUCT_NAME}
+                    {hero.heroEyebrow}
                   </p>
 
                   <h1
@@ -194,7 +192,7 @@ export default function ProductSection({
                       maxWidth: 720,
                     }}
                   >
-                    {PRIMARY_COPY}
+                    {hero.heroTitle}
                   </h1>
 
                   <p
@@ -205,7 +203,7 @@ export default function ProductSection({
                       color: "rgba(255,255,255,.76)",
                     }}
                   >
-                    {SECONDARY_COPY}
+                    {hero.heroDescription}
                   </p>
 
                   <div className="hero-benefit-row" style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 2 }}>
@@ -253,7 +251,7 @@ export default function ProductSection({
                         boxShadow: "0 16px 34px rgba(18,18,18,.18)",
                       }}
                     >
-                      Get Yours Today <ArrowRight size={18} />
+                      {hero.heroPrimaryButton} <ArrowRight size={18} />
                     </button>
 
                     <a
@@ -280,7 +278,7 @@ export default function ProductSection({
                         backdropFilter: "blur(10px)",
                       }}
                     >
-                      See It In Action
+                      {hero.heroSecondaryButton}
                     </a>
                   </div>
 
@@ -296,12 +294,14 @@ export default function ProductSection({
                       fontWeight: 700,
                     }}
                   >
-                    {HERO_TRUST_BADGES.map((item, index) => (
+                    {[hero.heroRatingText, hero.heroCustomerText, hero.heroShippingText, hero.heroGuaranteeText]
+                      .filter(Boolean)
+                      .map((item, index) => (
                       <span key={item} style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
                         {index > 0 && <span style={{ color: "rgba(255,255,255,.30)" }}>·</span>}
                         <span>{item}</span>
                       </span>
-                    ))}
+                      ))}
                   </div>
                 </div>
 
@@ -327,7 +327,7 @@ export default function ProductSection({
                         fontWeight: 700,
                       }}
                     >
-                      Premium Motion Lighting For Modern Homes
+                      {hero.heroEyebrow}
                     </div>
                     <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 6, flexWrap: "wrap" }}>
                       <span className="serif" style={{ fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
@@ -376,7 +376,7 @@ export default function ProductSection({
                         fontWeight: 800,
                       }}
                     >
-                      Product purchase
+                      {purchaseContent.purchaseEyebrow}
                     </p>
                     <h2
                       className="serif"
@@ -388,10 +388,10 @@ export default function ProductSection({
                         fontWeight: 700,
                       }}
                     >
-                      {PRODUCT_NAME}
+                      {purchaseContent.purchaseTitle}
                     </h2>
                     <p style={{ marginTop: 8, fontSize: 15, lineHeight: 1.65, color: "var(--muted)" }}>
-                      Premium Motion Lighting For Modern Homes
+                      {purchaseContent.purchaseDescription}
                     </p>
                   </div>
 
@@ -417,11 +417,11 @@ export default function ProductSection({
                           fontWeight: 800,
                         }}
                       >
-                        Starting price
+                        {purchaseContent.startingPriceLabel}
                       </div>
                       <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 6, flexWrap: "wrap" }}>
                         <span className="serif" style={{ fontSize: 36, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
-                          {priceLabel}
+                          {purchaseContent.startingPrice || priceLabel}
                         </span>
                         {showCompareAt && (
                           <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 16, fontWeight: 600 }}>
@@ -441,21 +441,21 @@ export default function ProductSection({
                         whiteSpace: "nowrap",
                       }}
                     >
-                      Bundle savings
+                      {purchaseContent.bundleSavingsLabel}
                     </div>
                   </div>
 
                   <div style={{ display: "grid", gap: 10, marginTop: 2 }}>
                     <SectionLabel text="Bundle" />
                     <div className="bundle-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10 }}>
-                      {BUNDLE_OPTIONS.map((option) => {
+                      {content.bundles.map((option) => {
                         const isSelected = option.quantity === activeBundleQuantity
                         const featured = option.quantity === 2 || option.quantity === 4
                         const darkSelected = isSelected && option.quantity === 4
 
                         return (
                           <button
-                            key={option.label}
+                            key={option.title}
                             type="button"
                             onClick={() => onPreviewBundle?.(option.quantity)}
                             aria-pressed={isSelected}
@@ -488,7 +488,7 @@ export default function ProductSection({
                           >
                             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                               <div style={{ minWidth: 0 }}>
-                                <span style={{ display: "block", fontSize: 15, fontWeight: 800 }}>{option.label}</span>
+                                <span style={{ display: "block", fontSize: 15, fontWeight: 800 }}>{option.title}</span>
                                 <span
                                   style={{
                                     display: "inline-flex",
@@ -511,7 +511,7 @@ export default function ProductSection({
                                     fontWeight: 800,
                                   }}
                                 >
-                                  {option.badge || "Single room"}
+                                  {option.badge || option.subtitle || "Single room"}
                                 </span>
                               </div>
                               {isSelected && (
@@ -532,13 +532,13 @@ export default function ProductSection({
                               )}
                             </div>
                             <div style={{ marginTop: 10, fontSize: 22, fontWeight: 700, letterSpacing: "-0.03em" }}>
-                              ${option.price.toFixed(2)}
+                              {option.price}
                             </div>
                             <div style={{ marginTop: 4, fontSize: 12, color: isSelected ? "rgba(18,18,18,.68)" : "var(--muted)", fontWeight: 700 }}>
-                              {option.savings}
+                              {option.note}
                             </div>
                             <div style={{ marginTop: 8, fontSize: 12.5, color: isSelected ? "rgba(18,18,18,.66)" : "var(--muted)", lineHeight: 1.45 }}>
-                              {option.useCase}
+                              {option.subtitle}
                             </div>
                           </button>
                         )
@@ -667,13 +667,13 @@ export default function ProductSection({
                     }}
                   >
                     <div style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--muted)", fontWeight: 800 }}>
-                      Included tones
+                      {purchaseContent.includedTonesTitle}
                     </div>
                     <div style={{ fontSize: 14.5, lineHeight: 1.55, color: "var(--fg)", fontWeight: 700 }}>
-                      Includes all 3 light tones: Warm, Neutral, and White.
+                      {purchaseContent.includedTonesTitle}
                     </div>
                     <div style={{ fontSize: 12.5, lineHeight: 1.6, color: "var(--muted)" }}>
-                      Switch between built-in warm 3000K, neutral 4000K, and white 6000K modes anytime after setup.
+                      {purchaseContent.includedTonesDescription}
                     </div>
                   </div>
 
@@ -760,17 +760,17 @@ export default function ProductSection({
                       boxShadow: "0 18px 34px rgba(18,18,18,.16)",
                     }}
                   >
-                    Add to Cart <ArrowRight size={18} />
+                    {purchaseContent.addToCartButton} <ArrowRight size={18} />
                   </button>
 
                   <div style={{ display: "grid", gap: 8 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(18,18,18,.62)", fontWeight: 600, flexWrap: "wrap" }}>
                       <ShieldCheck size={14} color="#8fb58b" />
-                      Secure checkout
+                      {purchaseContent.checkoutTrustText.split("·")[0]?.trim() || "Secure checkout"}
                       <span style={{ color: "rgba(18,18,18,.34)" }}>·</span>
-                      Free shipping
+                      {purchaseContent.checkoutTrustText.split("·")[1]?.trim() || "Free shipping"}
                       <span style={{ color: "rgba(18,18,18,.34)" }}>·</span>
-                      30-day guarantee
+                      {purchaseContent.checkoutTrustText.split("·")[2]?.trim() || "30-day guarantee"}
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {["Visa", "Mastercard", "PayPal", "Apple Pay", "Google Pay", "Shop Pay"].map((badge) => (

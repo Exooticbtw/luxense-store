@@ -38,13 +38,15 @@ export default function ProductLandingPage() {
 
   const theme = shopData?.theme || {}
   const themeVars = {
-    ...(theme.bgColor ? { "--bg": theme.bgColor } : {}),
-    ...(theme.creamColor ? { "--cream": theme.creamColor } : {}),
-    ...(theme.warmWhiteColor ? { "--warm-white": theme.warmWhiteColor } : {}),
-    ...(theme.textColor ? { "--fg": theme.textColor, "--charcoal": theme.textColor, "--primary": theme.textColor } : {}),
-    ...(theme.mutedColor ? { "--muted": theme.mutedColor } : {}),
-    ...(theme.accentColor ? { "--accent": theme.accentColor } : {}),
-    ...(theme.borderColor ? { "--border": theme.borderColor } : {}),
+    "--bg": theme.pageBackground || "#F6F4EF",
+    "--cream": theme.creamText || "#FBFAF6",
+    "--warm-white": theme.warmWhite || "#FFFDF8",
+    "--fg": theme.mainText || "#231913",
+    "--charcoal": theme.mainText || "#231913",
+    "--primary": theme.mainText || "#231913",
+    "--muted": theme.mutedText || "#74685D",
+    "--accent": theme.accent || "#C89A59",
+    "--border": theme.borders || "#DED8CF",
   }
 
   const navigateHome = (targetId = "top") => {
@@ -88,7 +90,7 @@ export default function ProductLandingPage() {
   return (
     <div className="page-shell" id="top" style={themeVars}>
       <style>{PRODUCT_PAGE_STYLES}</style>
-      <AnnouncementBar theme={theme} />
+      <AnnouncementBar shopData={shopData} theme={theme} />
       <Navbar
         scrolled={scrolled}
         shopName={shopData?.shopName}
@@ -110,25 +112,26 @@ export default function ProductLandingPage() {
           onSelectColor={handleSelectColor}
           onOpenCart={handleOpenCart}
         />
-        <VideoDemonstration onOpenCart={handleOpenCart} />
-        <StorySection onOpenCart={handleOpenCart} />
-        <UseCases />
-        <LightTones />
-        <ComparisonTable />
+        <VideoDemonstration shopData={shopData} onOpenCart={handleOpenCart} />
+        <StorySection shopData={shopData} onOpenCart={handleOpenCart} />
+        <UseCases shopData={shopData} />
+        <LightTones shopData={shopData} />
+        <ComparisonTable shopData={shopData} />
         <BundleOffers
+          shopData={shopData}
           onSelectBundle={handleSelectBundle}
           onOpenCart={handleOpenCart}
           bundleSummary={priceSummary}
           quantity={quantity}
           onChangeQuantity={handleSetQuantity}
         />
-        <CustomerReviews />
+        <CustomerReviews shopData={shopData} />
         <SocialProof />
-        <FAQ />
-        <GuaranteeSection />
-        <WhyHomeownersChooseLuxense />
+        <FAQ shopData={shopData} />
+        <GuaranteeSection shopData={shopData} />
+        <WhyHomeownersChooseLuxense shopData={shopData} />
         <FinalCTA shopData={shopData} purchase={purchase} quantity={quantity} onOpenCart={handleOpenCart} />
-        <Footer shopName={shopData?.shopName} theme={theme} />
+        <Footer shopData={shopData} shopName={shopData?.shopName} theme={theme} />
       </main>
       <CartDrawer
         shopData={shopData}

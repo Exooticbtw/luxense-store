@@ -1,53 +1,28 @@
 import { CheckCircle2, Star } from "lucide-react"
 
-const METRICS = [
-  {
-    value: "94%",
-    title: "Would recommend MotionGlow to a friend",
-    tone: "A simple, elegant smart-lighting upgrade people feel good about sharing.",
-  },
-  {
-    value: "91%",
-    title: "Say installation took less than 2 minutes",
-    tone: "Fast setup with no wiring, drilling, or complicated steps.",
-  },
-  {
-    value: "89%",
-    title: "Purchased additional units after their first order",
-    tone: "A strong signal that one light turns into a whole-home solution.",
-  },
-  {
-    value: "4.9/5",
-    title: "Average customer rating",
-    tone: "Trusted by thousands of homes looking for softer, smarter lighting.",
-  },
-]
+import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
-export default function BundleOffers() {
+export default function BundleOffers({ shopData }) {
+  const content = getMotionGlowContent(shopData)
+  const metrics = content.metrics
+
   return (
     <section id="bundles" style={{ padding: "86px 24px", background: "var(--sec)", scrollMarginTop: 110 }}>
       <div style={{ maxWidth: 1560, margin: "0 auto" }}>
         <div style={{ maxWidth: 760 }}>
           <p className="eyebrow" style={{ color: "var(--accent)" }}>
-            Customer confidence
+            {metrics.metricsEyebrow}
           </p>
           <h2 className="serif section-title" style={{ fontSize: 58, maxWidth: 860 }}>
-            Why 3,284+ Customers Chose MotionGlow
+            {metrics.metricsTitle}
           </h2>
           <p style={{ marginTop: 14, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.72, maxWidth: 760 }}>
-            A cleaner, easier way to add smart lighting, trusted by thousands of homes.
+            {metrics.metricsDescription}
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-            gap: 16,
-            marginTop: 38,
-          }}
-        >
-          {METRICS.map((metric) => (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 16, marginTop: 38 }}>
+          {metrics.items.map((metric) => (
             <article
               key={metric.title}
               className="soft-card"
@@ -64,32 +39,10 @@ export default function BundleOffers() {
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
-                <div
-                  style={{
-                    width: 46,
-                    height: 46,
-                    borderRadius: 16,
-                    background: "linear-gradient(135deg, rgba(201,164,106,.20), rgba(143,174,138,.14))",
-                    border: "1px solid rgba(201,164,106,.18)",
-                    display: "grid",
-                    placeItems: "center",
-                    color: "var(--fg)",
-                    flexShrink: 0,
-                  }}
-                >
+                <div style={{ width: 46, height: 46, borderRadius: 16, background: "linear-gradient(135deg, rgba(201,164,106,.20), rgba(143,174,138,.14))", border: "1px solid rgba(201,164,106,.18)", display: "grid", placeItems: "center", color: "var(--fg)", flexShrink: 0 }}>
                   <CheckCircle2 size={20} />
                 </div>
-                <div
-                  style={{
-                    borderRadius: 999,
-                    padding: "7px 10px",
-                    background: "rgba(200,169,106,.12)",
-                    color: "#36563a",
-                    fontSize: 12,
-                    fontWeight: 800,
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <div style={{ borderRadius: 999, padding: "7px 10px", background: "rgba(200,169,106,.12)", color: "#36563a", fontSize: 12, fontWeight: 800, whiteSpace: "nowrap" }}>
                   <Star size={12} style={{ display: "inline", marginRight: 6 }} />
                   Trusted
                 </div>
@@ -100,7 +53,7 @@ export default function BundleOffers() {
                   {metric.value}
                 </div>
                 <h3 style={{ marginTop: 14, fontSize: 24, lineHeight: 1.1, fontWeight: 800, maxWidth: 280 }}>{metric.title}</h3>
-                <p style={{ marginTop: 10, fontSize: 14.5, lineHeight: 1.65, color: "var(--muted)" }}>{metric.tone}</p>
+                <p style={{ marginTop: 10, fontSize: 14.5, lineHeight: 1.65, color: "var(--muted)" }}>{metric.text}</p>
               </div>
             </article>
           ))}

@@ -1,29 +1,13 @@
 import { CheckCircle2, Sparkles, ShieldCheck, Star } from "lucide-react"
 
-const CARDS = [
-  {
-    title: "Thoughtful Design",
-    text: "Created to blend naturally into modern interiors.",
-    Icon: Sparkles,
-  },
-  {
-    title: "Smart Convenience",
-    text: "Light appears exactly when you need it.",
-    Icon: CheckCircle2,
-  },
-  {
-    title: "Premium Experience",
-    text: "Simple installation, refined aesthetics, everyday usefulness.",
-    Icon: ShieldCheck,
-  },
-  {
-    title: "Trusted By Thousands",
-    text: "4.9★ average rating from over 3,000 customers.",
-    Icon: Star,
-  },
-]
+import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
-export default function WhyHomeownersChooseLuxense() {
+const ICONS = [Sparkles, CheckCircle2, ShieldCheck, Star]
+
+export default function WhyHomeownersChooseLuxense({ shopData }) {
+  const content = getMotionGlowContent(shopData)
+  const whyChoose = content.whyChoose
+
   return (
     <section id="luxense-trust" style={{ padding: "0 24px 86px", background: "var(--bg)", scrollMarginTop: 110 }}>
       <div style={{ maxWidth: 1560, margin: "0 auto" }}>
@@ -32,49 +16,35 @@ export default function WhyHomeownersChooseLuxense() {
             Why homeowners choose Luxense
           </p>
           <h2 className="serif section-title" style={{ fontSize: 58, maxWidth: 820 }}>
-            Why Homeowners Choose Luxense
+            {whyChoose.whyTitle}
           </h2>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-            gap: 16,
-            marginTop: 30,
-          }}
-        >
-          {CARDS.map((card) => (
-            <article
-              key={card.title}
-              className="soft-card"
-              style={{
-                borderRadius: 24,
-                padding: 22,
-                background: "linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,243,235,.96))",
-                border: "1px solid rgba(17,17,17,.08)",
-                boxShadow: "0 16px 34px rgba(17,17,17,.06)",
-                minHeight: 178,
-              }}
-            >
-              <div
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 16, marginTop: 30 }}>
+          {whyChoose.items.map((card, index) => {
+            const Icon = ICONS[index % ICONS.length]
+
+            return (
+              <article
+                key={card.title}
+                className="soft-card"
                 style={{
-                  width: 46,
-                  height: 46,
-                  borderRadius: 16,
-                  background: "linear-gradient(135deg, rgba(201,164,106,.16), rgba(143,174,138,.12))",
-                  border: "1px solid rgba(201,164,106,.18)",
-                  display: "grid",
-                  placeItems: "center",
-                  color: "var(--fg)",
+                  borderRadius: 24,
+                  padding: 22,
+                  background: "linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,243,235,.96))",
+                  border: "1px solid rgba(17,17,17,.08)",
+                  boxShadow: "0 16px 34px rgba(17,17,17,.06)",
+                  minHeight: 178,
                 }}
               >
-                <card.Icon size={20} />
-              </div>
-              <h3 style={{ marginTop: 18, fontSize: 22, lineHeight: 1.08, fontWeight: 800 }}>{card.title}</h3>
-              <p style={{ marginTop: 10, fontSize: 14.5, lineHeight: 1.65, color: "var(--muted)" }}>{card.text}</p>
-            </article>
-          ))}
+                <div style={{ width: 46, height: 46, borderRadius: 16, background: "linear-gradient(135deg, rgba(201,164,106,.16), rgba(143,174,138,.12))", border: "1px solid rgba(201,164,106,.18)", display: "grid", placeItems: "center", color: "var(--fg)" }}>
+                  <Icon size={20} />
+                </div>
+                <h3 style={{ marginTop: 18, fontSize: 22, lineHeight: 1.08, fontWeight: 800 }}>{card.title}</h3>
+                <p style={{ marginTop: 10, fontSize: 14.5, lineHeight: 1.65, color: "var(--muted)" }}>{card.text}</p>
+              </article>
+            )
+          })}
         </div>
       </div>
 

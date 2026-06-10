@@ -1,20 +1,25 @@
 import { ArrowRight, Play } from "lucide-react"
 
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
+import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
-export default function VideoDemonstration({ onOpenCart }) {
+export default function VideoDemonstration({ shopData, onOpenCart }) {
+  const content = getMotionGlowContent(shopData)
+  const video = content.video
+  const poster = video.videoPosterImage || IMAGE_ASSETS.finalLifestyle.src
+
   return (
     <section id="video-demo" style={{ padding: "0 24px 86px", background: "var(--bg)", scrollMarginTop: 110 }}>
       <div style={{ maxWidth: 1560, margin: "0 auto" }}>
         <div style={{ maxWidth: 720 }}>
           <p className="eyebrow" style={{ color: "var(--accent)" }}>
-            Video demonstration
+            {video.videoEyebrow}
           </p>
           <h2 className="serif section-title" style={{ fontSize: 64 }}>
-            See the motion response and ambient glow in a real room.
+            {video.videoTitle}
           </h2>
           <p style={{ marginTop: 18, color: "var(--muted)", fontSize: 18, lineHeight: 1.7 }}>
-            A clean visual demo helps shoppers understand the premium feel fast, which is especially useful for Facebook and TikTok traffic.
+            {video.videoDescription}
           </p>
         </div>
 
@@ -26,8 +31,7 @@ export default function VideoDemonstration({ onOpenCart }) {
             overflow: "hidden",
             borderRadius: 32,
             minHeight: 520,
-            background:
-              "linear-gradient(140deg, rgba(17,17,17,.94), rgba(17,17,17,.72)), url(" + IMAGE_ASSETS.finalLifestyle.src + ") center/cover no-repeat",
+            background: "linear-gradient(140deg, rgba(17,17,17,.94), rgba(17,17,17,.72)), url(" + poster + ") center/cover no-repeat",
             boxShadow: "0 26px 60px rgba(17,17,17,.10)",
           }}
         >
@@ -67,17 +71,23 @@ export default function VideoDemonstration({ onOpenCart }) {
                 <Play size={28} fill="currentColor" />
               </div>
               <p style={{ marginTop: 22, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.22em", color: "rgba(255,255,255,.66)", fontWeight: 700 }}>
-                MotionGlow live demo
+                {video.videoCardTitle}
               </p>
               <h3 className="serif" style={{ marginTop: 12, fontSize: 40, lineHeight: 1.05, fontWeight: 700 }}>
-                A premium motion light that feels immediate and calm.
+                {video.videoCardText}
               </h3>
               <p style={{ marginTop: 16, fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,.76)", maxWidth: 700, marginLeft: "auto", marginRight: "auto" }}>
-                The demo block keeps the page feeling editorial while still making the product benefit easy to understand in a few seconds.
+                {video.videoDescription}
               </p>
               <button
                 type="button"
-                onClick={() => onOpenCart?.()}
+                onClick={() => {
+                  if (video.videoUrl) {
+                    window.open(video.videoUrl, "_blank", "noopener,noreferrer")
+                    return
+                  }
+                  onOpenCart?.()
+                }}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -95,7 +105,7 @@ export default function VideoDemonstration({ onOpenCart }) {
                   cursor: "pointer",
                 }}
               >
-                Get Yours Today <ArrowRight size={17} />
+                {video.videoButtonText} <ArrowRight size={17} />
               </button>
             </div>
           </div>
