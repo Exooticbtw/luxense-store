@@ -3,7 +3,7 @@ import { LockKeyhole, ShieldCheck, Truck } from "lucide-react"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function GuaranteeSection({ shopData }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const guarantee = content.guarantee
 
   return (

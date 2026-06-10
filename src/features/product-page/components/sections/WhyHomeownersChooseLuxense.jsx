@@ -5,7 +5,7 @@ import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 const ICONS = [Sparkles, CheckCircle2, ShieldCheck, Star]
 
 export default function WhyHomeownersChooseLuxense({ shopData }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const whyChoose = content.whyChoose
 
   return (

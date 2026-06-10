@@ -4,7 +4,7 @@ import { IMAGE_ASSETS } from "../../data/productPageData.js"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function VideoDemonstration({ shopData, onOpenCart }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const video = content.video
   const poster = video.videoPosterImage || IMAGE_ASSETS.finalLifestyle.src
 

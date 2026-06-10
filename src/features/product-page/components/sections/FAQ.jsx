@@ -5,7 +5,7 @@ import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function FAQ({ shopData }) {
   const [open, setOpen] = useState(0)
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const faq = content.faq
 
   return (

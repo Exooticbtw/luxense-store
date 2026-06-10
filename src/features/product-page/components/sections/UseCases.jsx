@@ -10,7 +10,7 @@ const IMAGE_MAP = {
 }
 
 export default function UseCases({ shopData }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const useCases = content.useCases
 
   return (

@@ -22,7 +22,7 @@ export default function ProductSection({
   onSelectColor,
   onOpenCart,
 }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const hero = content.hero
   const purchaseContent = content.purchase
   const heroVisualImage = hero.heroLifestyleImage || purchase?.images?.[purchase?.activeImage] || IMAGE_ASSETS.heroLifestyle.src

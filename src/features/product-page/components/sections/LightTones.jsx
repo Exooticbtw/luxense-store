@@ -1,7 +1,7 @@
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function LightTones({ shopData }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const tones = content.lightTones
 
   return (

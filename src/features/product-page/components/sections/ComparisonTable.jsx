@@ -3,7 +3,7 @@ import { Check, Minus } from "lucide-react"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function ComparisonTable({ shopData }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const comparison = content.comparison
   const comparisonRows = Array.isArray(comparison.rows)
     ? comparison.rows.map((row) => ({

@@ -5,7 +5,7 @@ import { buildCartUrl } from "../../utils/shopify.js"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const finalCta = content.finalCta
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, quantity || 1) || "#top"
   const finalImage = finalCta.finalCtaImage || IMAGE_ASSETS.finalLifestyle.src

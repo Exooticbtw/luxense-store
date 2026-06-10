@@ -2,7 +2,7 @@ import PaymentIcons from "../common/PaymentIcons.jsx"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function Footer({ shopData }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const footer = content.footer
 
   const socialLinks = [

@@ -3,7 +3,7 @@ import { CheckCircle2, Star } from "lucide-react"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 
 export default function BundleOffers({ shopData }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const metrics = content.metrics
 
   return (

@@ -6,7 +6,7 @@ import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 const ICONS = [MoonStar, Clock3, ScanSearch, Lightbulb, WandSparkles, ShieldCheck, Sparkles, BatteryCharging]
 
 export default function StorySection({ shopData, onOpenCart }) {
-  const content = getMotionGlowContent(shopData)
+  const content = getMotionGlowContent(shopData ?? {})
   const story = content.story
   const benefits = content.benefits
   const storyImage = story.storyImage || IMAGE_ASSETS.heroLifestyle.src

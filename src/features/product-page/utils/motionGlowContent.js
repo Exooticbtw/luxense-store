@@ -280,51 +280,75 @@ const DEFAULT_FOOTER = {
   socialYoutubeUrl: "#",
 }
 
-function mergeObject(source, fallback) {
-  return {
-    ...fallback,
-    ...(source || {}),
-  }
-}
-
 function toImage(src, fallback) {
   return normalizeImageUrl(src) || fallback || null
 }
 
-export function getMotionGlowContent(shopData = {}) {
-  const theme = mergeObject(shopData.theme, {})
-  const announcement = mergeObject(shopData.announcement, DEFAULT_ANNOUNCEMENT)
-  const hero = mergeObject(shopData.hero, DEFAULT_HERO)
-  const purchase = mergeObject(shopData.purchase, DEFAULT_PURCHASE)
-  const bundles = Array.isArray(shopData.bundles)
-    ? shopData.bundles
-    : DEFAULT_BUNDLES.map((bundle) => ({
-        ...bundle,
-        ...(shopData.bundles?.[`bundle_${bundle.quantity}`] || {}),
-      }))
-  const video = mergeObject(shopData.video, DEFAULT_VIDEO)
-  const story = mergeObject(shopData.story, DEFAULT_STORY)
-  const benefits = mergeObject(shopData.benefits, DEFAULT_BENEFITS)
-  const useCases = mergeObject(shopData.useCases, DEFAULT_USE_CASES)
-  const lightTones = mergeObject(shopData.lightTones, DEFAULT_LIGHT_TONES)
-  const comparison = mergeObject(shopData.comparison, DEFAULT_COMPARISON)
-  const metrics = mergeObject(shopData.metrics, DEFAULT_METRICS)
-  const reviews = mergeObject(shopData.reviews, DEFAULT_REVIEWS)
-  const faq = mergeObject(shopData.faq, DEFAULT_FAQ)
-  const guarantee = mergeObject(shopData.guarantee, DEFAULT_GUARANTEE)
-  const whyChoose = mergeObject(shopData.whyChoose, DEFAULT_WHY)
-  const finalCta = mergeObject(shopData.finalCta, DEFAULT_FINAL_CTA)
-  const footer = mergeObject(shopData.footer, DEFAULT_FOOTER)
-  const media = mergeObject(shopData.media, {})
+function mergeObject(source, fallback) {
+  const safeSource = source && typeof source === "object" && !Array.isArray(source) ? source : {}
+  const safeFallback = fallback && typeof fallback === "object" && !Array.isArray(fallback) ? fallback : {}
 
   return {
-    shopName: shopData.shopName || PRODUCT_NAME,
-    shopDomain: shopData.shopDomain || null,
-    currency: shopData.currency || "USD",
-    product: shopData.product || null,
-    productUrl: shopData.productUrl || null,
-    targetProductId: shopData.targetProductId || null,
-    defaultVariantId: shopData.defaultVariantId || shopData.preferredVariantId || null,
+    ...safeFallback,
+    ...safeSource,
+  }
+}
+
+export function getMotionGlowContent(shopData) {
+  const source = shopData && typeof shopData === "object" ? shopData : {}
+  const themeSource = source.theme && typeof source.theme === "object" ? source.theme : {}
+  const announcementSource = source.announcement && typeof source.announcement === "object" ? source.announcement : {}
+  const heroSource = source.hero && typeof source.hero === "object" ? source.hero : {}
+  const purchaseSource = source.purchase && typeof source.purchase === "object" ? source.purchase : {}
+  const bundlesSource = source.bundles && typeof source.bundles === "object" && !Array.isArray(source.bundles) ? source.bundles : null
+  const videoSource = source.video && typeof source.video === "object" ? source.video : {}
+  const storySource = source.story && typeof source.story === "object" ? source.story : {}
+  const benefitsSource = source.benefits && typeof source.benefits === "object" ? source.benefits : {}
+  const useCasesSource = source.useCases && typeof source.useCases === "object" ? source.useCases : {}
+  const lightTonesSource = source.lightTones && typeof source.lightTones === "object" ? source.lightTones : {}
+  const comparisonSource = source.comparison && typeof source.comparison === "object" ? source.comparison : {}
+  const metricsSource = source.metrics && typeof source.metrics === "object" ? source.metrics : {}
+  const reviewsSource = source.reviews && typeof source.reviews === "object" ? source.reviews : {}
+  const faqSource = source.faq && typeof source.faq === "object" ? source.faq : {}
+  const guaranteeSource = source.guarantee && typeof source.guarantee === "object" ? source.guarantee : {}
+  const whyChooseSource = source.whyChoose && typeof source.whyChoose === "object" ? source.whyChoose : {}
+  const finalCtaSource = source.finalCta && typeof source.finalCta === "object" ? source.finalCta : {}
+  const footerSource = source.footer && typeof source.footer === "object" ? source.footer : {}
+  const mediaSource = source.media && typeof source.media === "object" ? source.media : {}
+
+  const theme = mergeObject(themeSource, {})
+  const announcement = mergeObject(announcementSource, DEFAULT_ANNOUNCEMENT)
+  const hero = mergeObject(heroSource, DEFAULT_HERO)
+  const purchase = mergeObject(purchaseSource, DEFAULT_PURCHASE)
+  const bundles = Array.isArray(source.bundles)
+    ? source.bundles
+    : DEFAULT_BUNDLES.map((bundle) => ({
+        ...bundle,
+        ...(bundlesSource?.[`bundle_${bundle.quantity}`] || {}),
+      }))
+  const video = mergeObject(videoSource, DEFAULT_VIDEO)
+  const story = mergeObject(storySource, DEFAULT_STORY)
+  const benefits = mergeObject(benefitsSource, DEFAULT_BENEFITS)
+  const useCases = mergeObject(useCasesSource, DEFAULT_USE_CASES)
+  const lightTones = mergeObject(lightTonesSource, DEFAULT_LIGHT_TONES)
+  const comparison = mergeObject(comparisonSource, DEFAULT_COMPARISON)
+  const metrics = mergeObject(metricsSource, DEFAULT_METRICS)
+  const reviews = mergeObject(reviewsSource, DEFAULT_REVIEWS)
+  const faq = mergeObject(faqSource, DEFAULT_FAQ)
+  const guarantee = mergeObject(guaranteeSource, DEFAULT_GUARANTEE)
+  const whyChoose = mergeObject(whyChooseSource, DEFAULT_WHY)
+  const finalCta = mergeObject(finalCtaSource, DEFAULT_FINAL_CTA)
+  const footer = mergeObject(footerSource, DEFAULT_FOOTER)
+  const media = mergeObject(mediaSource, {})
+
+  return {
+    shopName: source.shopName || PRODUCT_NAME,
+    shopDomain: source.shopDomain || null,
+    currency: source.currency || "USD",
+    product: source.product || null,
+    productUrl: source.productUrl || null,
+    targetProductId: source.targetProductId || null,
+    defaultVariantId: source.defaultVariantId || source.preferredVariantId || null,
     theme: {
       pageBackground: theme.pageBackground || theme.bgColor || "#F6F4EF",
       creamText: theme.creamText || theme.creamColor || "#FBFAF6",
