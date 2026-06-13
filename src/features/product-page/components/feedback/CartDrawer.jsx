@@ -1,6 +1,6 @@
 import { CreditCard, ShieldCheck, X } from "lucide-react"
 
-import { COLORS, PRODUCT_NAME, getBundleOfferForQuantity } from "../../data/productPageData.js"
+import { COLORS, PRODUCT_NAME, getPriceSummary } from "../../data/productPageData.js"
 import { buildCartUrl } from "../../utils/shopify.js"
 import PaymentIcons from "../common/PaymentIcons.jsx"
 
@@ -15,11 +15,11 @@ export default function CartDrawer({
   onCloseCart,
 }) {
   const currentQuantity = Number.isFinite(Number(quantity)) && Number(quantity) > 0 ? Number(quantity) : 1
-  const summary = bundleSummary || getBundleOfferForQuantity(currentQuantity)
+  const summary = bundleSummary || getPriceSummary(currentQuantity, purchase?.price)
   const color = COLORS.find((item) => item.name === selectedColor) || COLORS[0]
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, currentQuantity) || "#top"
-  const totalText = summary?.totalFormatted || `$${Number(summary?.subtotal ?? summary?.price ?? 29.99).toFixed(2)}`
-  const compareAtText = summary?.compareAtFormatted || (summary?.compareAt ? `$${Number(summary.compareAt).toFixed(2)}` : null)
+  const totalText = summary?.totalFormatted || purchase?.totalFormatted || purchase?.priceFormatted || ""
+  const compareAtText = summary?.compareAtFormatted || purchase?.compareAtFormatted || null
   const savingsAmount = Number((summary?.savingsAmount ?? summary?.savings) || 0)
   const savingsText = summary?.savingsText || (savingsAmount > 0 ? `You save $${savingsAmount.toFixed(2)}` : "No bundle savings")
   const bundleText = summary?.bundleLabel || summary?.summaryLabel || summary?.label || "Buy 1"
@@ -56,6 +56,9 @@ export default function CartDrawer({
       <aside
         id="cart-drawer"
         aria-hidden={!isCartOpen}
+        inert={!isCartOpen ? "" : undefined}
+        role="dialog"
+        aria-label="Cart drawer"
         style={{
           position: "fixed",
           right: 18,
@@ -160,15 +163,15 @@ export default function CartDrawer({
                 borderRadius: 22,
                 padding: 16,
                 background:
-                  summary?.selectedBundleQuantity === 4
+                  summary?.selectedBundleQuantity === 3
                     ? "linear-gradient(180deg, rgba(17,17,17,.99), rgba(26,24,21,.96))"
                     : "linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04))",
                 border:
-                  summary?.selectedBundleQuantity === 4
+                  summary?.selectedBundleQuantity === 3
                     ? "1px solid rgba(201,164,106,.50)"
                     : "1px solid rgba(255,255,255,.08)",
                 boxShadow:
-                  summary?.selectedBundleQuantity === 4 ? "0 18px 36px rgba(17,17,17,.22)" : "0 12px 26px rgba(17,17,17,.14)",
+                  summary?.selectedBundleQuantity === 3 ? "0 18px 36px rgba(17,17,17,.22)" : "0 12px 26px rgba(17,17,17,.14)",
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
@@ -225,7 +228,7 @@ export default function CartDrawer({
                   style={{
                     ...summaryChipStyle,
                     background:
-                      summary?.selectedBundleQuantity === 4
+                      summary?.selectedBundleQuantity === 3
                         ? "rgba(201,164,106,.14)"
                         : summary?.selectedBundleQuantity === 2
                           ? "rgba(143,174,138,.14)"
@@ -242,8 +245,8 @@ export default function CartDrawer({
                         alignItems: "center",
                         borderRadius: 999,
                         padding: "5px 9px",
-                        background: summary?.selectedBundleQuantity === 4 ? "rgba(201,164,106,.14)" : "rgba(143,174,138,.14)",
-                        color: summary?.selectedBundleQuantity === 4 ? "var(--cream)" : "#dff2d8",
+                        background: summary?.selectedBundleQuantity === 3 ? "rgba(201,164,106,.14)" : "rgba(143,174,138,.14)",
+                        color: summary?.selectedBundleQuantity === 3 ? "var(--cream)" : "#dff2d8",
                         fontSize: 11.5,
                         fontWeight: 800,
                         width: "fit-content",

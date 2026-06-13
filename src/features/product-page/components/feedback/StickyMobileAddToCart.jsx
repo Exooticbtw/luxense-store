@@ -1,9 +1,13 @@
 import { ShoppingBag } from "lucide-react"
 
-export default function StickyMobileAddToCart({ bundleSummary, quantity = 1, onOpenCart }) {
+export default function StickyMobileAddToCart({ bundleSummary, quantity = 1, isCartOpen = false, onOpenCart }) {
   const currentQuantity = Math.max(1, Math.floor(Number(quantity) || 1))
-  const priceText = bundleSummary?.totalFormatted || (bundleSummary?.subtotal ? `$${Number(bundleSummary.subtotal).toFixed(2)}` : "$29.99")
+  const priceText = bundleSummary?.totalFormatted || bundleSummary?.unitPriceFormatted || ""
   const bundleLabel = bundleSummary?.bundleLabel || bundleSummary?.summaryLabel || bundleSummary?.label || "Buy 1"
+
+  if (isCartOpen) {
+    return null
+  }
 
   return (
     <div
@@ -71,7 +75,7 @@ export default function StickyMobileAddToCart({ bundleSummary, quantity = 1, onO
           }}
         >
           <ShoppingBag size={16} />
-          Get Yours Today
+          Checkout
         </button>
       </div>
 

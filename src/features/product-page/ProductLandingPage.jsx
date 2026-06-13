@@ -22,8 +22,9 @@ import WhyHomeownersChooseLuxense from "./components/sections/WhyHomeownersChoos
 import { useScrollFlags } from "./hooks/useScrollFlags.js"
 import { useShopifyProductData } from "./hooks/useShopifyProductData.js"
 import { useProductPurchaseState } from "./hooks/useProductPurchaseState.js"
-import { COLORS, getPriceSummary } from "./data/productPageData.js"
+import { COLORS } from "./data/productPageData.js"
 import { PRODUCT_PAGE_STYLES } from "./styles/productPageStyles.js"
+import { findBestMatchingImageIndex } from "./utils/shopify.js"
 
 export default function ProductLandingPage() {
   const { shopData, loading } = useShopifyProductData()
@@ -34,7 +35,7 @@ export default function ProductLandingPage() {
   const [selectedSize, setSelectedSize] = useState("30cm")
   const [quantity, setQuantity] = useState(1)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const priceSummary = getPriceSummary(quantity)
+  const bundleSummary = purchase.bundleSummary
 
   const theme = shopData?.theme || {}
   const themeVars = {
@@ -76,11 +77,27 @@ export default function ProductLandingPage() {
     handleSetQuantity(quantity)
   }
 
+  const updateActiveImage = (colorName, size) => {
+    const nextImageIndex = findBestMatchingImageIndex(purchase.images, {
+      color: colorName,
+      size,
+    })
+
+    if (nextImageIndex >= 0) {
+      setActiveImage(nextImageIndex)
+    }
+  }
+
   const handleSelectColor = (index) => {
     const nextColor = COLORS[index] || COLORS[0]
     setSelectedColor(nextColor.name)
     setColorIdx(index)
-    setActiveImage(index)
+    updateActiveImage(nextColor.name, selectedSize)
+  }
+
+  const handleSelectSize = (size) => {
+    setSelectedSize(size)
+    updateActiveImage(selectedColor, size)
   }
 
   const handleOpenCart = () => {
@@ -102,10 +119,10 @@ export default function ProductLandingPage() {
         <ProductSection
           shopData={shopData}
           purchase={purchase}
-          bundleSummary={priceSummary}
+          bundleSummary={bundleSummary}
           selectedColor={selectedColor}
           selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
+          setSelectedSize={handleSelectSize}
           quantity={quantity}
           onChangeQuantity={handleSetQuantity}
           onPreviewBundle={handlePreviewBundle}
@@ -121,7 +138,7 @@ export default function ProductLandingPage() {
           shopData={shopData}
           onSelectBundle={handleSelectBundle}
           onOpenCart={handleOpenCart}
-          bundleSummary={priceSummary}
+          bundleSummary={bundleSummary}
           quantity={quantity}
           onChangeQuantity={handleSetQuantity}
         />
@@ -138,14 +155,15 @@ export default function ProductLandingPage() {
         purchase={purchase}
         selectedColor={selectedColor}
         selectedSize={selectedSize}
-        bundleSummary={priceSummary}
+        bundleSummary={bundleSummary}
         quantity={quantity}
         isCartOpen={isCartOpen}
         onCloseCart={() => setIsCartOpen(false)}
       />
       <StickyMobileAddToCart
-        bundleSummary={priceSummary}
+        bundleSummary={bundleSummary}
         quantity={quantity}
+        isCartOpen={isCartOpen}
         onOpenCart={handleOpenCart}
       />
       {loading && <LoadingOverlay />}

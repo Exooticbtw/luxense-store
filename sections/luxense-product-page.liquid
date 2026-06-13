@@ -7,6 +7,18 @@
   if luxense_default_variant_id == blank and luxense_product != blank
     assign luxense_default_variant_id = luxense_product.selected_or_first_available_variant.id
   endif
+  assign luxense_selected_variant = blank
+  if luxense_product != blank
+    assign luxense_selected_variant = luxense_product.selected_or_first_available_variant
+    if luxense_default_variant_id != blank
+      for variant in luxense_product.variants
+        if variant.id == luxense_default_variant_id
+          assign luxense_selected_variant = variant
+          break
+        endif
+      endfor
+    endif
+  endif
   assign luxense_announcement_messages = section.settings.announcement_messages | split: "|"
 %}
 
@@ -38,10 +50,10 @@
         handle: {{ luxense_product.handle | json }},
         title: {{ luxense_product.title | json }},
         description: {{ luxense_product.description | strip_html | json }},
-        featuredImage: {% if luxense_product.featured_image %}{{ luxense_product.featured_image | image_url: width: 1600 | json }}{% else %}null{% endif %},
+        featuredImage: {% if luxense_product.featured_image %}{ src: {{ luxense_product.featured_image | image_url: width: 1600 | json }}, alt: {{ luxense_product.featured_image.alt | default: luxense_product.title | json }}, title: {{ luxense_product.featured_image.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %},
         images: [
           {% for image in luxense_product.images %}
-            {{ image | image_url: width: 1600 | json }}{% unless forloop.last %},{% endunless %}
+            { src: {{ image | image_url: width: 1600 | json }}, alt: {{ image.alt | default: luxense_product.title | json }}, title: {{ image.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% unless forloop.last %},{% endunless %}
           {% endfor %}
         ],
         variants: [
@@ -50,8 +62,9 @@
               id: {{ variant.id | json }},
               title: {{ variant.title | json }},
               price: {{ variant.price | divided_by: 100.0 | json }},
+              compareAtPrice: {% if variant.compare_at_price %}{{ variant.compare_at_price | divided_by: 100.0 | json }}{% else %}null{% endif %},
               available: {{ variant.available | json }},
-              image: {% if variant.featured_image %}{{ variant.featured_image | image_url: width: 1600 | json }}{% else %}null{% endif %},
+              image: {% if variant.featured_image %}{ src: {{ variant.featured_image | image_url: width: 1600 | json }}, alt: {{ variant.featured_image.alt | default: variant.title | json }}, title: {{ variant.featured_image.alt | default: variant.title | json }}, label: {{ variant.title | json }} }{% else %}null{% endif %},
               options: {{ variant.options | json }}
             }{% unless forloop.last %},{% endunless %}
           {% endfor %}
@@ -76,7 +89,7 @@
       purchaseTitle: {{ section.settings.purchase_title | json }},
       purchaseDescription: {{ section.settings.purchase_description | json }},
       startingPriceLabel: {{ section.settings.starting_price_label | default: "Starting price" | json }},
-      startingPrice: {{ section.settings.starting_price | json }},
+      startingPrice: {% if luxense_selected_variant != blank %}{{ luxense_selected_variant.price | divided_by: 100.0 | json }}{% else %}{{ section.settings.starting_price | json }}{% endif %},
       bundleSavingsLabel: {{ section.settings.bundle_savings_label | default: "Bundle savings" | json }},
       addToCartButton: {{ section.settings.add_to_cart_button | json }},
       checkoutTrustText: {{ section.settings.checkout_trust_text | json }},
@@ -88,7 +101,6 @@
         quantity: 1,
         title: {{ section.settings.bundle_1_title | json }},
         subtitle: {{ section.settings.bundle_1_subtitle | json }},
-        price: {{ section.settings.bundle_1_price | json }},
         badge: {{ section.settings.bundle_1_badge | json }},
         note: {{ section.settings.bundle_1_note | json }}
       },
@@ -96,17 +108,15 @@
         quantity: 2,
         title: {{ section.settings.bundle_2_title | json }},
         subtitle: {{ section.settings.bundle_2_subtitle | json }},
-        price: {{ section.settings.bundle_2_price | json }},
         badge: {{ section.settings.bundle_2_badge | json }},
         note: {{ section.settings.bundle_2_note | json }}
       },
       {
-        quantity: 4,
-        title: {{ section.settings.bundle_4_title | json }},
-        subtitle: {{ section.settings.bundle_4_subtitle | json }},
-        price: {{ section.settings.bundle_4_price | json }},
-        badge: {{ section.settings.bundle_4_badge | json }},
-        note: {{ section.settings.bundle_4_note | json }}
+        quantity: 3,
+        title: {{ section.settings.bundle_3_title | json }},
+        subtitle: {{ section.settings.bundle_3_subtitle | json }},
+        badge: {{ section.settings.bundle_3_badge | json }},
+        note: {{ section.settings.bundle_3_note | json }}
       }
     ],
     video: {
@@ -289,21 +299,21 @@
       socialYoutubeUrl: {{ section.settings.social_youtube_url | json }}
     },
     media: {
-      heroLifestyleImage: {% if section.settings.hero_lifestyle_image != blank %}{{ section.settings.hero_lifestyle_image | image_url: width: 2400 | json }}{% else %}null{% endif %},
-      heroProductImage: {% if section.settings.hero_product_image != blank %}{{ section.settings.hero_product_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
-      videoPosterImage: {% if section.settings.video_poster_image != blank %}{{ section.settings.video_poster_image | image_url: width: 2400 | json }}{% else %}null{% endif %},
-      storyImage: {% if section.settings.story_image != blank %}{{ section.settings.story_image | image_url: width: 2400 | json }}{% else %}null{% endif %},
+      heroLifestyleImage: {% if section.settings.hero_lifestyle_image != blank %}{ src: {{ section.settings.hero_lifestyle_image | image_url: width: 2400 | json }}, alt: {{ section.settings.hero_lifestyle_image.alt | default: section.settings.hero_title | json }}, title: {{ section.settings.hero_lifestyle_image.alt | default: section.settings.hero_title | json }}, label: {{ section.settings.hero_title | json }} }{% else %}null{% endif %},
+      heroProductImage: {% if section.settings.hero_product_image != blank %}{ src: {{ section.settings.hero_product_image | image_url: width: 1800 | json }}, alt: {{ section.settings.hero_product_image.alt | default: luxense_product.title | json }}, title: {{ section.settings.hero_product_image.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %},
+      videoPosterImage: {% if section.settings.video_poster_image != blank %}{ src: {{ section.settings.video_poster_image | image_url: width: 2400 | json }}, alt: {{ section.settings.video_poster_image.alt | default: section.settings.video_title | json }}, title: {{ section.settings.video_poster_image.alt | default: section.settings.video_title | json }}, label: {{ section.settings.video_title | json }} }{% else %}null{% endif %},
+      storyImage: {% if section.settings.story_image != blank %}{ src: {{ section.settings.story_image | image_url: width: 2400 | json }}, alt: {{ section.settings.story_image.alt | default: section.settings.story_title | json }}, title: {{ section.settings.story_image.alt | default: section.settings.story_title | json }}, label: {{ section.settings.story_title | json }} }{% else %}null{% endif %},
       galleryImages: [
-        {% if section.settings.product_gallery_image_1 != blank %}{{ section.settings.product_gallery_image_1 | image_url: width: 1600 | json }}{% else %}null{% endif %},
-        {% if section.settings.product_gallery_image_2 != blank %}{{ section.settings.product_gallery_image_2 | image_url: width: 1600 | json }}{% else %}null{% endif %},
-        {% if section.settings.product_gallery_image_3 != blank %}{{ section.settings.product_gallery_image_3 | image_url: width: 1600 | json }}{% else %}null{% endif %},
-        {% if section.settings.product_gallery_image_4 != blank %}{{ section.settings.product_gallery_image_4 | image_url: width: 1600 | json }}{% else %}null{% endif %}
+        {% if section.settings.product_gallery_image_1 != blank %}{ src: {{ section.settings.product_gallery_image_1 | image_url: width: 1600 | json }}, alt: {{ section.settings.product_gallery_image_1.alt | default: luxense_product.title | json }}, title: {{ section.settings.product_gallery_image_1.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %},
+        {% if section.settings.product_gallery_image_2 != blank %}{ src: {{ section.settings.product_gallery_image_2 | image_url: width: 1600 | json }}, alt: {{ section.settings.product_gallery_image_2.alt | default: luxense_product.title | json }}, title: {{ section.settings.product_gallery_image_2.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %},
+        {% if section.settings.product_gallery_image_3 != blank %}{ src: {{ section.settings.product_gallery_image_3 | image_url: width: 1600 | json }}, alt: {{ section.settings.product_gallery_image_3.alt | default: luxense_product.title | json }}, title: {{ section.settings.product_gallery_image_3.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %},
+        {% if section.settings.product_gallery_image_4 != blank %}{ src: {{ section.settings.product_gallery_image_4 | image_url: width: 1600 | json }}, alt: {{ section.settings.product_gallery_image_4.alt | default: luxense_product.title | json }}, title: {{ section.settings.product_gallery_image_4.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %}
       ],
       productGalleryImages: [
-        {% if section.settings.product_gallery_image_1 != blank %}{{ section.settings.product_gallery_image_1 | image_url: width: 1600 | json }}{% else %}null{% endif %},
-        {% if section.settings.product_gallery_image_2 != blank %}{{ section.settings.product_gallery_image_2 | image_url: width: 1600 | json }}{% else %}null{% endif %},
-        {% if section.settings.product_gallery_image_3 != blank %}{{ section.settings.product_gallery_image_3 | image_url: width: 1600 | json }}{% else %}null{% endif %},
-        {% if section.settings.product_gallery_image_4 != blank %}{{ section.settings.product_gallery_image_4 | image_url: width: 1600 | json }}{% else %}null{% endif %}
+        {% if section.settings.product_gallery_image_1 != blank %}{ src: {{ section.settings.product_gallery_image_1 | image_url: width: 1600 | json }}, alt: {{ section.settings.product_gallery_image_1.alt | default: luxense_product.title | json }}, title: {{ section.settings.product_gallery_image_1.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %},
+        {% if section.settings.product_gallery_image_2 != blank %}{ src: {{ section.settings.product_gallery_image_2 | image_url: width: 1600 | json }}, alt: {{ section.settings.product_gallery_image_2.alt | default: luxense_product.title | json }}, title: {{ section.settings.product_gallery_image_2.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %},
+        {% if section.settings.product_gallery_image_3 != blank %}{ src: {{ section.settings.product_gallery_image_3 | image_url: width: 1600 | json }}, alt: {{ section.settings.product_gallery_image_3.alt | default: luxense_product.title | json }}, title: {{ section.settings.product_gallery_image_3.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %},
+        {% if section.settings.product_gallery_image_4 != blank %}{ src: {{ section.settings.product_gallery_image_4 | image_url: width: 1600 | json }}, alt: {{ section.settings.product_gallery_image_4.alt | default: luxense_product.title | json }}, title: {{ section.settings.product_gallery_image_4.alt | default: luxense_product.title | json }}, label: {{ luxense_product.title | json }} }{% else %}null{% endif %}
       ],
       useCaseHallwayImage: {% if section.settings.use_case_hallway_image != blank %}{{ section.settings.use_case_hallway_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
       useCaseStairsImage: {% if section.settings.use_case_stairs_image != blank %}{{ section.settings.use_case_stairs_image | image_url: width: 1800 | json }}{% else %}null{% endif %},
@@ -375,12 +385,11 @@
     { "type": "text", "id": "bundle_2_subtitle", "label": "Bundle 2 subtitle", "default": "Perfect for closet + hallway" },
     { "type": "text", "id": "bundle_2_price", "label": "Bundle 2 price", "default": "$49.99" },
     { "type": "text", "id": "bundle_2_badge", "label": "Bundle 2 badge", "default": "Most Popular" },
-    { "type": "text", "id": "bundle_2_note", "label": "Bundle 2 note", "default": "Save 15%" },
-    { "type": "text", "id": "bundle_4_title", "label": "Bundle 4 title", "default": "Buy 4" },
-    { "type": "text", "id": "bundle_4_subtitle", "label": "Bundle 4 subtitle", "default": "Light multiple spaces" },
-    { "type": "text", "id": "bundle_4_price", "label": "Bundle 4 price", "default": "$89.99" },
-    { "type": "text", "id": "bundle_4_badge", "label": "Bundle 4 badge", "default": "Best Value" },
-    { "type": "text", "id": "bundle_4_note", "label": "Bundle 4 note", "default": "Save 25%" },
+    { "type": "text", "id": "bundle_2_note", "label": "Bundle 2 note", "default": "Save 10%" },
+    { "type": "text", "id": "bundle_3_title", "label": "Bundle 3 title", "default": "Buy 3" },
+    { "type": "text", "id": "bundle_3_subtitle", "label": "Bundle 3 subtitle", "default": "Light multiple spaces" },
+    { "type": "text", "id": "bundle_3_badge", "label": "Bundle 3 badge", "default": "Best Value" },
+    { "type": "text", "id": "bundle_3_note", "label": "Bundle 3 note", "default": "Save 15%" },
     { "type": "header", "content": "Video" },
     { "type": "text", "id": "video_eyebrow", "label": "Video eyebrow", "default": "Video demonstration" },
     { "type": "textarea", "id": "video_title", "label": "Video title", "default": "See the motion response and ambient glow in a real room." },

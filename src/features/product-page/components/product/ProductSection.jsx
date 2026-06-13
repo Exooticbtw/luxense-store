@@ -4,7 +4,7 @@ import {
   COLORS,
   HERO_KEY_BENEFITS,
   IMAGE_ASSETS,
-  getBundleOfferForQuantity,
+  getPriceSummary,
 } from "../../data/productPageData.js"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
 import QuantityStepper from "../common/QuantityStepper.jsx"
@@ -25,17 +25,17 @@ export default function ProductSection({
   const content = getMotionGlowContent(shopData ?? {})
   const hero = content.hero
   const purchaseContent = content.purchase
-  const heroVisualImage = hero.heroLifestyleImage || purchase?.images?.[purchase?.activeImage] || IMAGE_ASSETS.heroLifestyle.src
-  const heroVisualAlt = hero.heroTitle || (purchase?.images?.[purchase?.activeImage] ? "Luxense MotionGlow lifestyle scene in a modern home" : IMAGE_ASSETS.heroLifestyle.alt)
+  const purchaseImage = purchase?.images?.[purchase?.activeImage] || null
+  const heroImage = hero.heroLifestyleImage || purchaseImage
   const currentQuantity = Math.max(1, Math.floor(Number(quantity || 1)))
-  const bundle = bundleSummary || getBundleOfferForQuantity(currentQuantity)
+  const bundle = bundleSummary || getPriceSummary(currentQuantity, purchase?.price)
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
-  const priceLabel = formatPrice(bundle?.price ?? purchase?.price, "$29.99")
-  const compareAtLabel = formatPrice(bundle?.compareAt ?? purchase?.origPrice, "$49.48")
-  const subtotalLabel = formatPrice(bundle?.subtotal ?? bundle?.price ?? purchase?.price, "$29.99")
-  const unitPriceLabel = formatPrice(bundle?.unitPrice ?? purchase?.price, "$29.99")
+  const priceLabel = bundle?.totalFormatted || purchase?.totalFormatted || purchase?.priceFormatted || formatPrice(bundle?.price ?? purchase?.price, "")
+  const compareAtLabel = bundle?.compareAtFormatted || purchase?.compareAtFormatted || purchase?.origPrice || null
+  const subtotalLabel = bundle?.totalFormatted || priceLabel
+  const unitPriceLabel = purchase?.priceFormatted || bundle?.unitPriceFormatted || formatPrice(purchase?.price, "")
   const savingsLabel = bundle?.savingsLabel || bundle?.savings || "Save 0%"
-  const showCompareAt = compareAtLabel !== priceLabel
+  const showCompareAt = Boolean(compareAtLabel && compareAtLabel !== priceLabel)
   const activeBundleQuantity = bundle?.selectedBundleQuantity
   const bundleSummaryRows = [
     ["Quantity", String(currentQuantity)],
@@ -90,10 +90,10 @@ export default function ProductSection({
                   }}
                 >
                     <img
-                      src={heroVisualImage}
-                    alt={heroVisualAlt}
-                    loading="eager"
-                    decoding="async"
+                      src={getImageSrc(heroImage) || IMAGE_ASSETS.heroLifestyle.src}
+                      alt={getImageAlt(heroImage, IMAGE_ASSETS.heroLifestyle.alt)}
+                      loading="eager"
+                      decoding="async"
                       style={{
                         width: "100%",
                       height: "100%",
@@ -421,7 +421,7 @@ export default function ProductSection({
                       </div>
                       <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 6, flexWrap: "wrap" }}>
                         <span className="serif" style={{ fontSize: 36, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
-                          {purchaseContent.startingPrice || priceLabel}
+                          {formatPrice(purchaseContent.startingPrice, priceLabel)}
                         </span>
                         {showCompareAt && (
                           <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 16, fontWeight: 600 }}>
@@ -450,8 +450,9 @@ export default function ProductSection({
                     <div className="bundle-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10 }}>
                       {content.bundles.map((option) => {
                         const isSelected = option.quantity === activeBundleQuantity
-                        const featured = option.quantity === 2 || option.quantity === 4
-                        const darkSelected = isSelected && option.quantity === 4
+                        const featured = option.quantity === 2 || option.quantity === 3
+                        const darkSelected = isSelected && option.quantity === 3
+                        const bundlePricing = getPriceSummary(option.quantity, purchase?.price)
 
                         return (
                           <button
@@ -498,13 +499,13 @@ export default function ProductSection({
                                     background:
                                       option.quantity === 2
                                         ? "rgba(143,174,138,.14)"
-                                        : option.quantity === 4
+                                        : option.quantity === 3
                                           ? "rgba(201,164,106,.14)"
                                           : "rgba(18,18,18,.04)",
                                     color:
                                       option.quantity === 2
                                         ? "#36563a"
-                                        : option.quantity === 4
+                                        : option.quantity === 3
                                           ? "var(--fg)"
                                           : "var(--muted)",
                                     fontSize: 12,
@@ -532,7 +533,7 @@ export default function ProductSection({
                               )}
                             </div>
                             <div style={{ marginTop: 10, fontSize: 22, fontWeight: 700, letterSpacing: "-0.03em" }}>
-                              {option.price}
+                              {bundlePricing.totalFormatted}
                             </div>
                             <div style={{ marginTop: 4, fontSize: 12, color: isSelected ? "rgba(18,18,18,.68)" : "var(--muted)", fontWeight: 700 }}>
                               {option.note}
@@ -570,7 +571,7 @@ export default function ProductSection({
                         maxWidth: 240,
                       }}
                     >
-                      3 units stay honest with regular unit pricing. 4+ uses the best-value bundle logic.
+                      1, 2, and 3 units use live Shopify pricing.
                     </div>
                   </div>
 
@@ -935,4 +936,15 @@ function formatPrice(value, fallback) {
   }
 
   return fallback
+}
+
+function getImageSrc(image) {
+  if (!image) return null
+  if (typeof image === "string") return image
+  return image.src || image.url || null
+}
+
+function getImageAlt(image, fallback) {
+  if (!image || typeof image === "string") return fallback
+  return image.alt || image.title || image.label || fallback
 }

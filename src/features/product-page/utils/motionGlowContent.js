@@ -28,7 +28,7 @@ const DEFAULT_PURCHASE = {
   purchaseTitle: "Luxense MotionGlow™",
   purchaseDescription: "Premium Motion Lighting For Modern Homes",
   startingPriceLabel: "Starting price",
-  startingPrice: "$29.99",
+  startingPrice: "",
   bundleSavingsLabel: "Bundle savings",
   addToCartButton: "Add to Cart",
   checkoutTrustText: "Secure checkout · Free shipping · 30-day guarantee",
@@ -38,22 +38,22 @@ const DEFAULT_PURCHASE = {
 }
 
 const DEFAULT_BUNDLES = [
-  { quantity: 1, title: "Buy 1", subtitle: "Single room", price: "$29.99", badge: "", note: "Best for one room" },
+  { quantity: 1, title: "Buy 1", subtitle: "Try MotionGlow", badge: "", note: "Best for one room", discount: 0 },
   {
     quantity: 2,
     title: "Buy 2",
-    subtitle: "Perfect for closet + hallway",
-    price: "$49.99",
+    subtitle: "Most popular setup",
     badge: "Most Popular",
-    note: "Save 15%",
+    note: "Save 10%",
+    discount: 0.1,
   },
   {
-    quantity: 4,
-    title: "Buy 4",
-    subtitle: "Light multiple spaces",
-    price: "$89.99",
+    quantity: 3,
+    title: "Buy 3",
+    subtitle: "Best value for your home",
     badge: "Best Value",
-    note: "Save 25%",
+    note: "Save 15%",
+    discount: 0.15,
   },
 ]
 
@@ -320,12 +320,32 @@ export function getMotionGlowContent(shopData) {
   const announcement = mergeObject(announcementSource, DEFAULT_ANNOUNCEMENT)
   const hero = mergeObject(heroSource, DEFAULT_HERO)
   const purchase = mergeObject(purchaseSource, DEFAULT_PURCHASE)
-  const bundles = Array.isArray(source.bundles)
+  const rawBundles = Array.isArray(source.bundles)
     ? source.bundles
     : DEFAULT_BUNDLES.map((bundle) => ({
         ...bundle,
         ...(bundlesSource?.[`bundle_${bundle.quantity}`] || {}),
       }))
+  const bundles = [1, 2, 3].map((quantity) => {
+    const fallback = DEFAULT_BUNDLES.find((bundle) => bundle.quantity === quantity) || { quantity }
+    const sourceBundle =
+      rawBundles.find((bundle) => Number(bundle?.quantity) === quantity) ||
+      rawBundles[quantity - 1] ||
+      bundlesSource?.[`bundle_${quantity}`] ||
+      {}
+
+    return {
+      ...fallback,
+      ...sourceBundle,
+      quantity,
+      label: sourceBundle.label || sourceBundle.title || fallback.label || `Buy ${quantity}`,
+      title: sourceBundle.title || sourceBundle.label || fallback.title || `Buy ${quantity}`,
+      subtitle: sourceBundle.subtitle || fallback.subtitle || "",
+      badge: sourceBundle.badge || fallback.badge || "",
+      note: sourceBundle.note || fallback.note || "",
+      discount: sourceBundle.discount ?? fallback.discount ?? 0,
+    }
+  })
   const video = mergeObject(videoSource, DEFAULT_VIDEO)
   const story = mergeObject(storySource, DEFAULT_STORY)
   const benefits = mergeObject(benefitsSource, DEFAULT_BENEFITS)

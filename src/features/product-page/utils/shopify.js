@@ -3,11 +3,92 @@ export function getNumericVariantId(variantId) {
   return String(variantId).split("/").pop()
 }
 
+export function isLocalDevelopment() {
+  if (typeof window === "undefined") return false
+
+  const hostname = window.location.hostname
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1"
+}
+
 export function normalizeImageUrl(src) {
   if (!src) return null
   const imageUrl = typeof src === "string" ? src : src.src || src.url || null
   if (!imageUrl) return null
   return imageUrl.startsWith("//") ? `https:${imageUrl}` : imageUrl
+}
+
+export function normalizeImageRecord(src, meta = {}) {
+  const imageUrl = normalizeImageUrl(src)
+  if (!imageUrl) return null
+
+  const source = src && typeof src === "object" ? src : {}
+  return {
+    src: imageUrl,
+    alt: meta.alt ?? source.alt ?? source.image_alt_text ?? source.imageAltText ?? null,
+    title: meta.title ?? source.title ?? null,
+    label: meta.label ?? source.label ?? null,
+  }
+}
+
+export function getImageSearchText(image) {
+  if (!image) return ""
+  if (typeof image === "string") return image.toLowerCase()
+
+  return [image.src, image.alt, image.title, image.label].filter(Boolean).join(" ").toLowerCase()
+}
+
+function getSearchTerms(value) {
+  if (!value) return []
+
+  const normalized = String(value).toLowerCase().trim()
+  if (!normalized) return []
+
+  const terms = new Set([normalized])
+
+  if (normalized === "white") {
+    ;["blanco", "blanca", "ivory", "light"].forEach((term) => terms.add(term))
+  }
+
+  if (normalized === "black") {
+    ;["negro", "negra", "charcoal", "dark"].forEach((term) => terms.add(term))
+  }
+
+  const compactSize = normalized.replace(/\s+/g, "")
+  if (/^\d+\s*cm$/.test(normalized)) {
+    terms.add(compactSize)
+    terms.add(normalized.replace(/\s*cm$/, "cm"))
+  }
+
+  return [...terms]
+}
+
+export function findBestMatchingImageIndex(images = [], { color, size } = {}) {
+  if (!Array.isArray(images) || images.length === 0) return -1
+
+  const colorTerms = getSearchTerms(color)
+  const sizeTerms = getSearchTerms(size)
+  let bestIndex = -1
+  let bestScore = 0
+
+  images.forEach((image, index) => {
+    const text = getImageSearchText(image)
+    if (!text) return
+
+    let score = 0
+    const colorMatch = colorTerms.some((term) => term && text.includes(term))
+    const sizeMatch = sizeTerms.some((term) => term && text.includes(term))
+
+    if (colorMatch) score += 2
+    if (sizeMatch) score += 3
+    if (colorMatch && sizeMatch) score += 4
+
+    if (score > bestScore) {
+      bestScore = score
+      bestIndex = index
+    }
+  })
+
+  return bestIndex
 }
 
 export function normalizeList(value) {
@@ -46,37 +127,37 @@ export function normalizeSectionObject(value = {}) {
 export function normalizeMedia(media = {}) {
   const gallerySource = media.galleryImages || media.productGalleryImages || []
   const galleryImages = Array.isArray(gallerySource)
-    ? gallerySource.map((image) => normalizeImageUrl(image)).filter(Boolean)
+    ? gallerySource.map((image) => normalizeImageRecord(image)).filter(Boolean)
     : []
 
   return {
-    heroImage: normalizeImageUrl(media.heroImage),
-    heroLifestyleImage: normalizeImageUrl(media.heroLifestyleImage),
-    heroProductImage: normalizeImageUrl(media.heroProductImage),
-    productImage: normalizeImageUrl(media.productImage),
-    storyImage: normalizeImageUrl(media.storyImage),
-    bedroomImage: normalizeImageUrl(media.bedroomImage),
-    closetImage: normalizeImageUrl(media.closetImage),
-    kitchenImage: normalizeImageUrl(media.kitchenImage),
-    hallwayImage: normalizeImageUrl(media.hallwayImage),
-    stairsImage: normalizeImageUrl(media.stairsImage),
-    staircaseImage: normalizeImageUrl(media.staircaseImage),
-    wardrobeImage: normalizeImageUrl(media.wardrobeImage),
-    useCaseHallwayImage: normalizeImageUrl(media.useCaseHallwayImage),
-    useCaseStairsImage: normalizeImageUrl(media.useCaseStairsImage),
-    useCaseKitchenImage: normalizeImageUrl(media.useCaseKitchenImage),
-    useCaseClosetImage: normalizeImageUrl(media.useCaseClosetImage),
-    useCaseBedroomImage: normalizeImageUrl(media.useCaseBedroomImage),
-    useCaseBathroomImage: normalizeImageUrl(media.useCaseBathroomImage),
-    warmToneImage: normalizeImageUrl(media.warmToneImage),
-    neutralToneImage: normalizeImageUrl(media.neutralToneImage),
-    whiteToneImage: normalizeImageUrl(media.whiteToneImage),
-    finalCtaImage: normalizeImageUrl(media.finalCtaImage),
-    videoPosterImage: normalizeImageUrl(media.videoPosterImage),
-    reviewImage1: normalizeImageUrl(media.reviewImage1),
-    reviewImage2: normalizeImageUrl(media.reviewImage2),
-    reviewImage3: normalizeImageUrl(media.reviewImage3),
-    reviewImage4: normalizeImageUrl(media.reviewImage4),
+    heroImage: normalizeImageRecord(media.heroImage),
+    heroLifestyleImage: normalizeImageRecord(media.heroLifestyleImage),
+    heroProductImage: normalizeImageRecord(media.heroProductImage),
+    productImage: normalizeImageRecord(media.productImage),
+    storyImage: normalizeImageRecord(media.storyImage),
+    bedroomImage: normalizeImageRecord(media.bedroomImage),
+    closetImage: normalizeImageRecord(media.closetImage),
+    kitchenImage: normalizeImageRecord(media.kitchenImage),
+    hallwayImage: normalizeImageRecord(media.hallwayImage),
+    stairsImage: normalizeImageRecord(media.stairsImage),
+    staircaseImage: normalizeImageRecord(media.staircaseImage),
+    wardrobeImage: normalizeImageRecord(media.wardrobeImage),
+    useCaseHallwayImage: normalizeImageRecord(media.useCaseHallwayImage),
+    useCaseStairsImage: normalizeImageRecord(media.useCaseStairsImage),
+    useCaseKitchenImage: normalizeImageRecord(media.useCaseKitchenImage),
+    useCaseClosetImage: normalizeImageRecord(media.useCaseClosetImage),
+    useCaseBedroomImage: normalizeImageRecord(media.useCaseBedroomImage),
+    useCaseBathroomImage: normalizeImageRecord(media.useCaseBathroomImage),
+    warmToneImage: normalizeImageRecord(media.warmToneImage),
+    neutralToneImage: normalizeImageRecord(media.neutralToneImage),
+    whiteToneImage: normalizeImageRecord(media.whiteToneImage),
+    finalCtaImage: normalizeImageRecord(media.finalCtaImage),
+    videoPosterImage: normalizeImageRecord(media.videoPosterImage),
+    reviewImage1: normalizeImageRecord(media.reviewImage1),
+    reviewImage2: normalizeImageRecord(media.reviewImage2),
+    reviewImage3: normalizeImageRecord(media.reviewImage3),
+    reviewImage4: normalizeImageRecord(media.reviewImage4),
     galleryImages,
   }
 }
@@ -121,18 +202,27 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
   if (!product) return null
 
   const images = Array.isArray(product.images)
-    ? product.images.map((image) => normalizeImageUrl(image)).filter(Boolean)
+    ? product.images.map((image) => normalizeImageRecord(image, { alt: image?.alt || product.title, title: image?.alt || product.title, label: product.title })).filter(Boolean)
     : []
 
-  const featuredImage = normalizeImageUrl(product.featured_image || product.featuredImage)
+  const featuredImage = normalizeImageRecord(product.featured_image || product.featuredImage, {
+    alt: product.title,
+    title: product.title,
+    label: product.title,
+  })
 
   const variants = Array.isArray(product.variants)
     ? product.variants.map((variant) => ({
         id: variant.admin_graphql_api_id || variant.id,
         title: variant.title,
         price: variant.price,
+        compareAtPrice: variant.compare_at_price ?? variant.compareAtPrice ?? null,
         available: variant.available ?? true,
-        image: normalizeImageUrl(variant.featured_image || variant.featuredImage || variant.image),
+        image: normalizeImageRecord(variant.featured_image || variant.featuredImage || variant.image, {
+          alt: variant.title,
+          title: variant.title,
+          label: variant.title,
+        }),
         options: variant.options || [variant.option1, variant.option2, variant.option3].filter(Boolean),
       }))
     : []
@@ -171,7 +261,7 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
       title: product.title,
       description: stripHtml(product.body_html || product.description || ""),
       featuredImage,
-      images: featuredImage && !images.includes(featuredImage) ? [featuredImage, ...images] : images,
+      images: featuredImage && !images.some((image) => image.src === featuredImage.src) ? [featuredImage, ...images] : images,
       variants,
     },
   }

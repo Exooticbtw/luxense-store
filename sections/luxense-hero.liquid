@@ -37,11 +37,7 @@
           {% if luxense_visual != blank %}
             {{ luxense_visual | image_url: width: 1400 | image_tag: alt: section.settings.visual_alt, loading: 'eager' }}
           {% else %}
-            <div class="luxense-hero__placeholder">
-              <strong>LuxSense&trade;</strong>
-              <span>Smart Light Bar</span>
-              <em>Smart Lighting. Instantly.</em>
-            </div>
+            <div class="luxense-hero__fallback" aria-hidden="true"></div>
           {% endif %}
         </div>
         <div class="luxense-hero__stats">
@@ -207,38 +203,14 @@
       border-radius: 24px;
       display: block;
     }
-    .luxense-hero__placeholder {
+    .luxense-hero__fallback {
       width: 100%;
       aspect-ratio: 4 / 5;
       border-radius: 24px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 24px;
-      color: #ffffff;
-      background: linear-gradient(160deg, #171717, #2a2a2a 55%, #f5f5f3 55%, #ffffff 100%);
-    }
-    .luxense-hero__placeholder strong {
-      display: block;
-      font-size: 14px;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.72);
-    }
-    .luxense-hero__placeholder span {
-      display: block;
-      margin-top: 12px;
-      font-family: 'Manrope','Inter',system-ui,sans-serif;
-      font-size: 40px;
-      line-height: 1;
-      font-weight: 700;
-    }
-    .luxense-hero__placeholder em {
-      display: block;
-      margin-top: 12px;
-      font-style: normal;
-      font-size: 16px;
-      color: rgba(255,255,255,.78);
+      background:
+        radial-gradient(circle at 18% 22%, rgba(200,169,106,.22), transparent 18%),
+        radial-gradient(circle at 78% 28%, rgba(255,255,255,.10), transparent 16%),
+        linear-gradient(160deg, #171717, #2a2a2a 55%, #f5f5f3 55%, #ffffff 100%);
     }
     .luxense-hero__stats {
       display: grid;
