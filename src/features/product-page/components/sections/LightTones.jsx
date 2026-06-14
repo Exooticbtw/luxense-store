@@ -1,4 +1,5 @@
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
 export default function LightTones({ shopData }) {
   const content = getMotionGlowContent(shopData ?? {})
@@ -40,15 +41,13 @@ export default function LightTones({ shopData }) {
                   background: "linear-gradient(180deg, #2a2a2a 0%, #101010 100%)",
                 }}
               >
-                {tone.image ? (
-                  <img
-                    src={tone.image}
-                    alt={tone.title}
-                    loading="lazy"
-                    decoding="async"
-                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
-                  />
-                ) : null}
+                <SafeMediaImage
+                  src={tone.image}
+                  alt={tone.title}
+                  loading="lazy"
+                  style={{ width: "100%", height: "100%" }}
+                  fallbackStyle={{ position: "absolute", inset: 0 }}
+                />
                 <div
                   style={{
                     position: "absolute",

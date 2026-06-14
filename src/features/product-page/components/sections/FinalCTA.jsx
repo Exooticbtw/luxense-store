@@ -3,6 +3,7 @@ import { ArrowRight, ShieldCheck } from "lucide-react"
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
 import { buildCartUrl } from "../../utils/shopify.js"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
 export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart }) {
   const content = getMotionGlowContent(shopData ?? {})
@@ -18,15 +19,35 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
           margin: "0 auto",
           borderRadius: 34,
           overflow: "hidden",
-          background:
-            "linear-gradient(135deg, rgba(17,17,17,.98) 0%, rgba(17,17,17,.90) 58%, rgba(201,164,106,.22) 140%), url(" +
-            finalImage +
-            ") center/cover no-repeat",
+          position: "relative",
+          background: "linear-gradient(135deg, rgba(17,17,17,.98) 0%, rgba(17,17,17,.90) 58%, rgba(201,164,106,.22) 140%)",
           color: "var(--cream)",
           boxShadow: "0 26px 64px rgba(17,17,17,.16)",
           border: "1px solid rgba(255,255,255,.08)",
         }}
       >
+        <SafeMediaImage
+          src={finalImage}
+          alt={finalCta.finalCtaTitle}
+          loading="lazy"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0.28,
+          }}
+          fallbackStyle={{ position: "absolute", inset: 0 }}
+        />
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(135deg, rgba(17,17,17,.98) 0%, rgba(17,17,17,.90) 58%, rgba(201,164,106,.22) 140%)",
+          }}
+        />
         <div style={{ maxWidth: 920, margin: "0 auto", textAlign: "center", padding: "68px 28px" }}>
           <p className="eyebrow" style={{ color: "rgba(255,255,255,.62)" }}>
             {finalCta.finalCtaEyebrow}

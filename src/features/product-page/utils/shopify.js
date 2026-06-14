@@ -30,9 +30,26 @@ export function isLocalDevelopment() {
 
 export function normalizeImageUrl(src) {
   if (!src) return null
-  const imageUrl = typeof src === "string" ? src : src.src || src.url || null
+  const imageUrl =
+    typeof src === "string"
+      ? src
+      : src.src ||
+        src.url ||
+        src.media?.preview_image?.src ||
+        src.media?.preview_image?.url ||
+        src.media?.image?.src ||
+        src.media?.image?.url ||
+        src.preview_image?.src ||
+        src.preview_image?.url ||
+        src.featured_image?.src ||
+        src.featured_image?.url ||
+        src.image?.src ||
+        src.image?.url ||
+        null
   if (!imageUrl) return null
-  return imageUrl.startsWith("//") ? `https:${imageUrl}` : imageUrl
+  const safeUrl = String(imageUrl).trim()
+  if (!safeUrl || /^javascript:/i.test(safeUrl)) return null
+  return safeUrl.startsWith("//") ? `https:${safeUrl}` : safeUrl
 }
 
 export function normalizeImageRecord(src, meta = {}) {
@@ -76,6 +93,7 @@ export function getImageSearchText(image) {
     image.width,
     image.height,
     Array.isArray(image.variantIds) ? image.variantIds.join(" ") : null,
+    image.variantId,
   ]
     .filter(Boolean)
     .join(" ")
@@ -235,7 +253,12 @@ export function findBestMatchingVariantIndex(variants = [], { color, size } = {}
 export function getBestProductImageForSelection(images = [], selection = {}) {
   if (!Array.isArray(images) || images.length === 0) return { index: -1, image: null, rank: Number.POSITIVE_INFINITY, score: 0 }
 
-  const { currentImageIndex = null, selectedVariant = null } = selection
+  const currentImageIndex = selection.currentImageIndex ?? (typeof selection.currentImage === "number" ? selection.currentImage : null)
+  const currentImageSrc =
+    typeof selection.currentImage === "string"
+      ? selection.currentImage
+      : selection.currentImage?.src || selection.currentImage?.url || null
+  const { selectedVariant = null } = selection
   const candidates = images
     .map((image, index) => scoreImageCandidate(image, index, { ...selection, currentImageIndex, selectedVariant }))
     .filter((candidate) => candidate.image)
@@ -245,7 +268,9 @@ export function getBestProductImageForSelection(images = [], selection = {}) {
   const bestCandidate = candidates.slice().sort(compareImageCandidates)[0]
   const currentCandidate = currentImageIndex != null
     ? candidates.find((candidate) => Number(candidate.index) === Number(currentImageIndex) && candidate.image)
-    : null
+    : currentImageSrc
+      ? candidates.find((candidate) => candidate.image?.src === currentImageSrc)
+      : null
 
   if (currentCandidate && currentCandidate.rank <= bestCandidate.rank) {
     return currentCandidate

@@ -2,6 +2,7 @@ import { BatteryCharging, Clock3, Lightbulb, MoonStar, ScanSearch, ShieldCheck, 
 
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
 const ICONS = [MoonStar, Clock3, ScanSearch, Lightbulb, WandSparkles, ShieldCheck, Sparkles, BatteryCharging]
 
@@ -79,18 +80,15 @@ export default function StorySection({ shopData, onOpenCart }) {
                 boxShadow: "0 20px 50px rgba(18,18,18,.08)",
               }}
             >
-              <img
+              <SafeMediaImage
                 src={storyImage}
                 alt={story.storyTitle}
                 loading="lazy"
-                decoding="async"
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  display: "block",
                 }}
+                fallbackStyle={{ position: "absolute", inset: 0 }}
               />
               <div
                 style={{

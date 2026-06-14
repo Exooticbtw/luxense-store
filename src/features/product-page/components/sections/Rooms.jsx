@@ -1,4 +1,5 @@
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
 export default function Rooms({ media, theme }) {
   const roomCards = [
@@ -83,18 +84,16 @@ export default function Rooms({ media, theme }) {
                 background: "var(--sec)",
               }}
             >
-              <img
+              <SafeMediaImage
                 src={room.image}
                 alt={`${room.title} lighting with Luxense Glow Bar`}
                 loading="lazy"
-                decoding="async"
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
-                  display: "block",
                   filter: "saturate(.95)",
                 }}
+                fallbackStyle={{ position: "absolute", inset: 0 }}
               />
               <div
                 style={{

@@ -7,6 +7,7 @@ import {
   getPriceSummary,
 } from "../../data/productPageData.js"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 import QuantityStepper from "../common/QuantityStepper.jsx"
 
 export default function ProductSection({
@@ -89,19 +90,16 @@ export default function ProductSection({
                     boxShadow: "0 24px 70px rgba(0,0,0,.24)",
                   }}
                 >
-                    <img
-                      src={getImageSrc(heroImage) || IMAGE_ASSETS.heroLifestyle.src}
-                      alt={getImageAlt(heroImage, IMAGE_ASSETS.heroLifestyle.alt)}
-                      loading="eager"
-                      decoding="async"
-                      style={{
-                        width: "100%",
+                  <SafeMediaImage
+                    src={getImageSrc(heroImage) || IMAGE_ASSETS.heroLifestyle.src}
+                    alt={getImageAlt(heroImage, IMAGE_ASSETS.heroLifestyle.alt)}
+                    loading="eager"
+                    style={{
+                      width: "100%",
                       height: "100%",
                       minHeight: 380,
-                      objectFit: "cover",
-                      objectPosition: "center",
-                      display: "block",
                     }}
+                    fallbackStyle={{ position: "absolute", inset: 0 }}
                   />
 
                   <div

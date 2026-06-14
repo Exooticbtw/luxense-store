@@ -2,6 +2,7 @@ import { ArrowRight, Play } from "lucide-react"
 
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
 export default function VideoDemonstration({ shopData, onOpenCart }) {
   const content = getMotionGlowContent(shopData ?? {})
@@ -31,10 +32,22 @@ export default function VideoDemonstration({ shopData, onOpenCart }) {
             overflow: "hidden",
             borderRadius: 32,
             minHeight: 520,
-            background: "linear-gradient(140deg, rgba(17,17,17,.94), rgba(17,17,17,.72)), url(" + poster + ") center/cover no-repeat",
+            background: "linear-gradient(140deg, rgba(17,17,17,.94), rgba(17,17,17,.72))",
             boxShadow: "0 26px 60px rgba(17,17,17,.10)",
           }}
         >
+          <SafeMediaImage
+            src={poster}
+            alt={video.videoTitle}
+            loading="lazy"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+            }}
+            fallbackStyle={{ position: "absolute", inset: 0 }}
+          />
           <div
             style={{
               position: "absolute",

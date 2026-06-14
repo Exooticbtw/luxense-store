@@ -1,4 +1,5 @@
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
 const IMAGE_MAP = {
   hallways: "useCaseHallwayImage",
@@ -51,15 +52,13 @@ export default function UseCases({ shopData }) {
                     background: "linear-gradient(135deg, rgba(18,18,18,.96), rgba(72,72,72,.84))",
                   }}
                 >
-                  {imageSrc ? (
-                    <img
-                      src={imageSrc}
-                      alt={title}
-                      loading="lazy"
-                      decoding="async"
-                      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
-                    />
-                  ) : null}
+                  <SafeMediaImage
+                    src={imageSrc}
+                    alt={title}
+                    loading="lazy"
+                    style={{ width: "100%", height: "100%" }}
+                    fallbackStyle={{ position: "absolute", inset: 0 }}
+                  />
                   <div
                     style={{
                       position: "absolute",

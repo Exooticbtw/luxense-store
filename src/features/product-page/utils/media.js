@@ -4,13 +4,28 @@ export function pickMediaSource(...candidates) {
 
     if (typeof candidate === "string") {
       const value = candidate.trim()
-      if (value) return value
+      if (value && isValidMediaSource(value)) return value
       continue
     }
 
     if (typeof candidate === "object") {
-      const value = candidate.src || candidate.url || candidate.mediaUrl || candidate.image || null
-      if (typeof value === "string" && value.trim()) {
+      const value =
+        candidate.src ||
+        candidate.url ||
+        candidate.mediaUrl ||
+        candidate.image?.src ||
+        candidate.image?.url ||
+        candidate.preview_image?.src ||
+        candidate.preview_image?.url ||
+        candidate.featured_image?.src ||
+        candidate.featured_image?.url ||
+        candidate.media?.preview_image?.src ||
+        candidate.media?.preview_image?.url ||
+        candidate.media?.image?.src ||
+        candidate.media?.image?.url ||
+        candidate.image ||
+        null
+      if (typeof value === "string" && isValidMediaSource(value)) {
         return value.trim()
       }
     }
@@ -75,4 +90,22 @@ export function getMediaBackgroundStyle(source, fallbackBackground, overlay = nu
   }
 
   return fallbackBackground ? { background: fallbackBackground } : {}
+}
+
+export function isValidMediaSource(src) {
+  if (typeof src !== "string") return false
+  const value = src.trim()
+  if (!value) return false
+  if (/^javascript:/i.test(value)) return false
+  return true
+}
+
+export function getMediaFileName(src) {
+  if (!isValidMediaSource(src)) return ""
+  try {
+    const url = new URL(src.trim())
+    return url.pathname.split("/").filter(Boolean).pop() || ""
+  } catch {
+    return String(src).split("?")[0].split("#")[0].split("/").filter(Boolean).pop() || ""
+  }
 }

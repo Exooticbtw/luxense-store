@@ -1,6 +1,7 @@
 import { BadgeCheck } from "lucide-react"
 import Stars from "../common/Stars.jsx"
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
 export default function Reviews({ media }) {
   const reviewCards = [
@@ -93,17 +94,16 @@ export default function Reviews({ media }) {
                 padding: 30,
               }}
             >
-              <img
+              <SafeMediaImage
                 src={review.image}
                 alt={`${review.name} Luxense install`}
                 loading="lazy"
-                decoding="async"
                 style={{
                   width: 140,
                   height: 140,
                   borderRadius: 12,
-                  objectFit: "cover",
                 }}
+                fallbackStyle={{ width: 140, height: 140, borderRadius: 12 }}
               />
               <div>
                 <Stars rating={review.rating} size={16} />

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
 import { GALLERY_IMAGES } from "../../data/productPageData.js"
 import { useLiveViewers } from "../../hooks/useLiveViewers.js"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
 function getImageSource(image) {
   if (!image) return null
@@ -19,13 +20,16 @@ export default function ProductGallery({ images, active, setActive }) {
 
   const galleryItems = useMemo(() => {
     const source = images?.length ? images : GALLERY_IMAGES
+    const seen = new Set()
     return source.map((image, index) => {
       const src = getImageSource(image)
+      if (!src || seen.has(src)) return null
+      seen.add(src)
       const label = typeof image === "object" && image?.label ? image.label : `Image ${index + 1}`
       const alt = getImageAlt(image)
 
       return { src, label, alt }
-    })
+    }).filter(Boolean)
   }, [images])
 
   const activeImage = galleryItems[active] || galleryItems[0]
@@ -70,17 +74,13 @@ export default function ProductGallery({ images, active, setActive }) {
               transition: "transform .18s ease",
             }}
           >
-            {activeImage?.src ? (
-              <img
-                src={activeImage.src}
-                alt={activeImage.alt}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                loading="eager"
-                decoding="async"
-              />
-            ) : (
-              <div style={{ width: "100%", height: "100%", background: "var(--sec)" }} />
-            )}
+            <SafeMediaImage
+              src={activeImage?.src}
+              alt={activeImage?.alt}
+              loading="eager"
+              style={{ width: "100%", height: "100%" }}
+              fallbackStyle={{ position: "absolute", inset: 0 }}
+            />
 
             <div
               style={{
@@ -205,17 +205,13 @@ export default function ProductGallery({ images, active, setActive }) {
             }}
             aria-label={`View ${image.label}`}
           >
-            {image.src ? (
-              <img
-                src={image.src}
-                alt={image.alt}
-                loading="lazy"
-                decoding="async"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-            ) : (
-              <div style={{ width: "100%", height: "100%", background: "var(--sec)" }} />
-            )}
+            <SafeMediaImage
+              src={image.src}
+              alt={image.alt}
+              loading="lazy"
+              style={{ width: "100%", height: "100%" }}
+              fallbackStyle={{ position: "absolute", inset: 0 }}
+            />
           </button>
         ))}
       </div>

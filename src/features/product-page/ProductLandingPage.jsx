@@ -78,6 +78,7 @@ export default function ProductLandingPage() {
   }
 
   useEffect(() => {
+    const currentVariant = purchase.variants[purchase.variantIdx] || null
     const nextVariantIndex = findBestMatchingVariantIndex(purchase.variants, {
       color: selectedColor,
       size: selectedSize,
@@ -87,18 +88,18 @@ export default function ProductLandingPage() {
       setVariantIdx(nextVariantIndex)
     }
 
-    const matchedVariant = nextVariantIndex >= 0 ? purchase.variants[nextVariantIndex] : purchase.v
+    const matchedVariant = nextVariantIndex >= 0 ? purchase.variants[nextVariantIndex] || currentVariant : currentVariant
     const preferredImage = getBestProductImageForSelection(purchase.images, {
       color: selectedColor,
       size: selectedSize,
       selectedVariant: matchedVariant,
-      currentImageIndex: purchase.activeImage,
+      currentImage: currentVariant?.image || null,
     })
 
-    if (preferredImage.index >= 0 && preferredImage.index !== purchase.activeImage) {
+    if (preferredImage.index >= 0) {
       setActiveImage(preferredImage.index)
     }
-  }, [purchase.images, purchase.variantIdx, purchase.variants, purchase.v, selectedColor, selectedSize, setActiveImage, setVariantIdx])
+  }, [purchase.images, purchase.variantIdx, purchase.variants, selectedColor, selectedSize, setActiveImage, setVariantIdx])
 
   const handleSelectColor = (index) => {
     const nextColor = COLORS[index] || COLORS[0]
