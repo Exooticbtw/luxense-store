@@ -7,7 +7,8 @@ export default function PurchaseSummary({ shopData, purchase, selectedSize, quan
     ? Number(quantityProp ?? purchase?.qty)
     : 1
   const checkoutUrl = purchase?.buildCheckoutUrl?.(quantity) || "#top"
-  const selectedBundle = getPriceSummary(quantity, purchase?.price)
+  const unitPrice = purchase?.selectedVariantPrice ?? purchase?.price ?? 0
+  const selectedBundle = getPriceSummary(quantity, unitPrice)
   const selectedColor = COLORS[purchase?.colorIdx] || COLORS[0]
   const currentTotal = selectedBundle?.totalFormatted || purchase?.totalFormatted || purchase?.priceFormatted || ""
   const savingsText = selectedBundle?.savingsText || "No bundle savings"

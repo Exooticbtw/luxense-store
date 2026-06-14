@@ -423,6 +423,7 @@ export function getMotionGlowContent(shopData) {
     shopName: source.shopName || PRODUCT_NAME,
     shopDomain: source.shopDomain || null,
     currency: source.currency || "USD",
+    paymentIconsHtml: typeof source.paymentIconsHtml === "string" ? source.paymentIconsHtml : null,
     product: source.product || null,
     productUrl: source.productUrl || null,
     targetProductId: source.targetProductId || null,

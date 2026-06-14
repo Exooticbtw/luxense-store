@@ -15,7 +15,8 @@ export default function CartDrawer({
   onCloseCart,
 }) {
   const currentQuantity = Number.isFinite(Number(quantity)) && Number(quantity) > 0 ? Number(quantity) : 1
-  const summary = bundleSummary || getPriceSummary(currentQuantity, purchase?.price)
+  const unitPrice = purchase?.selectedVariantPrice ?? purchase?.price ?? 0
+  const summary = bundleSummary || getPriceSummary(currentQuantity, unitPrice)
   const color = COLORS.find((item) => item.name === selectedColor) || COLORS[0]
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, currentQuantity) || "#top"
   const totalText = summary?.totalFormatted || purchase?.totalFormatted || purchase?.priceFormatted || ""

@@ -1,5 +1,13 @@
 import Stars from "../common/Stars.jsx"
+import SafeMediaImage from "../common/SafeMediaImage.jsx"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
+
+const REVIEW_IMAGE_LABELS = [
+  "MotionGlow customer setup 1",
+  "MotionGlow customer setup 2",
+  "MotionGlow customer setup 3",
+  "MotionGlow customer setup 4",
+]
 
 export default function CustomerReviews({ shopData }) {
   const content = getMotionGlowContent(shopData ?? {})
@@ -64,6 +72,8 @@ export default function CustomerReviews({ shopData }) {
               const avatar = (review.name || "L").split(" ").map((part) => part[0]).join("").slice(0, 2)
               const accentSwatches = ["#c89a59", "#8fb58b", "#d7c7a8", "#74685d"]
               const reviewAccent = accentSwatches[index % accentSwatches.length]
+              const reviewImage = review.image || content.media?.reviewImages?.[index] || null
+              const reviewImageAlt = REVIEW_IMAGE_LABELS[index] || `MotionGlow customer setup ${index + 1}`
 
               return (
                 <article
@@ -79,6 +89,62 @@ export default function CustomerReviews({ shopData }) {
                     gap: 12,
                   }}
                 >
+                  <div
+                    style={{
+                      position: "relative",
+                      overflow: "hidden",
+                      borderRadius: 18,
+                      width: "100%",
+                      aspectRatio: "4 / 3",
+                      background:
+                        "radial-gradient(circle at 18% 18%, rgba(201,164,106,.18), transparent 24%), radial-gradient(circle at 80% 20%, rgba(255,255,255,.16), transparent 18%), linear-gradient(160deg, rgba(23,23,23,.96), rgba(56,56,56,.92))",
+                      border: "1px solid rgba(17,17,17,.06)",
+                    }}
+                  >
+                    {reviewImage ? (
+                      <SafeMediaImage
+                        src={reviewImage}
+                        alt={reviewImageAlt}
+                        loading="lazy"
+                        style={{ width: "100%", height: "100%" }}
+                        fallbackStyle={{ position: "absolute", inset: 0 }}
+                      />
+                    ) : (
+                      <>
+                        <div
+                          aria-hidden="true"
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            background:
+                              "radial-gradient(circle at 22% 22%, rgba(255,255,255,.14), transparent 20%), radial-gradient(circle at 78% 28%, rgba(201,164,106,.14), transparent 18%)",
+                          }}
+                        />
+                        <div
+                          aria-hidden="true"
+                          style={{
+                            position: "absolute",
+                            right: 12,
+                            top: 12,
+                            width: 38,
+                            height: 38,
+                            borderRadius: "50%",
+                            display: "grid",
+                            placeItems: "center",
+                            background: `linear-gradient(135deg, ${reviewAccent}, rgba(255,255,255,.22))`,
+                            color: "white",
+                            fontSize: 12,
+                            fontWeight: 800,
+                            letterSpacing: "0.08em",
+                            boxShadow: "0 10px 22px rgba(17,17,17,.12)",
+                          }}
+                        >
+                          {avatar}
+                        </div>
+                      </>
+                    )}
+                  </div>
+
                   <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                     <div
                       style={{
@@ -167,6 +233,9 @@ export default function CustomerReviews({ shopData }) {
           }
           #reviews .soft-card {
             border-radius: 22px !important;
+          }
+          #reviews .reviews-grid article > div:first-child {
+            aspect-ratio: 4 / 3 !important;
           }
           #reviews .reviews-grid article {
             padding: 14px !important;

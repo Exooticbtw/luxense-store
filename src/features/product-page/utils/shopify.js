@@ -443,6 +443,7 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
     shopName: meta.shopName || payload?.shop?.name || "LUXENSE",
     shopDomain: meta.shopDomain || payload?.shop?.domain || null,
     currency: meta.currency || payload?.currency || "USD",
+    paymentIconsHtml: meta.paymentIconsHtml || payload?.paymentIconsHtml || null,
     media: normalizeMedia(meta.media || payload?.media || {}),
     theme: normalizeTheme(meta.theme || payload?.theme || {}),
     announcement: normalizeSectionObject(meta.announcement || payload?.announcement || {}),

@@ -94,6 +94,7 @@ export function useProductPurchaseState(shopData) {
     lightbox,
     origPrice,
     price,
+    selectedVariantPrice: price,
     priceFormatted: formatFixedCurrency(price),
     compareAtPrice: compareAtPrice > price ? compareAtPrice : null,
     compareAtFormatted: compareAtPrice > price ? formatFixedCurrency(compareAtPrice) : null,

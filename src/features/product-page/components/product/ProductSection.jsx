@@ -7,6 +7,7 @@ import {
   getPriceSummary,
 } from "../../data/productPageData.js"
 import { getMotionGlowContent } from "../../utils/motionGlowContent.js"
+import PaymentIcons from "../common/PaymentIcons.jsx"
 import SafeMediaImage from "../common/SafeMediaImage.jsx"
 import QuantityStepper from "../common/QuantityStepper.jsx"
 
@@ -29,12 +30,13 @@ export default function ProductSection({
   const purchaseImage = purchase?.images?.[purchase?.activeImage] || null
   const heroImage = purchaseImage || hero.heroLifestyleImage
   const currentQuantity = Math.max(1, Math.floor(Number(quantity || 1)))
-  const bundle = bundleSummary || getPriceSummary(currentQuantity, purchase?.price)
+  const unitPrice = purchase?.selectedVariantPrice ?? purchase?.price ?? 0
+  const bundle = bundleSummary || getPriceSummary(currentQuantity, unitPrice)
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
-  const priceLabel = bundle?.totalFormatted || purchase?.totalFormatted || purchase?.priceFormatted || formatPrice(bundle?.price ?? purchase?.price, "")
+  const priceLabel = bundle?.totalFormatted || purchase?.totalFormatted || purchase?.priceFormatted || formatPrice(bundle?.price ?? unitPrice, "")
   const compareAtLabel = bundle?.compareAtFormatted || purchase?.compareAtFormatted || purchase?.origPrice || null
   const subtotalLabel = bundle?.totalFormatted || priceLabel
-  const unitPriceLabel = purchase?.priceFormatted || bundle?.unitPriceFormatted || formatPrice(purchase?.price, "")
+  const unitPriceLabel = purchase?.priceFormatted || bundle?.unitPriceFormatted || formatPrice(unitPrice, "")
   const savingsLabel = bundle?.savingsLabel || bundle?.savings || "Save 0%"
   const showCompareAt = Boolean(compareAtLabel && compareAtLabel !== priceLabel)
   const activeBundleQuantity = bundle?.selectedBundleQuantity
@@ -455,7 +457,7 @@ export default function ProductSection({
                         const isSelected = option.quantity === activeBundleQuantity
                         const featured = option.quantity === 2 || option.quantity === 3
                         const darkSelected = isSelected && option.quantity === 3
-                        const bundlePricing = getPriceSummary(option.quantity, purchase?.price)
+                        const bundlePricing = getPriceSummary(option.quantity, unitPrice)
 
                         return (
                           <button
@@ -777,25 +779,7 @@ export default function ProductSection({
                         </span>
                       ))}
                     </div>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {["Visa", "Mastercard", "PayPal", "Apple Pay", "Google Pay", "Shop Pay"].map((badge) => (
-                        <span
-                          key={badge}
-                          style={{
-                            padding: "7px 10px",
-                            borderRadius: 999,
-                            border: "1px solid rgba(18,18,18,.08)",
-                            background: "linear-gradient(180deg, rgba(255,255,255,.98), rgba(245,245,243,.92))",
-                            fontSize: 12,
-                            fontWeight: 700,
-                            color: "var(--fg)",
-                            boxShadow: "0 6px 16px rgba(18,18,18,.05)",
-                          }}
-                        >
-                          {badge}
-                        </span>
-                      ))}
-                    </div>
+                    <PaymentIcons />
                   </div>
                 </div>
               </div>

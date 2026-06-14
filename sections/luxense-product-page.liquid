@@ -20,6 +20,13 @@
     endif
   endif
   assign luxense_announcement_messages = section.settings.announcement_messages | split: "|"
+  capture luxense_payment_icons_html
+    if shop.enabled_payment_types != blank
+      for type in shop.enabled_payment_types
+        echo type | payment_type_svg_tag: class: 'luxense-payment-icon'
+      endfor
+    endif
+  endcapture
 %}
 
 <script>
@@ -27,6 +34,7 @@
     shopName: {{ shop.name | json }},
     shopDomain: {{ shop.permanent_domain | json }},
     currency: {{ cart.currency.iso_code | default: shop.currency | json }},
+    paymentIconsHtml: {% if luxense_payment_icons_html != blank %}{{ luxense_payment_icons_html | strip_newlines | strip | json }}{% else %}null{% endif %},
     targetProductId: {{ section.settings.target_product_id | json }},
     defaultVariantId: {{ luxense_default_variant_id | default: blank | json }},
     productHandle: {{ section.settings.product_handle | json }},
@@ -328,9 +336,15 @@
       reviewImage1: {% if section.settings.review_image_1 != blank %}{{ section.settings.review_image_1 | image_url: width: 900 | json }}{% else %}null{% endif %},
       reviewImage2: {% if section.settings.review_image_2 != blank %}{{ section.settings.review_image_2 | image_url: width: 900 | json }}{% else %}null{% endif %},
       reviewImage3: {% if section.settings.review_image_3 != blank %}{{ section.settings.review_image_3 | image_url: width: 900 | json }}{% else %}null{% endif %},
-      reviewImage4: {% if section.settings.review_image_4 != blank %}{{ section.settings.review_image_4 | image_url: width: 900 | json }}{% else %}null{% endif %}
-    }
-  };
+      reviewImage4: {% if section.settings.review_image_4 != blank %}{{ section.settings.review_image_4 | image_url: width: 900 | json }}{% else %}null{% endif %},
+      reviewImages: [
+        {% if section.settings.review_image_1 != blank %}{{ section.settings.review_image_1 | image_url: width: 900 | json }}{% else %}null{% endif %},
+        {% if section.settings.review_image_2 != blank %}{{ section.settings.review_image_2 | image_url: width: 900 | json }}{% else %}null{% endif %},
+        {% if section.settings.review_image_3 != blank %}{{ section.settings.review_image_3 | image_url: width: 900 | json }}{% else %}null{% endif %},
+        {% if section.settings.review_image_4 != blank %}{{ section.settings.review_image_4 | image_url: width: 900 | json }}{% else %}null{% endif %}
+      ]
+      }
+    };
 </script>
 
 <div id="luxense-product-page-root"></div>

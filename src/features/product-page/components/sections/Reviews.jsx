@@ -3,6 +3,13 @@ import Stars from "../common/Stars.jsx"
 import { IMAGE_ASSETS } from "../../data/productPageData.js"
 import SafeMediaImage from "../common/SafeMediaImage.jsx"
 
+const REVIEW_IMAGE_LABELS = [
+  "MotionGlow customer setup 1",
+  "MotionGlow customer setup 2",
+  "MotionGlow customer setup 3",
+  "MotionGlow customer setup 4",
+]
+
 export default function Reviews({ media }) {
   const reviewCards = [
     {
@@ -80,13 +87,13 @@ export default function Reviews({ media }) {
         </div>
 
         <div className="real-reviews-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 30 }}>
-          {reviewCards.map((review) => (
+          {reviewCards.map((review, index) => (
             <article
               key={review.name}
               style={{
                 display: "grid",
-                gridTemplateColumns: "140px 1fr",
-                gap: 28,
+                gridTemplateColumns: "1fr",
+                gap: 16,
                 alignItems: "start",
                 border: "1px solid var(--border)",
                 borderRadius: 18,
@@ -94,17 +101,28 @@ export default function Reviews({ media }) {
                 padding: 30,
               }}
             >
-              <SafeMediaImage
-                src={review.image}
-                alt={`${review.name} Luxense install`}
-                loading="lazy"
+              <div
                 style={{
-                  width: 140,
-                  height: 140,
-                  borderRadius: 12,
+                  position: "relative",
+                  overflow: "hidden",
+                  borderRadius: 14,
+                  width: "100%",
+                  aspectRatio: "4 / 3",
+                  background:
+                    "radial-gradient(circle at 18% 18%, rgba(201,164,106,.18), transparent 24%), radial-gradient(circle at 80% 20%, rgba(255,255,255,.16), transparent 18%), linear-gradient(160deg, rgba(23,23,23,.96), rgba(56,56,56,.92))",
                 }}
-                fallbackStyle={{ width: 140, height: 140, borderRadius: 12 }}
-              />
+              >
+                <SafeMediaImage
+                  src={review.image}
+                  alt={REVIEW_IMAGE_LABELS[index] || `MotionGlow customer setup ${index + 1}`}
+                  loading="lazy"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  fallbackStyle={{ position: "absolute", inset: 0 }}
+                />
+              </div>
               <div>
                 <Stars rating={review.rating} size={16} />
                 <h3 className="serif" style={{ fontSize: 24, lineHeight: 1.12, marginTop: 14, fontWeight: 600 }}>
@@ -144,7 +162,7 @@ export default function Reviews({ media }) {
           }
           .real-reviews-grid img {
             width: 100% !important;
-            height: 220px !important;
+            height: 100% !important;
           }
         }
       `}</style>
