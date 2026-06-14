@@ -361,6 +361,64 @@ export function getMotionGlowContent(shopData) {
   const footer = mergeObject(footerSource, DEFAULT_FOOTER)
   const media = mergeObject(mediaSource, {})
 
+  const resolvedMedia = {
+    ...media,
+    heroLifestyleImage: toImage(media.heroLifestyleImage || media.heroImage, IMAGE_ASSETS.heroLifestyle.src),
+    heroProductImage: toImage(media.heroProductImage || media.productImage, IMAGE_ASSETS.whiteProduct.src),
+    storyImage: toImage(media.storyImage || media.heroLifestyleImage || media.heroImage, IMAGE_ASSETS.heroLifestyle.src),
+    useCaseHallwayImage: toImage(media.useCaseHallwayImage || media.hallwayImage, IMAGE_ASSETS.hallwayLifestyle.src),
+    useCaseStairsImage: toImage(media.useCaseStairsImage || media.stairsImage || media.staircaseImage, IMAGE_ASSETS.stairLifestyle.src),
+    useCaseKitchenImage: toImage(media.useCaseKitchenImage || media.kitchenImage, IMAGE_ASSETS.kitchenLifestyle.src),
+    useCaseClosetImage: toImage(media.useCaseClosetImage || media.closetImage, IMAGE_ASSETS.closetLifestyle.src),
+    useCaseBedroomImage: toImage(media.useCaseBedroomImage || media.bedroomImage, IMAGE_ASSETS.whiteProduct.src),
+    useCaseBathroomImage: toImage(media.useCaseBathroomImage || media.bathroomImage, IMAGE_ASSETS.motionSensor.src),
+    hallwayImage: toImage(media.hallwayImage || media.useCaseHallwayImage, IMAGE_ASSETS.hallwayLifestyle.src),
+    stairsImage: toImage(media.stairsImage || media.useCaseStairsImage, IMAGE_ASSETS.stairLifestyle.src),
+    staircaseImage: toImage(media.staircaseImage || media.useCaseStairsImage || media.stairsImage, IMAGE_ASSETS.stairLifestyle.src),
+    kitchenImage: toImage(media.kitchenImage || media.useCaseKitchenImage, IMAGE_ASSETS.kitchenLifestyle.src),
+    closetImage: toImage(media.closetImage || media.useCaseClosetImage, IMAGE_ASSETS.closetLifestyle.src),
+    bedroomImage: toImage(media.bedroomImage || media.useCaseBedroomImage, IMAGE_ASSETS.whiteProduct.src),
+    bathroomImage: toImage(media.bathroomImage || media.useCaseBathroomImage, IMAGE_ASSETS.motionSensor.src),
+    wardrobeImage: toImage(media.wardrobeImage || media.useCaseClosetImage || media.closetImage, IMAGE_ASSETS.closetLifestyle.src),
+    warmToneImage: toImage(media.warmToneImage, DEFAULT_LIGHT_TONES.items[0].image),
+    neutralToneImage: toImage(media.neutralToneImage, DEFAULT_LIGHT_TONES.items[1].image),
+    whiteToneImage: toImage(media.whiteToneImage, DEFAULT_LIGHT_TONES.items[2].image),
+    finalCtaImage: toImage(media.finalCtaImage, IMAGE_ASSETS.finalLifestyle.src),
+    videoPosterImage: toImage(media.videoPosterImage || media.finalCtaImage, IMAGE_ASSETS.finalLifestyle.src),
+    video: {
+      poster: toImage(media.videoPosterImage || media.finalCtaImage, IMAGE_ASSETS.finalLifestyle.src),
+    },
+    useCaseImages: {
+      hallway: toImage(media.useCaseHallwayImage || media.hallwayImage, IMAGE_ASSETS.hallwayLifestyle.src),
+      stairs: toImage(media.useCaseStairsImage || media.stairsImage || media.staircaseImage, IMAGE_ASSETS.stairLifestyle.src),
+      kitchen: toImage(media.useCaseKitchenImage || media.kitchenImage, IMAGE_ASSETS.kitchenLifestyle.src),
+      closet: toImage(media.useCaseClosetImage || media.closetImage, IMAGE_ASSETS.closetLifestyle.src),
+      bedroom: toImage(media.useCaseBedroomImage || media.bedroomImage, IMAGE_ASSETS.whiteProduct.src),
+      bathroom: toImage(media.useCaseBathroomImage || media.bathroomImage, IMAGE_ASSETS.motionSensor.src),
+    },
+    roomImages: {
+      hallway: toImage(media.hallwayImage || media.useCaseHallwayImage, IMAGE_ASSETS.hallwayLifestyle.src),
+      stairs: toImage(media.stairsImage || media.useCaseStairsImage, IMAGE_ASSETS.stairLifestyle.src),
+      staircase: toImage(media.staircaseImage || media.useCaseStairsImage || media.stairsImage, IMAGE_ASSETS.stairLifestyle.src),
+      kitchen: toImage(media.kitchenImage || media.useCaseKitchenImage, IMAGE_ASSETS.kitchenLifestyle.src),
+      closet: toImage(media.closetImage || media.useCaseClosetImage, IMAGE_ASSETS.closetLifestyle.src),
+      bedroom: toImage(media.bedroomImage || media.useCaseBedroomImage, IMAGE_ASSETS.whiteProduct.src),
+      wardrobe: toImage(media.wardrobeImage || media.useCaseClosetImage || media.closetImage, IMAGE_ASSETS.closetLifestyle.src),
+      bathroom: toImage(media.bathroomImage || media.useCaseBathroomImage, IMAGE_ASSETS.motionSensor.src),
+    },
+    lightToneImages: {
+      warm: toImage(media.warmToneImage, DEFAULT_LIGHT_TONES.items[0].image),
+      neutral: toImage(media.neutralToneImage, DEFAULT_LIGHT_TONES.items[1].image),
+      white: toImage(media.whiteToneImage, DEFAULT_LIGHT_TONES.items[2].image),
+    },
+    reviewImages: [
+      toImage(media.reviewImage1, IMAGE_ASSETS.whiteProduct.src),
+      toImage(media.reviewImage2, IMAGE_ASSETS.motionSensor.src),
+      toImage(media.reviewImage3, IMAGE_ASSETS.finalLifestyle.src),
+      toImage(media.reviewImage4, IMAGE_ASSETS.closetLifestyle.src),
+    ],
+  }
+
   return {
     shopName: source.shopName || PRODUCT_NAME,
     shopDomain: source.shopDomain || null,
@@ -384,25 +442,39 @@ export function getMotionGlowContent(shopData) {
     },
     hero: {
       ...hero,
-      heroLifestyleImage: toImage(media.heroLifestyleImage || media.heroImage, IMAGE_ASSETS.heroLifestyle.src),
-      heroProductImage: toImage(media.heroProductImage || media.productImage, IMAGE_ASSETS.whiteProduct.src),
+      heroLifestyleImage: resolvedMedia.heroLifestyleImage,
+      heroProductImage: resolvedMedia.heroProductImage,
     },
     purchase,
     bundles,
-    media,
+    media: resolvedMedia,
     video: {
       ...video,
-      videoPosterImage: toImage(media.videoPosterImage || media.finalCtaImage, IMAGE_ASSETS.finalLifestyle.src),
+      videoPosterImage: resolvedMedia.videoPosterImage,
       videoUrl: video.videoUrl || null,
     },
     story: {
       ...story,
-      storyImage: toImage(media.storyImage || media.heroLifestyleImage || media.heroImage, IMAGE_ASSETS.heroLifestyle.src),
+      storyImage: resolvedMedia.storyImage,
     },
     benefits,
     useCases: {
       ...useCases,
-      items: useCases.items || DEFAULT_USE_CASES.items,
+      items: (useCases.items || DEFAULT_USE_CASES.items).map((item) => {
+        const imageByKey = {
+          hallways: resolvedMedia.useCaseHallwayImage,
+          stairs: resolvedMedia.useCaseStairsImage,
+          kitchens: resolvedMedia.useCaseKitchenImage,
+          closets: resolvedMedia.useCaseClosetImage,
+          bedrooms: resolvedMedia.useCaseBedroomImage,
+          bathrooms: resolvedMedia.useCaseBathroomImage,
+        }
+
+        return {
+          ...item,
+          image: toImage(imageByKey[item.key], item.image),
+        }
+      }),
     },
     lightTones: {
       ...lightTones,
@@ -412,21 +484,21 @@ export function getMotionGlowContent(shopData) {
           title: lightTones.warmToneTitle || "Warm Light 3000K",
           text: lightTones.warmToneText || "Soft / cozy",
           description: lightTones.warmToneDescription || "Best for bedrooms, closets, and calm evening routines.",
-          image: toImage(media.warmToneImage, DEFAULT_LIGHT_TONES.items[0].image),
+          image: resolvedMedia.warmToneImage,
         },
         {
           key: "neutral",
           title: lightTones.neutralToneTitle || "Neutral Light 4000K",
           text: lightTones.neutralToneText || "Balanced / crisp",
           description: lightTones.neutralToneDescription || "Ideal for kitchens, hallways, and everyday visibility.",
-          image: toImage(media.neutralToneImage, DEFAULT_LIGHT_TONES.items[1].image),
+          image: resolvedMedia.neutralToneImage,
         },
         {
           key: "white",
           title: lightTones.whiteToneTitle || "White Light 6000K",
           text: lightTones.whiteToneText || "Bright / clear",
           description: lightTones.whiteToneDescription || "Better for stairs, entryways, and spaces that need more clarity.",
-          image: toImage(media.whiteToneImage, DEFAULT_LIGHT_TONES.items[2].image),
+          image: resolvedMedia.whiteToneImage,
         },
       ],
     },
@@ -439,10 +511,7 @@ export function getMotionGlowContent(shopData) {
       ...reviews,
       items: (reviews.items || DEFAULT_REVIEWS.items).map((review, index) => ({
         ...review,
-        image: toImage(
-          [media.reviewImage1, media.reviewImage2, media.reviewImage3, media.reviewImage4][index],
-          [IMAGE_ASSETS.whiteProduct.src, IMAGE_ASSETS.motionSensor.src, IMAGE_ASSETS.finalLifestyle.src, IMAGE_ASSETS.closetLifestyle.src][index],
-        ),
+        image: resolvedMedia.reviewImages[index] || review.image || null,
       })),
     },
     faq: {
@@ -459,7 +528,7 @@ export function getMotionGlowContent(shopData) {
     },
     finalCta: {
       ...finalCta,
-      finalCtaImage: toImage(media.finalCtaImage, IMAGE_ASSETS.finalLifestyle.src),
+      finalCtaImage: resolvedMedia.finalCtaImage,
       trust: normalizeList(finalCta.trust || finalCta.finalCtaTrust || DEFAULT_FINAL_CTA.trust),
     },
     footer,
