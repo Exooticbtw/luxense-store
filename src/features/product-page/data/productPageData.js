@@ -121,7 +121,7 @@ export const TRUST_BADGES = [
   { Icon: Activity, title: "Human support", text: "Helpful support when you need product or order help." },
 ]
 
-export const PAYMENT_BADGES = ["Visa", "Mastercard", "PayPal", "Apple Pay", "Shop Pay"]
+export const PAYMENT_BADGES = ["Visa", "Mastercard", "American Express", "Shop Pay", "PayPal"]
 
 export const HERO_KEY_BENEFITS = [
   "Motion Activated",

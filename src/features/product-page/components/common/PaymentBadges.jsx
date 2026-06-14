@@ -1,13 +1,9 @@
 const DEFAULT_METHODS = [
   { key: "visa", label: "Visa", ariaLabel: "Visa accepted" },
-  { key: "mastercard", label: "Mastercard", ariaLabel: "Mastercard accepted" },
-  { key: "paypal", label: "PayPal", ariaLabel: "PayPal accepted" },
-  { key: "applepay", label: "Apple Pay", ariaLabel: "Apple Pay accepted" },
-  { key: "googlepay", label: "Google Pay", ariaLabel: "Google Pay accepted" },
+  { key: "master", label: "Mastercard", ariaLabel: "Mastercard accepted" },
+  { key: "amex", label: "American Express", ariaLabel: "American Express accepted" },
   { key: "shoppay", label: "Shop Pay", ariaLabel: "Shop Pay accepted" },
-  { key: "amex", label: "AMEX", ariaLabel: "American Express accepted" },
-  { key: "klarna", label: "Klarna", ariaLabel: "Klarna accepted" },
-  { key: "stripe", label: "Stripe", ariaLabel: "Stripe accepted" },
+  { key: "paypal", label: "PayPal", ariaLabel: "PayPal accepted" },
 ]
 
 const badgeShellStyle = {
@@ -43,15 +39,13 @@ function BadgeSvg({ method }) {
   }
 
   switch (method.key) {
+    case "master":
     case "mastercard":
       return (
         <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label={method.ariaLabel} focusable="false">
           <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)" />
           <circle cx="36" cy="15" r="8" fill="#EB001B" opacity=".96" />
           <circle cx="46" cy="15" r="8" fill="#F79E1B" opacity=".96" />
-          <text x="61" y="18" textAnchor="middle" fontSize="6.8" fill="#1F2937" style={commonTextStyle}>
-            mastercard
-          </text>
         </svg>
       )
 
@@ -61,29 +55,6 @@ function BadgeSvg({ method }) {
           <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)" />
           <text x="46" y="19" textAnchor="middle" fontSize="11.5" fill="#003087" style={commonTextStyle}>
             PayPal
-          </text>
-        </svg>
-      )
-
-    case "applepay":
-      return (
-        <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label={method.ariaLabel} focusable="false">
-          <rect x="0" y="0" width="92" height="30" rx="11" fill="#111" />
-          <text x="46" y="19" textAnchor="middle" fontSize="12" fill="#fff" style={commonTextStyle}>
-            Apple Pay
-          </text>
-        </svg>
-      )
-
-    case "googlepay":
-      return (
-        <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label={method.ariaLabel} focusable="false">
-          <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)" />
-          <text x="36" y="19" textAnchor="end" fontSize="11.5" fill="#4285F4" style={commonTextStyle}>
-            G
-          </text>
-          <text x="39" y="19" fontSize="11.5" fill="#111827" style={commonTextStyle}>
-            Pay
           </text>
         </svg>
       )
@@ -102,29 +73,8 @@ function BadgeSvg({ method }) {
       return (
         <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label={method.ariaLabel} focusable="false">
           <rect x="0" y="0" width="92" height="30" rx="11" fill="#1771c1" />
-          <text x="46" y="19" textAnchor="middle" fontSize="11.2" fill="#fff" style={commonTextStyle}>
-            AMEX
-          </text>
-        </svg>
-      )
-
-    case "klarna":
-      return (
-        <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label={method.ariaLabel} focusable="false">
-          <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)" />
-          <rect x="0" y="0" width="16" height="30" rx="11" fill="#FFB3C7" />
-          <text x="54" y="19" textAnchor="middle" fontSize="11.4" fill="#111827" style={commonTextStyle}>
-            klarna
-          </text>
-        </svg>
-      )
-
-    case "stripe":
-      return (
-        <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label={method.ariaLabel} focusable="false">
-          <rect x="0" y="0" width="92" height="30" rx="11" fill="#635BFF" />
-          <text x="46" y="19" textAnchor="middle" fontSize="11.5" fill="#fff" style={commonTextStyle}>
-            stripe
+          <text x="46" y="18.9" textAnchor="middle" fontSize="8.2" fill="#fff" style={commonTextStyle}>
+            American Express
           </text>
         </svg>
       )

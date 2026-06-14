@@ -22,9 +22,21 @@
   assign luxense_announcement_messages = section.settings.announcement_messages | split: "|"
   capture luxense_payment_icons_html
     if shop.enabled_payment_types != blank
-      for type in shop.enabled_payment_types
-        echo type | payment_type_svg_tag: class: 'luxense-payment-icon'
-      endfor
+      if shop.enabled_payment_types contains 'visa'
+        echo 'visa' | payment_type_svg_tag: class: 'luxense-payment-icon'
+      endif
+      if shop.enabled_payment_types contains 'master'
+        echo 'master' | payment_type_svg_tag: class: 'luxense-payment-icon'
+      endif
+      if shop.enabled_payment_types contains 'american_express'
+        echo 'american_express' | payment_type_svg_tag: class: 'luxense-payment-icon'
+      endif
+      if shop.enabled_payment_types contains 'shopify_pay'
+        echo 'shopify_pay' | payment_type_svg_tag: class: 'luxense-payment-icon'
+      endif
+      if shop.enabled_payment_types contains 'paypal'
+        echo 'paypal' | payment_type_svg_tag: class: 'luxense-payment-icon'
+      endif
     endif
   endcapture
 %}

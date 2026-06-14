@@ -8,58 +8,41 @@
     <div class="luxense-grid luxense-payment-grid">
       {% for block in section.blocks %}
         {% assign badge_label = block.settings.label | downcase | strip %}
-        <div class="luxense-card luxense-payment__badge" {{ block.shopify_attributes }}>
-          {% if badge_label contains "mastercard" %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Mastercard accepted" focusable="false">
-              <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)"></rect>
-              <circle cx="36" cy="15" r="8" fill="#EB001B" opacity=".96"></circle>
-              <circle cx="46" cy="15" r="8" fill="#F79E1B" opacity=".96"></circle>
-              <text x="61" y="18" text-anchor="middle" font-size="6.8" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-weight="800">mastercard</text>
-            </svg>
-          {% elsif badge_label contains "paypal" %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="PayPal accepted" focusable="false">
-              <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)"></rect>
-              <text x="46" y="19" text-anchor="middle" font-size="11.5" fill="#003087" font-family="Arial, Helvetica, sans-serif" font-weight="800">PayPal</text>
-            </svg>
-          {% elsif badge_label contains "apple" %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Apple Pay accepted" focusable="false">
-              <rect x="0" y="0" width="92" height="30" rx="11" fill="#111111"></rect>
-              <text x="46" y="19" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="800">Apple Pay</text>
-            </svg>
-          {% elsif badge_label contains "google" %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Google Pay accepted" focusable="false">
-              <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)"></rect>
-              <text x="36" y="19" text-anchor="end" font-size="11.5" fill="#4285F4" font-family="Arial, Helvetica, sans-serif" font-weight="800">G</text>
-              <text x="39" y="19" font-size="11.5" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-weight="800">Pay</text>
-            </svg>
-          {% elsif badge_label contains "shop" %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Shop Pay accepted" focusable="false">
-              <rect x="0" y="0" width="92" height="30" rx="11" fill="#5A31F4"></rect>
-              <text x="46" y="19" text-anchor="middle" font-size="11.2" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="800">Shop Pay</text>
-            </svg>
-          {% elsif badge_label contains "amex" or badge_label contains "american express" %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="American Express accepted" focusable="false">
-              <rect x="0" y="0" width="92" height="30" rx="11" fill="#1771c1"></rect>
-              <text x="46" y="19" text-anchor="middle" font-size="11.2" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="800">AMEX</text>
-            </svg>
-          {% elsif badge_label contains "klarna" %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Klarna accepted" focusable="false">
-              <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)"></rect>
-              <rect x="0" y="0" width="16" height="30" rx="11" fill="#FFB3C7"></rect>
-              <text x="54" y="19" text-anchor="middle" font-size="11.4" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-weight="800">klarna</text>
-            </svg>
-          {% elsif badge_label contains "stripe" %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Stripe accepted" focusable="false">
-              <rect x="0" y="0" width="92" height="30" rx="11" fill="#635BFF"></rect>
-              <text x="46" y="19" text-anchor="middle" font-size="11.5" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="800">stripe</text>
-            </svg>
-          {% else %}
-            <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="{{ block.settings.label | append: ' accepted' | escape }}" focusable="false">
-              <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)"></rect>
-              <text x="46" y="19" text-anchor="middle" font-size="11.5" fill="#1F2937" font-family="Arial, Helvetica, sans-serif" font-weight="800">{{ block.settings.label }}</text>
-            </svg>
-          {% endif %}
-        </div>
+        {% assign show_badge = false %}
+        {% if badge_label contains "visa" or badge_label contains "mastercard" or badge_label contains "master" or badge_label contains "paypal" or badge_label contains "shop" or badge_label contains "amex" or badge_label contains "american express" %}
+          {% assign show_badge = true %}
+        {% endif %}
+        {% if show_badge %}
+          <div class="luxense-card luxense-payment__badge" {{ block.shopify_attributes }}>
+            {% if badge_label contains "mastercard" or badge_label contains "master" %}
+              <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Mastercard accepted" focusable="false">
+                <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)"></rect>
+                <circle cx="36" cy="15" r="8" fill="#EB001B" opacity=".96"></circle>
+                <circle cx="46" cy="15" r="8" fill="#F79E1B" opacity=".96"></circle>
+              </svg>
+            {% elsif badge_label contains "paypal" %}
+              <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="PayPal accepted" focusable="false">
+                <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)"></rect>
+                <text x="46" y="19" text-anchor="middle" font-size="11.5" fill="#003087" font-family="Arial, Helvetica, sans-serif" font-weight="800">PayPal</text>
+              </svg>
+            {% elsif badge_label contains "shop" %}
+              <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Shop Pay accepted" focusable="false">
+                <rect x="0" y="0" width="92" height="30" rx="11" fill="#5A31F4"></rect>
+                <text x="46" y="19" text-anchor="middle" font-size="11.2" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="800">Shop Pay</text>
+              </svg>
+            {% elsif badge_label contains "amex" or badge_label contains "american express" %}
+              <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="American Express accepted" focusable="false">
+                <rect x="0" y="0" width="92" height="30" rx="11" fill="#1771c1"></rect>
+                <text x="46" y="18.9" text-anchor="middle" font-size="8.2" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="800">American Express</text>
+              </svg>
+            {% else %}
+              <svg viewBox="0 0 92 30" width="92" height="30" role="img" aria-label="Visa accepted" focusable="false">
+                <rect x="0.5" y="0.5" width="91" height="29" rx="11" fill="#fff" stroke="rgba(17,17,17,.10)"></rect>
+                <text x="46" y="19" text-anchor="middle" font-size="12" fill="#1A1F71" font-family="Arial, Helvetica, sans-serif" font-style="italic" font-weight="800" letter-spacing="-0.03em">VISA</text>
+              </svg>
+            {% endif %}
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
@@ -72,4 +55,4 @@
   </style>
 </section>
 {% schema %}
-{"name":"Luxense payment badges","tag":"section","class":"luxense-payment-badges","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Payment methods"},{"type":"textarea","id":"title","label":"Title","default":"Trusted ways to pay."},{"type":"textarea","id":"text","label":"Text","default":"Show the payment icons or labels you'd like to surface in the store editor."}],"blocks":[{"type":"badge","name":"Badge","settings":[{"type":"text","id":"label","label":"Label","default":"Visa"}]}],"presets":[{"name":"Luxense payment badges","blocks":[{"type":"badge","settings":{"label":"Visa"}},{"type":"badge","settings":{"label":"Mastercard"}},{"type":"badge","settings":{"label":"American Express"}},{"type":"badge","settings":{"label":"Apple Pay"}},{"type":"badge","settings":{"label":"Google Pay"}},{"type":"badge","settings":{"label":"Shop Pay"}},{"type":"badge","settings":{"label":"PayPal"}}]}]}{% endschema %}
+{"name":"Luxense payment badges","tag":"section","class":"luxense-payment-badges","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Payment methods"},{"type":"textarea","id":"title","label":"Title","default":"Trusted ways to pay."},{"type":"textarea","id":"text","label":"Text","default":"Show the payment icons or labels you'd like to surface in the store editor."}],"blocks":[{"type":"badge","name":"Badge","settings":[{"type":"text","id":"label","label":"Label","default":"Visa"}]}],"presets":[{"name":"Luxense payment badges","blocks":[{"type":"badge","settings":{"label":"Visa"}},{"type":"badge","settings":{"label":"Mastercard"}},{"type":"badge","settings":{"label":"American Express"}},{"type":"badge","settings":{"label":"Shop Pay"}},{"type":"badge","settings":{"label":"PayPal"}}]}]}{% endschema %}
