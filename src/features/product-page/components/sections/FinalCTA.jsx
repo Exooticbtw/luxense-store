@@ -10,6 +10,12 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
   const finalCta = content.finalCta
   const checkoutUrl = buildCartUrl(shopData?.shopDomain, purchase?.v?.id, quantity || 1) || "#top"
   const finalImage = finalCta.finalCtaImage || IMAGE_ASSETS.finalLifestyle.src
+  const heroFallbackStyle = {
+    position: "absolute",
+    inset: 0,
+    background:
+      "radial-gradient(circle at 50% 35%, rgba(255,255,255,.16) 0%, rgba(255,255,255,.04) 24%, transparent 34%), linear-gradient(135deg, #141414 0%, #26221d 52%, #8c6c43 150%)",
+  }
 
   return (
     <section id="final-cta" style={{ padding: "22px 24px 86px", background: "var(--bg)", scrollMarginTop: 110 }}>
@@ -21,7 +27,7 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
           overflow: "hidden",
           position: "relative",
           minHeight: 640,
-          background: "#111111",
+          background: "linear-gradient(135deg, #141414 0%, #26221d 52%, #8c6c43 150%)",
           boxShadow: "0 26px 64px rgba(17,17,17,.14)",
           border: "1px solid rgba(255,255,255,.08)",
         }}
@@ -35,9 +41,9 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
             inset: 0,
             width: "100%",
             height: "100%",
-            opacity: 0.96,
+            opacity: 0.98,
           }}
-          fallbackStyle={{ position: "absolute", inset: 0 }}
+          fallbackStyle={heroFallbackStyle}
         />
 
         <div
@@ -46,7 +52,7 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(circle at center, rgba(0,0,0,.18) 0%, rgba(0,0,0,.30) 52%, rgba(0,0,0,.44) 100%)",
+              "radial-gradient(circle at center, rgba(0,0,0,.12) 0%, rgba(0,0,0,.24) 52%, rgba(0,0,0,.34) 100%)",
           }}
         />
 
@@ -178,6 +184,7 @@ export default function FinalCTA({ shopData, purchase, quantity = 1, onOpenCart 
           }
           #final-cta > div > div > div {
             padding: 24px 18px 22px !important;
+            max-width: none !important;
           }
           #final-cta h2 {
             font-size: 40px !important;
