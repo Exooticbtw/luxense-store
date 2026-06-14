@@ -26,7 +26,7 @@ export default function ProductSection({
   const hero = content.hero
   const purchaseContent = content.purchase
   const purchaseImage = purchase?.images?.[purchase?.activeImage] || null
-  const heroImage = hero.heroLifestyleImage || purchaseImage
+  const heroImage = purchaseImage || hero.heroLifestyleImage
   const currentQuantity = Math.max(1, Math.floor(Number(quantity || 1)))
   const bundle = bundleSummary || getPriceSummary(currentQuantity, purchase?.price)
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"

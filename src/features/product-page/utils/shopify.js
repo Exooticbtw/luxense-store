@@ -3,6 +3,24 @@ export function getNumericVariantId(variantId) {
   return String(variantId).split("/").pop()
 }
 
+function normalizeText(value) {
+  if (value == null) return ""
+  return String(value).toLowerCase().replace(/\s+/g, " ").trim()
+}
+
+function normalizeCompactText(value) {
+  return normalizeText(value).replace(/\s+/g, "").replace(/[^a-z0-9]/g, "")
+}
+
+function normalizeVariantIds(value) {
+  if (!value) return []
+  const entries = Array.isArray(value) ? value : [value]
+  return entries
+    .map((entry) => getNumericVariantId(entry))
+    .filter(Boolean)
+    .map(String)
+}
+
 export function isLocalDevelopment() {
   if (typeof window === "undefined") return false
 
@@ -27,68 +45,217 @@ export function normalizeImageRecord(src, meta = {}) {
     alt: meta.alt ?? source.alt ?? source.image_alt_text ?? source.imageAltText ?? null,
     title: meta.title ?? source.title ?? null,
     label: meta.label ?? source.label ?? null,
+    id: meta.id ?? source.id ?? source.media_id ?? source.mediaId ?? null,
+    width: meta.width ?? source.width ?? null,
+    height: meta.height ?? source.height ?? null,
+    variantIds: normalizeVariantIds(meta.variantIds ?? source.variantIds ?? source.variant_ids),
   }
 }
 
 export function getImageSearchText(image) {
   if (!image) return ""
-  if (typeof image === "string") return image.toLowerCase()
+  if (typeof image === "string") return normalizeText(image)
 
-  return [image.src, image.alt, image.title, image.label].filter(Boolean).join(" ").toLowerCase()
+  const src = String(image.src || "").trim()
+  const filename = src
+    ? src
+        .split("?")[0]
+        .split("#")[0]
+        .split("/")
+        .filter(Boolean)
+        .pop() || ""
+    : ""
+
+  return [
+    image.src,
+    image.alt,
+    image.title,
+    image.label,
+    filename,
+    image.id,
+    image.width,
+    image.height,
+    Array.isArray(image.variantIds) ? image.variantIds.join(" ") : null,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase()
 }
 
 function getSearchTerms(value) {
   if (!value) return []
 
-  const normalized = String(value).toLowerCase().trim()
+  const normalized = normalizeText(value)
   if (!normalized) return []
 
   const terms = new Set([normalized])
+  terms.add(normalizeCompactText(normalized))
 
-  if (normalized === "white") {
-    ;["blanco", "blanca", "ivory", "light"].forEach((term) => terms.add(term))
+  if (normalized === "white" || normalized.includes("white") || normalized.includes("blanco")) {
+    ;["white", "blanco"].forEach((term) => terms.add(term))
   }
 
-  if (normalized === "black") {
-    ;["negro", "negra", "charcoal", "dark"].forEach((term) => terms.add(term))
+  if (normalized === "black" || normalized.includes("black") || normalized.includes("negro")) {
+    ;["black", "negro"].forEach((term) => terms.add(term))
   }
 
-  const compactSize = normalized.replace(/\s+/g, "")
-  if (/^\d+\s*cm$/.test(normalized)) {
-    terms.add(compactSize)
-    terms.add(normalized.replace(/\s*cm$/, "cm"))
+  if (/^\d+\s*cm$/.test(normalized) || /^\d+cm$/.test(normalized)) {
+    const sizeNumber = normalized.replace(/\s*cm$/, "").replace(/cm$/, "").trim()
+    if (sizeNumber) {
+      terms.add(`${sizeNumber}cm`)
+      terms.add(`${sizeNumber} cm`)
+    }
   }
 
   return [...terms]
 }
 
+function getSelectionInfo(selection = {}) {
+  const resolvedColor = selection.color ?? selection.selectedColor ?? null
+  const resolvedSize = selection.size ?? selection.selectedSize ?? null
+  return {
+    colorTerms: getSearchTerms(resolvedColor),
+    sizeTerms: getSearchTerms(resolvedSize),
+    color: normalizeText(resolvedColor),
+    size: normalizeText(resolvedSize),
+  }
+}
+
+function isValidImageRecord(image) {
+  return Boolean(image?.src || image?.url)
+}
+
+function hasVariantAssociation(image, selectedVariant) {
+  if (!image || !selectedVariant) return false
+
+  const selectedVariantId = getNumericVariantId(selectedVariant.id)
+  if (selectedVariantId && Array.isArray(image.variantIds) && image.variantIds.some((variantId) => String(variantId) === selectedVariantId)) {
+    return true
+  }
+
+  const selectedVariantImageSrc = normalizeImageRecord(selectedVariant.image)?.src || selectedVariant.image?.src || selectedVariant.image || null
+  const imageSrc = normalizeImageRecord(image)?.src || image?.src || null
+  if (selectedVariantImageSrc && imageSrc && selectedVariantImageSrc === imageSrc) {
+    return true
+  }
+
+  const selectedVariantImageId = selectedVariant.image?.id || selectedVariant.image?.media_id || selectedVariant.image?.mediaId || null
+  if (selectedVariantImageId && image?.id && String(image.id) === String(selectedVariantImageId)) {
+    return true
+  }
+
+  return false
+}
+
+function scoreImageCandidate(image, index, context = {}) {
+  if (!isValidImageRecord(image)) {
+    return { index, rank: Number.POSITIVE_INFINITY, score: 0, image: null }
+  }
+
+  const { currentImageIndex = null, selectedVariant = null } = context
+  const { colorTerms, sizeTerms } = getSelectionInfo(context)
+  const text = getImageSearchText(image)
+  const imageSrc = normalizeImageRecord(image)?.src || image?.src || null
+  const colorMatch = colorTerms.some((term) => term && text.includes(term))
+  const sizeMatch = sizeTerms.some((term) => term && text.includes(term))
+  const variantMatch = hasVariantAssociation(image, selectedVariant)
+  const currentMatch = currentImageIndex != null && Number(currentImageIndex) === Number(index)
+
+  let rank = 6
+  if (colorMatch && sizeMatch) rank = 1
+  else if (variantMatch) rank = 2
+  else if (colorMatch) rank = 3
+  else if (sizeMatch) rank = 4
+  else if (currentMatch) rank = 5
+
+  const score =
+    (colorMatch ? 100 : 0) +
+    (sizeMatch ? 80 : 0) +
+    (variantMatch ? 60 : 0) +
+    (currentMatch ? 10 : 0) +
+    (imageSrc ? 1 : 0)
+
+  return { index, rank, score, image }
+}
+
+function compareImageCandidates(left, right) {
+  if (left.rank !== right.rank) return left.rank - right.rank
+  if (left.score !== right.score) return right.score - left.score
+  return left.index - right.index
+}
+
 export function findBestMatchingImageIndex(images = [], { color, size } = {}) {
-  if (!Array.isArray(images) || images.length === 0) return -1
+  const result = getBestProductImageForSelection(images, { color, size })
+  return result?.index ?? -1
+}
 
-  const colorTerms = getSearchTerms(color)
-  const sizeTerms = getSearchTerms(size)
+export function findBestMatchingVariantIndex(variants = [], { color, size } = {}) {
+  if (!Array.isArray(variants) || variants.length === 0) return -1
+
+  const { colorTerms, sizeTerms } = getSelectionInfo({ color, size })
   let bestIndex = -1
-  let bestScore = 0
+  let bestRank = Number.POSITIVE_INFINITY
+  let bestScore = -1
 
-  images.forEach((image, index) => {
-    const text = getImageSearchText(image)
-    if (!text) return
+  variants.forEach((variant, index) => {
+    if (!variant) return
 
-    let score = 0
+    const text = [
+      variant.title,
+      ...(Array.isArray(variant.options) ? variant.options : []),
+      variant.option1,
+      variant.option2,
+      variant.option3,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase()
+
     const colorMatch = colorTerms.some((term) => term && text.includes(term))
     const sizeMatch = sizeTerms.some((term) => term && text.includes(term))
+    if (!colorMatch && !sizeMatch) return
 
-    if (colorMatch) score += 2
-    if (sizeMatch) score += 3
-    if (colorMatch && sizeMatch) score += 4
+    let rank = 3
+    if (colorMatch && sizeMatch) rank = 1
+    else if (colorMatch) rank = 2
+    else if (sizeMatch) rank = 2
 
-    if (score > bestScore) {
-      bestScore = score
+    const score = (colorMatch ? 10 : 0) + (sizeMatch ? 10 : 0)
+
+    if (rank < bestRank || (rank === bestRank && score > bestScore)) {
       bestIndex = index
+      bestRank = rank
+      bestScore = score
     }
   })
 
   return bestIndex
+}
+
+export function getBestProductImageForSelection(images = [], selection = {}) {
+  if (!Array.isArray(images) || images.length === 0) return { index: -1, image: null, rank: Number.POSITIVE_INFINITY, score: 0 }
+
+  const { currentImageIndex = null, selectedVariant = null } = selection
+  const candidates = images
+    .map((image, index) => scoreImageCandidate(image, index, { ...selection, currentImageIndex, selectedVariant }))
+    .filter((candidate) => candidate.image)
+
+  if (candidates.length === 0) return { index: -1, image: null, rank: Number.POSITIVE_INFINITY, score: 0 }
+
+  const bestCandidate = candidates.slice().sort(compareImageCandidates)[0]
+  const currentCandidate = currentImageIndex != null
+    ? candidates.find((candidate) => Number(candidate.index) === Number(currentImageIndex) && candidate.image)
+    : null
+
+  if (currentCandidate && currentCandidate.rank <= bestCandidate.rank) {
+    return currentCandidate
+  }
+
+  if (bestCandidate.rank >= 6 && currentCandidate) {
+    return currentCandidate
+  }
+
+  return bestCandidate
 }
 
 export function normalizeList(value) {
@@ -202,13 +369,29 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
   if (!product) return null
 
   const images = Array.isArray(product.images)
-    ? product.images.map((image) => normalizeImageRecord(image, { alt: image?.alt || product.title, title: image?.alt || product.title, label: product.title })).filter(Boolean)
+    ? product.images
+        .map((image) =>
+          normalizeImageRecord(image, {
+            alt: image?.alt || product.title,
+            title: image?.alt || product.title,
+            label: product.title,
+            id: image?.id,
+            width: image?.width,
+            height: image?.height,
+            variantIds: image?.variant_ids || image?.variantIds,
+          }),
+        )
+        .filter(Boolean)
     : []
 
   const featuredImage = normalizeImageRecord(product.featured_image || product.featuredImage, {
     alt: product.title,
     title: product.title,
     label: product.title,
+    id: product.featured_image?.id || product.featuredImage?.id,
+    width: product.featured_image?.width || product.featuredImage?.width,
+    height: product.featured_image?.height || product.featuredImage?.height,
+    variantIds: product.featured_image?.variant_ids || product.featuredImage?.variantIds,
   })
 
   const variants = Array.isArray(product.variants)
@@ -222,6 +405,10 @@ export function normalizeShopifyProductResponse(payload, meta = {}) {
           alt: variant.title,
           title: variant.title,
           label: variant.title,
+          id: variant.featured_image?.id || variant.featuredImage?.id || variant.image?.id,
+          width: variant.featured_image?.width || variant.featuredImage?.width || variant.image?.width,
+          height: variant.featured_image?.height || variant.featuredImage?.height || variant.image?.height,
+          variantIds: variant.featured_image?.variant_ids || variant.featuredImage?.variantIds || [variant.id],
         }),
         options: variant.options || [variant.option1, variant.option2, variant.option3].filter(Boolean),
       }))

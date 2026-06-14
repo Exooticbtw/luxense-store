@@ -109,6 +109,7 @@ export function useProductPurchaseState(shopData) {
     title,
     total,
     totalFormatted: formatFixedCurrency(price * qty),
+    selectedVariant: v,
     v,
     variantIdx: safeVariantIdx,
     variants,

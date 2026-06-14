@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import LoadingOverlay from "./components/feedback/LoadingOverlay.jsx"
 import CartDrawer from "./components/feedback/CartDrawer.jsx"
@@ -24,13 +24,13 @@ import { useShopifyProductData } from "./hooks/useShopifyProductData.js"
 import { useProductPurchaseState } from "./hooks/useProductPurchaseState.js"
 import { COLORS } from "./data/productPageData.js"
 import { PRODUCT_PAGE_STYLES } from "./styles/productPageStyles.js"
-import { findBestMatchingImageIndex } from "./utils/shopify.js"
+import { findBestMatchingVariantIndex, getBestProductImageForSelection } from "./utils/shopify.js"
 
 export default function ProductLandingPage() {
   const { shopData, loading } = useShopifyProductData()
   const { scrolled } = useScrollFlags()
   const purchase = useProductPurchaseState(shopData)
-  const { setQty, setColorIdx, setActiveImage } = purchase
+  const { setQty, setColorIdx, setActiveImage, setVariantIdx } = purchase
   const [selectedColor, setSelectedColor] = useState("White")
   const [selectedSize, setSelectedSize] = useState("30cm")
   const [quantity, setQuantity] = useState(1)
@@ -77,27 +77,37 @@ export default function ProductLandingPage() {
     handleSetQuantity(quantity)
   }
 
-  const updateActiveImage = (colorName, size) => {
-    const nextImageIndex = findBestMatchingImageIndex(purchase.images, {
-      color: colorName,
-      size,
+  useEffect(() => {
+    const nextVariantIndex = findBestMatchingVariantIndex(purchase.variants, {
+      color: selectedColor,
+      size: selectedSize,
     })
 
-    if (nextImageIndex >= 0) {
-      setActiveImage(nextImageIndex)
+    if (nextVariantIndex >= 0 && nextVariantIndex !== purchase.variantIdx) {
+      setVariantIdx(nextVariantIndex)
     }
-  }
+
+    const matchedVariant = nextVariantIndex >= 0 ? purchase.variants[nextVariantIndex] : purchase.v
+    const preferredImage = getBestProductImageForSelection(purchase.images, {
+      color: selectedColor,
+      size: selectedSize,
+      selectedVariant: matchedVariant,
+      currentImageIndex: purchase.activeImage,
+    })
+
+    if (preferredImage.index >= 0 && preferredImage.index !== purchase.activeImage) {
+      setActiveImage(preferredImage.index)
+    }
+  }, [purchase.images, purchase.variantIdx, purchase.variants, purchase.v, selectedColor, selectedSize, setActiveImage, setVariantIdx])
 
   const handleSelectColor = (index) => {
     const nextColor = COLORS[index] || COLORS[0]
     setSelectedColor(nextColor.name)
     setColorIdx(index)
-    updateActiveImage(nextColor.name, selectedSize)
   }
 
   const handleSelectSize = (size) => {
     setSelectedSize(size)
-    updateActiveImage(selectedColor, size)
   }
 
   const handleOpenCart = () => {

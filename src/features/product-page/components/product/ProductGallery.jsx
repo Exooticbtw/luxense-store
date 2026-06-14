@@ -44,7 +44,10 @@ export default function ProductGallery({ images, active, setActive }) {
       >
         <button
           type="button"
-          onClick={() => setActive((current) => (current + 1) % galleryItems.length)}
+          onClick={() => {
+            if (galleryItems.length === 0) return
+            setActive((current) => (current + 1) % galleryItems.length)
+          }}
           onMouseDown={() => setIsPressed(true)}
           onMouseUp={() => setIsPressed(false)}
           onMouseLeave={() => setIsPressed(false)}
@@ -188,6 +191,7 @@ export default function ProductGallery({ images, active, setActive }) {
           <button
             key={`${image.label || index}`}
             onClick={() => setActive(index)}
+            disabled={galleryItems.length === 0}
             style={{
               aspectRatio: "1",
               borderRadius: 16,
@@ -195,7 +199,7 @@ export default function ProductGallery({ images, active, setActive }) {
               border: index === active ? "2px solid var(--fg)" : "1px solid var(--border)",
               outline: index === active ? "2px solid rgba(199,164,106,.38)" : "none",
               outlineOffset: 2,
-              cursor: "pointer",
+              cursor: galleryItems.length === 0 ? "default" : "pointer",
               background: "var(--sec)",
               padding: 0,
             }}
