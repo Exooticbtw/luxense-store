@@ -38,6 +38,11 @@ export default function ProductSection({
   const savingsLabel = bundle?.savingsLabel || bundle?.savings || "Save 0%"
   const showCompareAt = Boolean(compareAtLabel && compareAtLabel !== priceLabel)
   const activeBundleQuantity = bundle?.selectedBundleQuantity
+  const trustItems = String(purchaseContent.checkoutTrustText || "")
+    .split("|")
+    .map((item) => item.trim())
+    .filter(Boolean)
+  const visibleTrustItems = trustItems.length > 0 ? trustItems : ["Secure checkout", "Free shipping", "30-day guarantee"]
   const bundleSummaryRows = [
     ["Quantity", String(currentQuantity)],
     ["Selected bundle", bundle?.bundleLabel || bundle?.summaryLabel || bundle?.label || "Buy 1"],
@@ -765,11 +770,12 @@ export default function ProductSection({
                   <div style={{ display: "grid", gap: 8 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(18,18,18,.62)", fontWeight: 600, flexWrap: "wrap" }}>
                       <ShieldCheck size={14} color="#8fb58b" />
-                      {purchaseContent.checkoutTrustText.split("·")[0]?.trim() || "Secure checkout"}
-                      <span style={{ color: "rgba(18,18,18,.34)" }}>·</span>
-                      {purchaseContent.checkoutTrustText.split("·")[1]?.trim() || "Free shipping"}
-                      <span style={{ color: "rgba(18,18,18,.34)" }}>·</span>
-                      {purchaseContent.checkoutTrustText.split("·")[2]?.trim() || "30-day guarantee"}
+                      {visibleTrustItems.map((item, index) => (
+                        <span key={`${item}-${index}`} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                          {index > 0 && <span style={{ color: "rgba(18,18,18,.34)" }}>{String.fromCharCode(183)}</span>}
+                          <span>{item}</span>
+                        </span>
+                      ))}
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {["Visa", "Mastercard", "PayPal", "Apple Pay", "Google Pay", "Shop Pay"].map((badge) => (

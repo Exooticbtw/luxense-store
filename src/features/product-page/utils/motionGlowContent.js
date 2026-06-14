@@ -11,10 +11,10 @@ const DEFAULT_ANNOUNCEMENT = {
 }
 
 const DEFAULT_HERO = {
-  heroEyebrow: "Premium Motion Lighting For Modern Homes",
-  heroTitle: "Luxense MotionGlow™",
+  heroEyebrow: "Premium motion lighting for modern homes",
+  heroTitle: "Light Every Dark Corner - Automatically.",
   heroDescription:
-    "Premium motion lighting for a calmer, safer home. Luxense MotionGlow turns on automatically when you move, adding soft ambient light exactly where you need it.",
+    "MotionGlow? turns on the moment you move, giving closets, kitchens, hallways, stairs, and cabinets a clean premium glow without wiring, switches, or harsh overhead lights.",
   heroPrimaryButton: "Get Yours Today",
   heroSecondaryButton: "See It In Action",
   heroRatingText: "4.9/5 Rating",
@@ -24,85 +24,85 @@ const DEFAULT_HERO = {
 }
 
 const DEFAULT_PURCHASE = {
-  purchaseEyebrow: "Product purchase",
+  purchaseEyebrow: "Limited launch offer",
   purchaseTitle: "Luxense MotionGlow™",
-  purchaseDescription: "Premium Motion Lighting For Modern Homes",
+  purchaseDescription: "Automatic premium lighting for the dark spaces you use every day.",
   startingPriceLabel: "Starting price",
   startingPrice: "",
-  bundleSavingsLabel: "Bundle savings",
+  bundleSavingsLabel: "Limited launch offer",
   addToCartButton: "Add to Cart",
-  checkoutTrustText: "Secure checkout · Free shipping · 30-day guarantee",
+  checkoutTrustText: "Limited launch offer | Ships fast | Secure checkout | 30-day money-back guarantee | No wiring required",
   includedTonesTitle: "Includes all 3 light tones: Warm, Neutral, and White.",
   includedTonesDescription:
-    "Switch between built-in warm 3000K, neutral 4000K, and white 6000K modes anytime after setup.",
+    "No wiring required. The rechargeable design keeps installation simple, clean, and electrician-free.",
 }
 
 const DEFAULT_BUNDLES = [
-  { quantity: 1, title: "Buy 1", subtitle: "Try MotionGlow", badge: "", note: "Best for one room", discount: 0 },
+  { quantity: 1, title: "Buy 1", subtitle: "Perfect for one space", badge: "", note: "Try it in a closet, hallway, or cabinet.", discount: 0 },
   {
     quantity: 2,
     title: "Buy 2",
-    subtitle: "Most popular setup",
+    subtitle: "Cover your daily spaces",
     badge: "Most Popular",
-    note: "Save 10%",
+    note: "Ideal for closet + kitchen, hallway + stairs, or bedroom + bathroom.",
     discount: 0.1,
   },
   {
     quantity: 3,
     title: "Buy 3",
-    subtitle: "Best value for your home",
+    subtitle: "Upgrade multiple rooms",
     badge: "Best Value",
-    note: "Save 15%",
+    note: "Best for adding automatic lighting across your home.",
     discount: 0.15,
   },
 ]
 
 const DEFAULT_VIDEO = {
   videoEyebrow: "Video demonstration",
-  videoTitle: "See the motion response and ambient glow in a real room.",
+  videoTitle: "See MotionGlow turn on automatically in a real room.",
   videoDescription:
-    "A clean visual demo helps shoppers understand the premium feel fast, which is especially useful for Facebook and TikTok traffic.",
+    "A quick demo makes it easy to understand why the light feels useful in closets, kitchens, hallways, and stairs.",
   videoCardTitle: "MotionGlow live demo",
-  videoCardText: "A premium motion light that feels immediate and calm.",
+  videoCardText: "Automatic lighting that solves dark corners fast.",
   videoButtonText: "Get Yours Today",
 }
 
 const DEFAULT_STORY = {
   storyEyebrow: "Visual story",
   storyTitle: "Soft automatic lighting that keeps your home calm and clear.",
-  problemTitle: "Dark spaces should not feel inconvenient.",
+  problemTitle: "Dark spaces should not feel ignored.",
   problemDescription:
     "MotionGlow is designed for the moments when standard lighting feels too harsh, too late, or too far away.",
   solutionTitle: "Automatic light, designed to feel intentional.",
   solutionDescription:
-    "A slim rechargeable light that adds comfort, safety, and polish exactly where your home needs it.",
+    "A slim rechargeable light that adds comfort, polish, and convenience exactly where your home needs it.",
   storyButtonText: "Upgrade Your Home",
 }
 
 const DEFAULT_BENEFITS = {
-  benefitsEyebrow: "Product benefits",
-  benefitsTitle: "Small details that make daily movement easier.",
-  benefitsDescription: "Every feature is built to feel useful, calm, and effortless.",
+  benefitsEyebrow: "Why it matters",
+  benefitsTitle: "The little problems MotionGlow fixes every day.",
+  benefitsDescription: "The right light appears before you need to search, fumble, or switch on something harsh.",
   items: [
-    { title: "Soft ambient glow", text: "Light that feels calm, not harsh." },
-    { title: "USB rechargeable", text: "No wiring. No disposable batteries." },
-    { title: "Three light tones", text: "Choose the mood that fits your space." },
-    { title: "Minimal profile", text: "A cleaner finish that blends in." },
+    { title: "No more searching for switches", text: "Light appears before you need to find it in the dark." },
+    { title: "Soft light appears first", text: "Automatic glow helps dark corners feel usable right away." },
+    { title: "Rechargeable and wireless", text: "No wiring, no electrician, and no complicated install." },
+    { title: "Slim profile blends in", text: "A clean look that fits modern homes without visual clutter." },
   ],
 }
 
 const DEFAULT_USE_CASES = {
-  useCasesEyebrow: "Use cases",
-  useCasesTitle: "Designed for the rooms where gentle light matters most.",
+  useCasesEyebrow: "Common dark spots",
+  useCasesTitle: "Most homes have dark corners that stay ignored.",
   useCasesDescription:
-    "Hallways, stairs, closets, kitchens, bedrooms, and bathrooms feel more usable when the lighting appears automatically and stays visually discreet.",
+    "Closets, cabinets, stairs, hallways, and kitchens feel more finished when MotionGlow turns on automatically in minutes.",
   items: [
-    { key: "hallways", title: "Hallways", text: "Soft guidance for late-night movement.", image: IMAGE_ASSETS.hallwayLifestyle.src },
-    { key: "stairs", title: "Stairs", text: "Safer steps with a calmer glow.", image: IMAGE_ASSETS.stairLifestyle.src },
-    { key: "kitchens", title: "Kitchens", text: "Under-cabinet light with a premium feel.", image: IMAGE_ASSETS.kitchenLifestyle.src },
-    { key: "closets", title: "Closets", text: "See clearly without harsh overheads.", image: IMAGE_ASSETS.closetLifestyle.src },
-    { key: "bedrooms", title: "Bedrooms", text: "Gentle light for quiet routines.", image: IMAGE_ASSETS.whiteProduct.src },
-    { key: "bathrooms", title: "Bathrooms", text: "Calm nighttime visibility, instantly.", image: IMAGE_ASSETS.motionSensor.src },
+    { key: "hallways", title: "Hallways", text: "No more fumbling for the switch at night.", image: IMAGE_ASSETS.hallwayLifestyle.src },
+    { key: "stairs", title: "Stairs", text: "Light appears before the next step feels uncertain.", image: IMAGE_ASSETS.stairLifestyle.src },
+    { key: "kitchens", title: "Kitchens", text: "A cleaner glow for cabinets, prep, and late-night snacks.", image: IMAGE_ASSETS.kitchenLifestyle.src },
+    { key: "closets", title: "Closets", text: "Open the door and see everything immediately.", image: IMAGE_ASSETS.closetLifestyle.src },
+    { key: "bedrooms", title: "Bedrooms", text: "Soft light for quiet routines without waking the room.", image: IMAGE_ASSETS.whiteProduct.src },
+    { key: "bathrooms", title: "Bathrooms", text: "Gentle nighttime visibility when you need it.", image: IMAGE_ASSETS.motionSensor.src },
   ],
 }
 
@@ -150,13 +150,13 @@ const DEFAULT_COMPARISON = {
 }
 
 const DEFAULT_METRICS = {
-  metricsEyebrow: "Customer confidence",
-  metricsTitle: "Why 3,284+ Customers Chose MotionGlow",
-  metricsDescription: "A cleaner, easier way to add smart lighting, trusted by thousands of homes.",
+  metricsEyebrow: "Why bundles make sense",
+  metricsTitle: "Start with one space or cover several at once.",
+  metricsDescription: "A single light solves one problem. Bundles make it easy to finish the other dark corners in one order.",
   items: [
-    { value: "94%", title: "Would recommend MotionGlow to a friend", text: "A simple, elegant smart-lighting upgrade people feel good about sharing." },
+    { value: "94%", title: "Would recommend MotionGlow to a friend", text: "A simple, elegant upgrade people feel good about sharing." },
     { value: "91%", title: "Say installation took less than 2 minutes", text: "Fast setup with no wiring, drilling, or complicated steps." },
-    { value: "89%", title: "Purchased additional units after their first order", text: "A strong signal that one light turns into a whole-home solution." },
+    { value: "89%", title: "Purchased additional units after their first order", text: "One light often turns into a whole-home lighting fix." },
     { value: "4.9/5", title: "Average customer rating", text: "Trusted by thousands of homes looking for softer, smarter lighting." },
   ],
 }
@@ -238,11 +238,11 @@ const DEFAULT_GUARANTEE = {
   guaranteeEyebrow: "Secure checkout",
   guaranteeTitle: "Buy with confidence.",
   guaranteeDescription:
-    "Every order is protected by a clean checkout experience, practical support, and a guarantee that keeps the purchase low-risk.",
+    "Every order is protected by a clean checkout experience, practical support, and a simple guarantee that keeps the purchase low-risk.",
   items: [
-    { title: "Protected payment", text: "Encrypted checkout and trusted order processing." },
-    { title: "Secure order flow", text: "A smooth purchase path from cart to confirmation." },
-    { title: "Fast fulfillment", text: "Prepared for shipment with practical support." },
+    { title: "Secure checkout", text: "Encrypted payment and trusted order processing." },
+    { title: "Free shipping over $35", text: "A smoother offer for multi-item orders." },
+    { title: "30-day guarantee", text: "Try MotionGlow with less risk." },
   ],
 }
 
@@ -258,10 +258,10 @@ const DEFAULT_WHY = {
 
 const DEFAULT_FINAL_CTA = {
   finalCtaEyebrow: "Final step",
-  finalCtaTitle: "Ready To Upgrade Your Home?",
-  finalCtaText: "MotionGlow brings effortless lighting to the spaces you use every day.",
+  finalCtaTitle: "Your Home Already Has Dark Corners. Fix Them Today.",
+  finalCtaText: "Add automatic, premium lighting to the spaces you use every day - without wiring, tools, or complicated installation.",
   finalCtaButton: "Get MotionGlow Today",
-  trust: ["Secure checkout", "Free shipping", "30-day guarantee"],
+  trust: ["Secure Checkout", "Free Shipping Over $35", "30-Day Guarantee"],
 }
 
 const DEFAULT_FOOTER = {
