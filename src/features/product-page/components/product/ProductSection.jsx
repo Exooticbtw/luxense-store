@@ -33,18 +33,41 @@ export default function ProductSection({
   const unitPrice = purchase?.selectedVariantPrice ?? purchase?.price ?? 0
   const bundle = bundleSummary || getPriceSummary(currentQuantity, unitPrice)
   const selectedColorName = selectedColor || COLORS[purchase?.colorIdx || 0]?.name || "White"
+  const selectedCompareAtPrice = Number(purchase?.compareAtPrice || 0)
+  const selectedUnitPrice = Number(unitPrice || 0)
   const priceLabel = bundle?.totalFormatted || purchase?.totalFormatted || purchase?.priceFormatted || formatPrice(bundle?.price ?? unitPrice, "")
   const compareAtLabel = bundle?.compareAtFormatted || purchase?.compareAtFormatted || purchase?.origPrice || null
   const subtotalLabel = bundle?.totalFormatted || priceLabel
   const unitPriceLabel = purchase?.priceFormatted || bundle?.unitPriceFormatted || formatPrice(unitPrice, "")
   const savingsLabel = bundle?.savingsLabel || bundle?.savings || "Save 0%"
   const showCompareAt = Boolean(compareAtLabel && compareAtLabel !== priceLabel)
+  const priceSavingsPercent =
+    showCompareAt && selectedCompareAtPrice > selectedUnitPrice && selectedCompareAtPrice > 0
+      ? Math.max(1, Math.round(((selectedCompareAtPrice - selectedUnitPrice) / selectedCompareAtPrice) * 100))
+      : 0
+  const priceSavingsText = priceSavingsPercent > 0 ? `Save ${priceSavingsPercent}%` : null
   const activeBundleQuantity = bundle?.selectedBundleQuantity
   const trustItems = String(purchaseContent.checkoutTrustText || "")
     .split("|")
     .map((item) => item.trim())
     .filter(Boolean)
   const visibleTrustItems = trustItems.length > 0 ? trustItems : ["Secure checkout", "Free shipping", "30-day guarantee"]
+  const purchaseTrustItems = ["Secure checkout", "Fast shipping", "30-day guarantee"]
+  const palette = {
+    page: "#F6F4EF",
+    card: "#FFFDF8",
+    text: "#111111",
+    textSecondary: "rgba(35, 25, 19, 0.68)",
+    muted: "#74685D",
+    accent: "#C89A59",
+    softGold: "#F3E6D2",
+    border: "rgba(201, 164, 106, 0.35)",
+    softBorder: "rgba(35, 25, 19, 0.10)",
+    cta: "linear-gradient(135deg, #17120F, #2A1D16)",
+    ctaText: "#F8E6C2",
+    darkCard: "#17120F",
+    darkText: "#FFFDF8",
+  }
   const bundleSummaryRows = [
     ["Quantity", String(currentQuantity)],
     ["Selected bundle", bundle?.bundleLabel || bundle?.summaryLabel || bundle?.label || "Buy 1"],
@@ -58,7 +81,7 @@ export default function ProductSection({
       style={{
         position: "relative",
         overflow: "hidden",
-        background: "linear-gradient(180deg, #f7f4ef 0%, #fcfaf6 100%)",
+        background: palette.page,
         padding: "18px 18px 42px",
         scrollMarginTop: 110,
       }}
@@ -356,97 +379,142 @@ export default function ProductSection({
               className="purchase-panel"
               id="product-offer"
               style={{
-                padding: 28,
-                background: "linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(248,243,235,.98) 100%)",
-                borderLeft: "1px solid rgba(18,18,18,.08)",
+                padding: 30,
+                background: palette.page,
+                borderLeft: `1px solid ${palette.softBorder}`,
               }}
             >
               <div
                 className="soft-card purchase-card"
                 style={{
                   borderRadius: 30,
-                  padding: 22,
-                  background: "linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,247,240,.94))",
-                  boxShadow: "0 20px 52px rgba(18,18,18,.08)",
+                  padding: 28,
+                  background: palette.card,
+                  border: `1px solid ${palette.softBorder}`,
+                  boxShadow: "0 18px 34px rgba(17,17,17,.07)",
                 }}
               >
-                <div style={{ display: "grid", gap: 12 }}>
+                <div style={{ display: "grid", gap: 10 }}>
                   <div>
                     <p
                       style={{
                         fontSize: 10.5,
                         letterSpacing: "0.2em",
                         textTransform: "uppercase",
-                        color: "var(--muted)",
+                        color: palette.textSecondary,
                         fontWeight: 800,
                       }}
                     >
-                      {purchaseContent.purchaseEyebrow}
+                      PRODUCT PURCHASE
                     </p>
                     <h2
                       className="serif"
                       style={{
                         marginTop: 8,
-                        fontSize: "clamp(28px, 2.2vw, 34px)",
-                        lineHeight: 1.03,
-                        letterSpacing: "-0.05em",
+                        fontSize: "clamp(34px, 2.8vw, 42px)",
+                        lineHeight: 1.02,
+                        letterSpacing: "-0.055em",
                         fontWeight: 700,
+                        color: palette.text,
                       }}
                     >
                       {purchaseContent.purchaseTitle}
                     </h2>
-                    <p style={{ marginTop: 8, fontSize: 15, lineHeight: 1.65, color: "var(--muted)" }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 10 }}>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 8,
+                          padding: "8px 12px",
+                          borderRadius: 999,
+                          background: palette.softGold,
+                          border: `1px solid ${palette.border}`,
+                          color: palette.text,
+                          fontSize: 12.5,
+                          fontWeight: 800,
+                        }}
+                      >
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: 2, color: "var(--accent)" }}>
+                          <Star size={12} fill="currentColor" />
+                          <Star size={12} fill="currentColor" />
+                          <Star size={12} fill="currentColor" />
+                          <Star size={12} fill="currentColor" />
+                          <Star size={12} fill="currentColor" />
+                        </span>
+                        4.8/5 Rating
+                      </span>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 8,
+                          padding: "8px 12px",
+                          borderRadius: 999,
+                          background: palette.softGold,
+                          border: `1px solid ${palette.border}`,
+                          color: palette.text,
+                          fontSize: 12.5,
+                          fontWeight: 800,
+                        }}
+                      >
+                        2,000+ Happy Customers
+                      </span>
+                    </div>
+                    <p style={{ marginTop: 8, fontSize: 15, lineHeight: 1.65, color: palette.textSecondary }}>
                       {purchaseContent.purchaseDescription}
                     </p>
                   </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "baseline",
-                      justifyContent: "space-between",
-                      gap: 14,
-                      padding: "14px 16px",
-                      borderRadius: 22,
-                      background: "linear-gradient(135deg, rgba(201,164,106,.14), rgba(143,174,138,.08))",
-                      border: "1px solid rgba(201,164,106,.22)",
-                    }}
-                  >
-                    <div>
-                      <div
-                        style={{
-                          fontSize: 10.5,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.18em",
-                          color: "var(--muted)",
-                          fontWeight: 800,
-                        }}
-                      >
-                        {purchaseContent.startingPriceLabel}
-                      </div>
-                      <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 6, flexWrap: "wrap" }}>
-                        <span className="serif" style={{ fontSize: 36, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
-                          {formatPrice(purchaseContent.startingPrice, priceLabel)}
-                        </span>
-                        {showCompareAt && (
-                          <span style={{ color: "var(--muted)", textDecoration: "line-through", fontSize: 16, fontWeight: 600 }}>
-                            {compareAtLabel}
-                          </span>
-                        )}
-                      </div>
-                    </div>
                     <div
                       style={{
-                        padding: "8px 12px",
-                        borderRadius: 999,
-                        background: "rgba(143,174,138,.12)",
-                        color: "#36563a",
-                        fontSize: 12,
-                        fontWeight: 800,
-                        whiteSpace: "nowrap",
+                        display: "grid",
+                        gap: 10,
+                        padding: "14px 16px",
+                        borderRadius: 22,
+                        background: "linear-gradient(180deg, #FFFDF8, #F8F4EA)",
+                        border: `1px solid ${palette.border}`,
                       }}
                     >
-                      {purchaseContent.bundleSavingsLabel}
+                    <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 10.5,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.18em",
+                            color: palette.muted,
+                            fontWeight: 800,
+                          }}
+                        >
+                          {purchaseContent.startingPriceLabel}
+                        </div>
+                        <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 6, flexWrap: "wrap" }}>
+                          <span className="serif" style={{ fontSize: 42, lineHeight: 1, fontWeight: 700, letterSpacing: "-0.055em", color: palette.text }}>
+                            {formatPrice(purchaseContent.startingPrice, priceLabel)}
+                          </span>
+                          {showCompareAt && (
+                            <span style={{ color: palette.muted, textDecoration: "line-through", fontSize: 16, fontWeight: 600 }}>
+                              {compareAtLabel}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {priceSavingsText && (
+                        <div
+                          style={{
+                            padding: "8px 12px",
+                            borderRadius: 999,
+                            background: "#E9EEDF",
+                            color: "#4F6650",
+                            fontSize: 12,
+                            fontWeight: 800,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {priceSavingsText}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -456,8 +524,24 @@ export default function ProductSection({
                       {content.bundles.map((option) => {
                         const isSelected = option.quantity === activeBundleQuantity
                         const featured = option.quantity === 2 || option.quantity === 3
-                        const darkSelected = isSelected && option.quantity === 3
                         const bundlePricing = getPriceSummary(option.quantity, unitPrice)
+                        const badgeText = option.badge || "Try MotionGlow"
+                        const cardTextColor = palette.text
+                        const cardMutedColor = palette.muted
+                        const cardBadgeBackground = isSelected ? palette.softGold : "rgba(255,255,255,.72)"
+                        const cardBadgeColor = isSelected ? palette.text : palette.textSecondary
+                        const cardBackground = isSelected ? "#FBF4EA" : palette.card
+                        const cardBorder = isSelected
+                          ? `1px solid ${palette.accent}`
+                          : featured
+                            ? `1px solid ${palette.border}`
+                            : `1px solid ${palette.softBorder}`
+                        const cardShadow = isSelected
+                          ? "0 16px 28px rgba(201,164,106,.12)"
+                          : featured
+                            ? "0 10px 18px rgba(17,17,17,.05)"
+                            : "0 8px 16px rgba(17,17,17,.04)"
+                        const showSelected = isSelected ? "Selected" : null
 
                         return (
                           <button
@@ -465,86 +549,151 @@ export default function ProductSection({
                             type="button"
                             onClick={() => onPreviewBundle?.(option.quantity)}
                             aria-pressed={isSelected}
+                            className="bundle-option"
                             style={{
-                              minHeight: 126,
+                              position: "relative",
+                              minHeight: 214,
+                              height: "100%",
                               borderRadius: 22,
-                              border: isSelected
-                                ? "1px solid rgba(201,164,106,.80)"
-                                : featured
-                                  ? "1px solid rgba(201,164,106,.26)"
-                                  : "1px solid rgba(18,18,18,.08)",
-                              background: isSelected
-                                ? darkSelected
-                                  ? "linear-gradient(180deg, rgba(17,17,17,.98), rgba(33,31,27,.96))"
-                                  : "linear-gradient(180deg, rgba(201,164,106,.14), rgba(255,255,255,.96))"
-                                : featured
-                                  ? "linear-gradient(180deg, rgba(201,164,106,.08), rgba(255,255,255,.95))"
-                                  : "rgba(255,255,255,.88)",
-                              padding: "14px 14px 12px",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "space-between",
+                              gap: 12,
+                              padding: "15px 14px 14px",
                               textAlign: "left",
                               cursor: "pointer",
-                              boxShadow: isSelected
-                                ? darkSelected
-                                  ? "0 20px 34px rgba(17,17,17,.16)"
-                                  : "0 16px 28px rgba(201,164,106,.10)"
-                                : featured
-                                  ? "0 14px 24px rgba(201,164,106,.08)"
-                                  : "0 10px 22px rgba(18,18,18,.05)",
+                              overflow: "hidden",
+                              border: cardBorder,
+                              background: cardBackground,
+                              boxShadow: cardShadow,
+                              color: cardTextColor,
                             }}
                           >
-                            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
-                              <div style={{ minWidth: 0 }}>
-                                <span style={{ display: "block", fontSize: 15, fontWeight: 800 }}>{option.title}</span>
-                                <span
-                                  style={{
-                                    display: "inline-flex",
-                                    marginTop: 6,
-                                    borderRadius: 999,
-                                    padding: "6px 10px",
-                                    background:
-                                      option.quantity === 2
-                                        ? "rgba(143,174,138,.14)"
-                                        : option.quantity === 3
-                                          ? "rgba(201,164,106,.14)"
-                                          : "rgba(18,18,18,.04)",
-                                    color:
-                                      option.quantity === 2
-                                        ? "#36563a"
-                                        : option.quantity === 3
-                                          ? "var(--fg)"
-                                          : "var(--muted)",
-                                    fontSize: 12,
-                                    fontWeight: 800,
-                                  }}
-                                >
-                                  {option.badge || option.subtitle || "Single room"}
-                                </span>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 12, height: "100%" }}>
+                              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
+                                <div style={{ minWidth: 0, display: "grid", gap: 8 }}>
+                                  <span
+                                    style={{
+                                      display: "block",
+                                      fontSize: 16,
+                                      lineHeight: 1.15,
+                                      fontWeight: 800,
+                                      letterSpacing: "-0.03em",
+                                      color: cardTextColor,
+                                    }}
+                                  >
+                                    {option.title}
+                                  </span>
+                                  <span
+                                    style={{
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      gap: 6,
+                                      borderRadius: 999,
+                                      padding: "6px 11px",
+                                      background: cardBadgeBackground,
+                                      color: cardBadgeColor,
+                                      fontSize: 12,
+                                      fontWeight: 800,
+                                      lineHeight: 1,
+                                      letterSpacing: "0.04em",
+                                      width: "fit-content",
+                                      justifySelf: option.quantity === 2 ? "center" : "flex-start",
+                                    }}
+                                  >
+                                    {badgeText}
+                                  </span>
+                                </div>
+                                {showSelected && (
+                                  <span
+                                    style={{
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      padding: "6px 10px",
+                                      borderRadius: 999,
+                                      border: `1px solid ${palette.border}`,
+                                      background: palette.card,
+                                      color: palette.textSecondary,
+                                      fontSize: 11,
+                                      fontWeight: 800,
+                                      letterSpacing: "0.08em",
+                                      textTransform: "uppercase",
+                                      flexShrink: 0,
+                                    }}
+                                  >
+                                    Selected
+                                  </span>
+                                )}
                               </div>
-                              {isSelected && (
-                                <span
-                                  style={{
-                                    width: 24,
-                                    height: 24,
-                                    borderRadius: "50%",
-                                    background: darkSelected ? "var(--accent)" : "var(--fg)",
-                                    color: darkSelected ? "var(--fg)" : "var(--cream)",
-                                    display: "grid",
-                                    placeItems: "center",
-                                    flexShrink: 0,
-                                  }}
-                                >
-                                  <Check size={14} />
+
+                              <div style={{ display: "grid", gap: 6 }}>
+                                <span style={{ display: "block", fontSize: 12.5, lineHeight: 1.45, color: cardMutedColor }}>
+                                  {option.note}
                                 </span>
-                              )}
-                            </div>
-                            <div style={{ marginTop: 10, fontSize: 22, fontWeight: 700, letterSpacing: "-0.03em" }}>
-                              {bundlePricing.totalFormatted}
-                            </div>
-                            <div style={{ marginTop: 4, fontSize: 12, color: isSelected ? "rgba(18,18,18,.68)" : "var(--muted)", fontWeight: 700 }}>
-                              {option.note}
-                            </div>
-                            <div style={{ marginTop: 8, fontSize: 12.5, color: isSelected ? "rgba(18,18,18,.66)" : "var(--muted)", lineHeight: 1.45 }}>
-                              {option.subtitle}
+                                {option.subtitle && (
+                                  <span style={{ display: "block", fontSize: 12.5, lineHeight: 1.45, color: palette.textSecondary }}>
+                                    {option.subtitle}
+                                  </span>
+                                )}
+                              </div>
+
+                              <div style={{ display: "grid", gap: 8, marginTop: "auto" }}>
+                                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                                  <div
+                                    className="serif"
+                                    style={{
+                                      fontSize: 24,
+                                      lineHeight: 1,
+                                      fontWeight: 700,
+                                      letterSpacing: "-0.05em",
+                                      color: cardTextColor,
+                                    }}
+                                  >
+                                    {bundlePricing.totalFormatted}
+                                  </div>
+                                  {bundlePricing.compareAt > bundlePricing.total && (
+                                    <div
+                                      style={{
+                                        fontSize: 12.5,
+                                        lineHeight: 1.2,
+                                        color: palette.muted,
+                                        textDecoration: "line-through",
+                                        fontWeight: 700,
+                                      }}
+                                    >
+                                      {bundlePricing.compareAtFormatted}
+                                    </div>
+                                  )}
+                                </div>
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+                                  {bundlePricing.savings > 0 && (
+                                    <span
+                                      style={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        padding: "5px 9px",
+                                        borderRadius: 999,
+                                        background: palette.softGold,
+                                        color: "#6E4B1F",
+                                        fontSize: 11.5,
+                                        fontWeight: 800,
+                                        letterSpacing: "0.02em",
+                                      }}
+                                    >
+                                      {bundlePricing.savingsLabel}
+                                    </span>
+                                  )}
+                                  {bundlePricing.savings > 0 && (
+                                    <span style={{ fontSize: 12.25, lineHeight: 1.45, color: palette.muted, fontWeight: 700 }}>
+                                      You save {bundlePricing.savingsFormatted}
+                                    </span>
+                                  )}
+                                </div>
+                                <div style={{ fontSize: 12.5, lineHeight: 1.45, color: cardMutedColor, fontWeight: 700 }}>
+                                  {bundlePricing.bundleUnitPriceFormatted} / each
+                                </div>
+                              </div>
                             </div>
                           </button>
                         )
@@ -564,20 +713,6 @@ export default function ProductSection({
                     }}
                   >
                     <QuantityStepper value={currentQuantity} onChange={onChangeQuantity} />
-                    <div
-                      style={{
-                        padding: "10px 12px",
-                        borderRadius: 18,
-                        background: "rgba(143,174,138,.12)",
-                        color: "#36563a",
-                        fontSize: 12.5,
-                        fontWeight: 800,
-                        lineHeight: 1.4,
-                        maxWidth: 240,
-                      }}
-                    >
-                      1, 2, and 3 units use live Shopify pricing.
-                    </div>
                   </div>
 
                   <div className="purchase-option-grid" style={{ display: "grid", gap: 14, gridTemplateColumns: "1fr 1fr", marginTop: 2 }}>
@@ -586,6 +721,7 @@ export default function ProductSection({
                       <div style={{ display: "grid", gap: 10 }}>
                         {COLORS.map((color, index) => {
                           const active = color.name === selectedColorName
+                          const isBlack = color.name === "Black"
                           return (
                             <button
                               key={color.name}
@@ -594,16 +730,17 @@ export default function ProductSection({
                               aria-pressed={active}
                               style={{
                                 minHeight: 64,
-                                borderRadius: 20,
-                                border: active ? "1px solid rgba(201,164,106,.72)" : "1px solid rgba(18,18,18,.08)",
-                                background: active ? "rgba(201,164,106,.08)" : "rgba(255,255,255,.88)",
+                                borderRadius: 18,
+                                border: active ? `1px solid ${palette.accent}` : `1px solid ${palette.softBorder}`,
+                                background: active ? palette.softGold : palette.card,
                                 display: "flex",
                                 alignItems: "center",
                                 gap: 12,
                                 padding: "12px 14px",
                                 cursor: "pointer",
                                 textAlign: "left",
-                                boxShadow: active ? "0 12px 24px rgba(201,164,106,.08)" : "0 8px 18px rgba(18,18,18,.05)",
+                                boxShadow: active ? "0 10px 18px rgba(201,164,106,.08)" : "0 8px 14px rgba(17,17,17,.04)",
+                                position: "relative",
                               }}
                             >
                               <span
@@ -612,18 +749,55 @@ export default function ProductSection({
                                   height: 22,
                                   borderRadius: "50%",
                                   background: color.hex,
-                                  border: "1px solid rgba(18,18,18,.08)",
+                                  border: active ? `1px solid ${palette.accent}` : `1px solid ${palette.softBorder}`,
                                   boxShadow: "inset 0 0 0 1px rgba(255,255,255,.16)",
                                   flexShrink: 0,
                                 }}
                               />
                               <span style={{ minWidth: 0, flex: 1 }}>
-                                <span style={{ display: "block", fontSize: 14, fontWeight: 800 }}>{color.name}</span>
-                                <span style={{ display: "block", marginTop: 2, fontSize: 12, color: "var(--muted)" }}>
-                                  {active ? "Selected finish" : "Premium matte finish"}
+                                <span style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 800, color: palette.text }}>
+                                  <span>{color.name}</span>
+                                  {isBlack && (
+                                    <span
+                                      style={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        padding: "4px 8px",
+                                        borderRadius: 999,
+                                        background: palette.softGold,
+                                        color: palette.text,
+                                        fontSize: 10.5,
+                                        fontWeight: 800,
+                                        letterSpacing: "0.04em",
+                                        textTransform: "uppercase",
+                                      }}
+                                    >
+                                      Most Popular
+                                    </span>
+                                  )}
+                                </span>
+                                <span style={{ display: "block", marginTop: 2, fontSize: 12, color: palette.muted }}>
+                                  {active ? "Selected finish" : isBlack ? "Best selling finish" : "Premium matte finish"}
                                 </span>
                               </span>
-                              {active && <Check size={14} color="var(--accent)" />}
+                              {active && (
+                                <span
+                                  style={{
+                                    width: 24,
+                                    height: 24,
+                                    borderRadius: "50%",
+                                    background: palette.darkCard,
+                                    color: palette.card,
+                                    display: "grid",
+                                    placeItems: "center",
+                                    flexShrink: 0,
+                                    marginLeft: "auto",
+                                    boxShadow: "0 8px 16px rgba(17,17,17,.10)",
+                                  }}
+                                >
+                                  <Check size={14} />
+                                </span>
+                              )}
                             </button>
                           )
                         })}
@@ -644,16 +818,37 @@ export default function ProductSection({
                               aria-pressed={active}
                               style={{
                                 minHeight: 64,
-                                borderRadius: 20,
-                                border: active ? "1px solid rgba(201,164,106,.72)" : "1px solid rgba(18,18,18,.08)",
-                                background: active ? "rgba(201,164,106,.08)" : "rgba(255,255,255,.88)",
+                                borderRadius: 18,
+                                border: active ? `1px solid ${palette.accent}` : `1px solid ${palette.softBorder}`,
+                                background: active ? palette.darkCard : palette.card,
                                 fontSize: 15,
                                 fontWeight: 800,
                                 cursor: "pointer",
-                                boxShadow: active ? "0 12px 24px rgba(201,164,106,.08)" : "0 8px 18px rgba(18,18,18,.05)",
+                                color: active ? palette.darkText : palette.text,
+                                boxShadow: active ? "0 10px 18px rgba(201,164,106,.08)" : "0 8px 14px rgba(17,17,17,.04)",
+                                position: "relative",
                               }}
                             >
                               {size}
+                              {active && (
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    top: 10,
+                                    right: 10,
+                                    width: 20,
+                                    height: 20,
+                                    borderRadius: "50%",
+                                    background: palette.accent,
+                                    color: palette.darkText,
+                                    display: "grid",
+                                    placeItems: "center",
+                                    boxShadow: "0 8px 16px rgba(17,17,17,.10)",
+                                  }}
+                                >
+                                  <Check size={12} />
+                                </span>
+                              )}
                             </button>
                           )
                         })}
@@ -669,16 +864,16 @@ export default function ProductSection({
                       padding: 14,
                       borderRadius: 22,
                       background: "linear-gradient(180deg, rgba(255,255,255,.98), rgba(245,241,233,.94))",
-                      border: "1px solid rgba(18,18,18,.06)",
+                      border: `1px solid ${palette.softBorder}`,
                     }}
                   >
-                    <div style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--muted)", fontWeight: 800 }}>
+                      <div style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.18em", color: palette.muted, fontWeight: 800 }}>
                       {purchaseContent.includedTonesTitle}
                     </div>
-                    <div style={{ fontSize: 14.5, lineHeight: 1.55, color: "var(--fg)", fontWeight: 700 }}>
+                    <div style={{ fontSize: 14.5, lineHeight: 1.55, color: palette.text, fontWeight: 700 }}>
                       {purchaseContent.includedTonesTitle}
                     </div>
-                    <div style={{ fontSize: 12.5, lineHeight: 1.6, color: "var(--muted)" }}>
+                    <div style={{ fontSize: 12.5, lineHeight: 1.6, color: palette.muted }}>
                       {purchaseContent.includedTonesDescription}
                     </div>
                   </div>
@@ -688,7 +883,7 @@ export default function ProductSection({
                       padding: 14,
                       borderRadius: 22,
                       background: "linear-gradient(180deg, rgba(255,255,255,.98), rgba(245,241,233,.94))",
-                      border: "1px solid rgba(18,18,18,.06)",
+                      border: `1px solid ${palette.softBorder}`,
                     }}
                   >
                     <div style={{ display: "grid", gap: 8 }}>
@@ -699,13 +894,13 @@ export default function ProductSection({
                               fontSize: 10.5,
                               textTransform: "uppercase",
                               letterSpacing: "0.16em",
-                              color: "rgba(18,18,18,.52)",
+                              color: palette.textSecondary,
                               fontWeight: 700,
                             }}
                           >
                             {label}
                           </span>
-                          <span style={{ fontSize: 14.5, fontWeight: 700, textAlign: "right", color: "rgba(18,18,18,.92)" }}>
+                          <span style={{ fontSize: 14.5, fontWeight: 700, textAlign: "right", color: palette.text }}>
                             {value}
                           </span>
                         </div>
@@ -716,13 +911,13 @@ export default function ProductSection({
                             fontSize: 10.5,
                             textTransform: "uppercase",
                             letterSpacing: "0.16em",
-                            color: "rgba(18,18,18,.52)",
+                            color: palette.textSecondary,
                             fontWeight: 700,
                           }}
                         >
                           Current price
                         </span>
-                        <span className="serif" style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.04em" }}>
+                        <span className="serif" style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.04em", color: palette.text }}>
                           {subtotalLabel}
                         </span>
                       </div>
@@ -732,13 +927,13 @@ export default function ProductSection({
                             fontSize: 10.5,
                             textTransform: "uppercase",
                             letterSpacing: "0.16em",
-                            color: "rgba(18,18,18,.52)",
+                            color: palette.textSecondary,
                             fontWeight: 700,
                           }}
                         >
                           Unit price
                         </span>
-                        <span style={{ fontSize: 14.5, fontWeight: 700, textAlign: "right", color: "rgba(18,18,18,.92)" }}>
+                        <span style={{ fontSize: 14.5, fontWeight: 700, textAlign: "right", color: palette.text }}>
                           {unitPriceLabel}
                         </span>
                       </div>
@@ -754,32 +949,59 @@ export default function ProductSection({
                       alignItems: "center",
                       justifyContent: "center",
                       gap: 10,
+                      width: "100%",
                       minHeight: 56,
-                      borderRadius: 999,
-                      border: "1px solid rgba(201,164,106,.55)",
-                      background: "linear-gradient(135deg, #171717, #24211c 55%, #8fb58b 220%)",
-                      color: "var(--cream)",
+                      border: `1px solid ${palette.border}`,
+                      background: palette.cta,
+                      color: palette.ctaText,
                       padding: "0 22px",
                       fontSize: 15.5,
                       fontWeight: 800,
                       cursor: "pointer",
-                      boxShadow: "0 18px 34px rgba(18,18,18,.16)",
+                      borderRadius: 18,
+                      boxShadow: "0 12px 24px rgba(17,17,17,.10)",
                     }}
                   >
-                    {purchaseContent.addToCartButton} <ArrowRight size={18} />
+                    {"Get My MotionGlow\u2122 Today"} <ArrowRight size={18} />
                   </button>
 
-                  <div style={{ display: "grid", gap: 8 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(18,18,18,.62)", fontWeight: 600, flexWrap: "wrap" }}>
-                      <ShieldCheck size={14} color="#8fb58b" />
-                      {visibleTrustItems.map((item, index) => (
-                        <span key={`${item}-${index}`} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                          {index > 0 && <span style={{ color: "rgba(18,18,18,.34)" }}>{String.fromCharCode(183)}</span>}
-                          <span>{item}</span>
+                  <div style={{ display: "grid", gap: 10 }}>
+                    <div style={{ fontSize: 12.5, fontWeight: 800, color: palette.textSecondary, letterSpacing: "0.01em" }}>
+                      Fast, safe & secure checkout
+                    </div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+                      {purchaseTrustItems.map((item) => (
+                        <span
+                          key={item}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 8,
+                            padding: "7px 11px",
+                            borderRadius: 999,
+                            background: palette.card,
+                            border: `1px solid ${palette.softBorder}`,
+                            color: palette.textSecondary,
+                            fontSize: 12.25,
+                            fontWeight: 800,
+                          }}
+                        >
+                          <ShieldCheck size={13} color={palette.accent} />
+                          {item}
                         </span>
                       ))}
                     </div>
-                    <PaymentIcons />
+                    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
+                      <span style={{ fontSize: 12.25, color: palette.textSecondary, fontWeight: 700 }}>
+                        Accepted payments
+                      </span>
+                      <PaymentIcons />
+                    </div>
+                    {visibleTrustItems.length > 0 && (
+                      <div style={{ fontSize: 12.25, color: palette.muted, fontWeight: 600, lineHeight: 1.5 }}>
+                        {visibleTrustItems.join(" \u00b7 ")}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -799,7 +1021,7 @@ export default function ProductSection({
         #hero .hero-primary-cta:hover,
         #hero .purchase-cta:hover {
           transform: translateY(-1px);
-          box-shadow: 0 22px 40px rgba(18,18,18,.18) !important;
+          box-shadow: 0 18px 30px rgba(17,17,17,.12) !important;
           filter: brightness(1.02);
         }
         #hero .hero-secondary-cta:hover {
@@ -815,7 +1037,7 @@ export default function ProductSection({
         #hero .hero-secondary-cta:focus-visible,
         #hero .size-option:focus-visible,
         #hero .purchase-cta:focus-visible {
-          outline: 2px solid rgba(201,164,106,.55);
+          outline: 2px solid rgba(201,164,106,.45);
           outline-offset: 2px;
         }
         @media (max-width: 1080px) {
@@ -824,7 +1046,7 @@ export default function ProductSection({
           }
           #hero .purchase-panel {
             border-left: none !important;
-            border-top: 1px solid rgba(18,18,18,.08) !important;
+            border-top: 1px solid rgba(35,25,19,.10) !important;
           }
         }
         @media (max-width: 760px) {
@@ -879,7 +1101,19 @@ export default function ProductSection({
           #hero .purchase-option-grid {
             grid-template-columns: 1fr !important;
           }
-          #hero .purchase-card .bundle-grid button,
+          #hero .purchase-card .bundle-grid button {
+            min-height: 188px !important;
+            padding: 16px !important;
+          }
+          #hero .purchase-card .bundle-grid button .serif {
+            font-size: 22px !important;
+          }
+          #hero .purchase-benefit-grid {
+            grid-template-columns: 1fr !important;
+          }
+          #hero .purchase-trust-bar {
+            gap: 10px !important;
+          }
           #hero .purchase-card .purchase-option-grid button,
           #hero .purchase-card .purchase-cta {
             min-height: 52px !important;
@@ -904,7 +1138,7 @@ function SectionLabel({ text }) {
         fontSize: 10.5,
         textTransform: "uppercase",
         letterSpacing: "0.18em",
-        color: "rgba(18,18,18,.52)",
+        color: "rgba(35, 25, 19, 0.68)",
         fontWeight: 700,
       }}
     >

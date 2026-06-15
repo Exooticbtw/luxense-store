@@ -45,8 +45,8 @@ export default function QuantityStepper({ value = 1, onChange, compact = false, 
           onClick={() => updateQuantity(quantity - 1)}
           disabled={quantity <= 1}
           style={{
-            width: compact ? 38 : 42,
-            height: compact ? 38 : 42,
+            width: compact ? 40 : 44,
+            height: compact ? 40 : 44,
             borderRadius: "50%",
             border: "none",
             background: quantity <= 1 ? "rgba(18,18,18,.06)" : "rgba(18,18,18,.95)",
@@ -60,7 +60,7 @@ export default function QuantityStepper({ value = 1, onChange, compact = false, 
         </button>
         <div
           style={{
-            minWidth: compact ? 34 : 42,
+            minWidth: compact ? 36 : 44,
             textAlign: "center",
             fontSize: compact ? 15 : 16,
             fontWeight: 800,
@@ -74,8 +74,8 @@ export default function QuantityStepper({ value = 1, onChange, compact = false, 
           aria-label={`Increase ${label.toLowerCase()}`}
           onClick={() => updateQuantity(quantity + 1)}
           style={{
-            width: compact ? 38 : 42,
-            height: compact ? 38 : 42,
+            width: compact ? 40 : 44,
+            height: compact ? 40 : 44,
             borderRadius: "50%",
             border: "none",
             background: "var(--fg)",

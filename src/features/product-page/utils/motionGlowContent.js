@@ -38,22 +38,22 @@ const DEFAULT_PURCHASE = {
 }
 
 const DEFAULT_BUNDLES = [
-  { quantity: 1, title: "Buy 1", subtitle: "Perfect for one space", badge: "", note: "Try it in a closet, hallway, or cabinet.", discount: 0 },
+  { quantity: 1, title: "Buy 1", subtitle: "Try MotionGlow", badge: "", note: "Best for one room", discount: 0 },
   {
     quantity: 2,
     title: "Buy 2",
-    subtitle: "Cover your daily spaces",
-    badge: "Most Popular",
-    note: "Ideal for closet + kitchen, hallway + stairs, or bedroom + bathroom.",
-    discount: 0.1,
+    subtitle: "Most popular setup",
+    badge: "BEST SELLER",
+    note: "Best for daily spaces",
+    discount: 0.15,
   },
   {
     quantity: 3,
     title: "Buy 3",
-    subtitle: "Upgrade multiple rooms",
-    badge: "Best Value",
-    note: "Best for adding automatic lighting across your home.",
-    discount: 0.15,
+    subtitle: "Best for multiple rooms",
+    badge: "BEST VALUE",
+    note: "Best for larger spaces",
+    discount: 0.25,
   },
 ]
 

@@ -180,20 +180,20 @@ export const BUNDLE_OPTIONS = [
   {
     label: "Buy 2",
     quantity: 2,
-    badge: "Most Popular",
-    discount: 0.1,
+    badge: "BEST SELLER",
+    discount: 0.15,
     subtitle: "Most popular setup",
-    note: "Save 10%",
+    note: "Best for daily spaces",
     useCase: "Perfect for closet + hallway",
     caption: "A balanced set for two spaces that you use every day.",
   },
   {
     label: "Buy 3",
     quantity: 3,
-    badge: "Best Value",
-    discount: 0.15,
-    subtitle: "Best value for your home",
-    note: "Save 15%",
+    badge: "BEST VALUE",
+    discount: 0.25,
+    subtitle: "Best for multiple rooms",
+    note: "Best for larger spaces",
     useCase: "Light multiple spaces",
     caption: "Ideal when you want a more complete lighting flow at home.",
   },
@@ -204,9 +204,10 @@ export function getPriceSummary(quantity, unitPrice = UNIT_PRICE) {
   const safeUnitPrice = Number.isFinite(Number(unitPrice)) ? Number(unitPrice) : UNIT_PRICE
   const option = BUNDLE_OPTIONS.find((bundle) => bundle.quantity === qty)
   const discount = option?.discount ?? 0
-  const listTotal = Number((safeUnitPrice * qty).toFixed(2))
-  const total = Number((listTotal * (1 - discount)).toFixed(2))
-  const savings = Number((listTotal - total).toFixed(2))
+  const regularTotal = Number((safeUnitPrice * qty).toFixed(2))
+  const total = Number((regularTotal * (1 - discount)).toFixed(2))
+  const savings = Number((regularTotal - total).toFixed(2))
+  const bundleUnitPrice = qty > 0 ? Number((total / qty).toFixed(2)) : safeUnitPrice
   const label = option?.label || "Custom quantity"
   const subtitle = option?.subtitle || "Flexible quantity"
   const badge = option?.badge || null
@@ -217,8 +218,8 @@ export function getPriceSummary(quantity, unitPrice = UNIT_PRICE) {
     bundleLabel: label,
     total,
     totalFormatted: formatMoney(total),
-    compareAt: listTotal,
-    compareAtFormatted: formatMoney(listTotal),
+    compareAt: regularTotal,
+    compareAtFormatted: formatMoney(regularTotal),
     savings,
     savingsFormatted: formatMoney(savings),
     savingsText: discount > 0 ? `You save ${formatMoney(savings)}` : "No bundle savings",
@@ -226,6 +227,10 @@ export function getPriceSummary(quantity, unitPrice = UNIT_PRICE) {
     hasSavings: savings > 0,
     unitPrice: safeUnitPrice,
     unitPriceFormatted: formatMoney(safeUnitPrice),
+    bundleUnitPrice,
+    bundleUnitPriceFormatted: formatMoney(bundleUnitPrice),
+    regularUnitPrice: safeUnitPrice,
+    regularUnitPriceFormatted: formatMoney(safeUnitPrice),
     selectedBundleQuantity: option?.quantity || null,
     selectedBundleLabel: label,
     summaryLabel: label,
@@ -233,7 +238,7 @@ export function getPriceSummary(quantity, unitPrice = UNIT_PRICE) {
     subtitle,
     note,
     price: total,
-    compareAtPrice: listTotal,
+    compareAtPrice: regularTotal,
     savingsAmount: savings,
     savingsLabel: discount > 0 ? `Save ${Math.round(discount * 100)}%` : "No bundle savings",
     subtotal: total,

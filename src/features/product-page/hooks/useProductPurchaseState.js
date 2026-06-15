@@ -9,7 +9,7 @@ export function useProductPurchaseState(shopData) {
   const [activeImageOverride, setActiveImageOverride] = useState(null)
   const [variantIdx, setVariantIdxState] = useState(null)
   const [colorIdx, setColorIdx] = useState(0)
-  const [qty, setQty] = useState(1)
+  const [qty, setQty] = useState(2)
   const [wishlisted, setWishlisted] = useState(false)
   const [stock] = useState(37)
   const [lightbox, setLightbox] = useState(false)

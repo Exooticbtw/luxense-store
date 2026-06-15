@@ -33,7 +33,7 @@ export default function ProductLandingPage() {
   const { setQty, setColorIdx, setActiveImage, setVariantIdx } = purchase
   const [selectedColor, setSelectedColor] = useState("White")
   const [selectedSize, setSelectedSize] = useState("30cm")
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(2)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const bundleSummary = purchase.bundleSummary
 
